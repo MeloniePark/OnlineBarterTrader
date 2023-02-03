@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "962055934626",
+    "project_id": "onlinebartertrader-52c04",
+    "storage_bucket": "onlinebartertrader-52c04.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962055934626:android:e4133d2ea2b6ddd7927dfb",
+        "android_client_info": {
+          "package_name": "com.example.onlinebartertrader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962055934626-0cdhstf5h5ujas33kf9smoo2pa5qhh45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2HNJUjUa8JFaFqKXKSTkmNz7qH7EJBGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962055934626-0cdhstf5h5ujas33kf9smoo2pa5qhh45.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,7 +2,8 @@ package com.example.onlinebartertrader;
 
 /*
 Reference: Tutorial 3
-Will update the details of reference later.
+Will be updating this!!
+
  */
 
 import androidx.annotation.NonNull;

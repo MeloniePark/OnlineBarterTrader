@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void connectToFirebase(){
         //will get path or location of where the database is being hosted
-        firebaseDB = FirebaseDatabase.getInstance("https://fir-demo-70f74-default-rtdb.firebaseio.com/");
+        firebaseDB = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         //creating reference variable inside the databased called "message"
         firebaseDBRef = firebaseDB.getReference("message");
     }

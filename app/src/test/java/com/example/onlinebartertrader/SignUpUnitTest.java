@@ -47,6 +47,29 @@ public class SignUpUnitTest {
     }
 
     @Test
+    public void checkPasswordLengthTest(){
+        assertTrue(signUpActivity.checkPasswordLength("ihatewrtingcode"));
+        assertFalse(signUpActivity.checkPasswordLength("sad"));
+        assertFalse(signUpActivity.checkPasswordLength("xuanlovessun"));
+    }
+
+    @Test
+    public void checkPasswordCaseTest(){
+        assertFalse(signUpActivity.checkPasswordCase("ihatewrtingcode"));
+        assertFalse(signUpActivity.checkPasswordCase("IHATEWRITNGCODE"));
+        assertTrue(signUpActivity.checkPasswordCase("Ihatewrtingcode"));
+        assertFalse(signUpActivity.checkPasswordCase(""));
+
+    }
+
+    @Test
+    public void checkPasswordSpecialCharTest(){
+        assertTrue(signUpActivity.checkPasswordSpecialChar("Ilovesun!"));
+        assertTrue(signUpActivity.checkPasswordSpecialChar("Ilovesun@"));
+        assertFalse(signUpActivity.checkPasswordSpecialChar("Ilovesun#"));
+    }
+
+    @Test
     public void checkIfPasswordIsSame(){
         assertTrue(signUpActivity.isSamePassword("tianzheng123","tianzheng123"));
         assertFalse(signUpActivity.isSamePassword("tianzheng123","tianzheng12"));

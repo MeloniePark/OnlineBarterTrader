@@ -1,28 +1,24 @@
 package com.example.onlinebartertrader;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import android.content.Context;
-import android.content.Intent;
-import android.view.View;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.WildcardType;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertEquals;
 
 
 import static androidx.test.espresso.Espresso.onView;
@@ -42,6 +38,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(AndroidJUnit4.class)
 public class SignUpEspressoTest {
+
 
     @Test
     public void useAppContext() {
@@ -70,6 +67,16 @@ public class SignUpEspressoTest {
     }
 
     @Test
+    public void checkIfEmailIsInvalidate() {
+        onView(withId(R.id.signUpMain)).perform(click());
+        onView(withId(R.id.emailAddress)).perform(typeText("tn785083dal.ca"));
+        onView(withId(R.id.password)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.passwordMatch)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.signUpButton)).perform(click());
+        onView(withId(R.id.errorMessage)).check(matches(withText("Invalidate Email Address")));
+    }
+
+    @Test
     public void checkIfPasswordEmpty() {
         onView(withId(R.id.signUpMain)).perform(click());
         onView(withId(R.id.emailAddress)).perform(typeText("tn785083@dal.ca"));
@@ -78,4 +85,43 @@ public class SignUpEspressoTest {
         onView(withId(R.id.signUpButton)).perform(click());
         onView(withId(R.id.errorMessage)).check(matches(withText("Empty Password")));
     }
+
+    @Test
+    public void checkIfPasswordMatchEmpty() {
+        onView(withId(R.id.signUpMain)).perform(click());
+        onView(withId(R.id.emailAddress)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.password)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.passwordMatch)).perform(typeText(""));
+        onView(withId(R.id.signUpButton)).perform(click());
+        onView(withId(R.id.errorMessage)).check(matches(withText("Have to conform your Password")));
+    }
+
+    @Test
+    public void checkIfPasswordValidate() {
+        onView(withId(R.id.signUpMain)).perform(click());
+        onView(withId(R.id.emailAddress)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.password)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.passwordMatch)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.signUpButton)).perform(click());
+        onView(withId(R.id.errorMessage)).check(matches(withText("")));
+    }
+
+    @Test
+    public void checkIfPasswordInValidate() {
+        onView(withId(R.id.signUpMain)).perform(click());
+        onView(withId(R.id.emailAddress)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.password)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.passwordMatch)).perform(typeText("tianzheng"));
+        onView(withId(R.id.signUpButton)).perform(click());
+        onView(withId(R.id.errorMessage)).check(matches(withText("Password did not mach")));
+    }
+
+    //Don't know why intent did not work
+    //import static androidx.test.espresso.intent.Intents.intended;
+    //The .intent. is red in here
+    /*@Test
+    public void checkIfSwitched2WelcomePage() {
+        onView(withId(R.id.returnButton)).perform(click());
+        intended(hasComponent(WelcomeActivity.class.getName()));
+    }*/
 }

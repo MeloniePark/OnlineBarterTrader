@@ -6,9 +6,13 @@ Will update the details of reference later.
  */
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //two firebase library that we will be using.
     private FirebaseDatabase firebaseDB;
@@ -32,11 +36,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
+        Button button = findViewById(R.id.signUpMain);
+        button.setOnClickListener(this);
 
         //connect to firebase
         connectToFirebase();
         writeToFirebase();
         listenToDataChanges();
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(MainActivity.this,SignUpActivity.class);
+        startActivity(intent);
     }
 
     private void connectToFirebase(){

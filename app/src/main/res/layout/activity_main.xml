@@ -6,39 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+
+    <EditText
+        android:id="@+id/providerHistory"
+        android:layout_width="271dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="58dp"
-        tools:layout_editor_absoluteY="218dp">
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="243dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="132dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Welcome to Group5 Project!"
+        app:layout_constraintBottom_toTopOf="@+id/signUpBotton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/welcomeMessage"
-            android:layout_width="271dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Welcome to Group5 Project!"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="180dp" />
+    <Button
+        android:id="@+id/signUpBotton"
+        android:layout_width="116dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="147dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="148dp"
+        android:text="Sign Up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/providerHistory" />
 
-        <Button
-            android:id="@+id/signUpBotton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign Up"
-            tools:layout_editor_absoluteX="123dp"
-            tools:layout_editor_absoluteY="134dp" />
+    <Button
+        android:id="@+id/signInBotton"
+        android:layout_width="116dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="147dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginBottom="159dp"
+        android:text="Sign In"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpBotton" />
 
-        <Button
-            android:id="@+id/signInBotton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign In"
-            tools:layout_editor_absoluteX="120dp"
-            tools:layout_editor_absoluteY="200dp" />
-    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">OnlineBarterTrader</string>
+    <string name="title_activity_sign_up1">SignUpActivity1</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="EMPTY_EMAIL_ADDRESS">Empty Email Address</string>
+    <string name="EMPTY_PASSWORD">Empty Password</string>
+    <string name="INVALID_PASSWORD">Invalid Password</string>
+    <string name="SAME_PASSWORD">Two Passwords should be the same!</string>
+    <string name="INVALID_EMAIL_ADDRESS">Invalid email address</string>
+    <string name="EMPTY_STRING">""</string>
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

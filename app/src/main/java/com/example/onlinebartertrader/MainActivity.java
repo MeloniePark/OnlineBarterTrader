@@ -8,7 +8,10 @@ Will update the details of reference later.
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,20 +21,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //two firebase library that we will be using.
     private FirebaseDatabase firebaseDB;
     private DatabaseReference firebaseDBRef;
     private TextView textView;  //for reading whatever is in this textelement.
-
+    Button signUpBotton;
+    Button signInBotton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView);
+        //register the views for landing page
+        textView = findViewById(R.id.welcomeMessage);
+        signUpBotton = findViewById(R.id.signUpBotton);
+        signInBotton = findViewById(R.id.signInBotton);
+        signUpBotton.setOnClickListener(this);
+        signInBotton.setOnClickListener(this);
 
         //connect to firebase
         connectToFirebase();
@@ -72,4 +81,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    protected void switch2SignUpPage() {
+        Intent signUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
+        startActivity(signUpIntent);
+    }
+
+    protected void switch2SignInPage() {
+        Intent signInIntent = new Intent(MainActivity.this, SignInActivity.class);
+        startActivity(signInIntent);
+    }
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.signInBotton){
+            switch2SignInPage();
+        }
+        else if(view.getId() == R.id.signUpBotton){
+            switch2SignUpPage();
+        }
+    }
 }

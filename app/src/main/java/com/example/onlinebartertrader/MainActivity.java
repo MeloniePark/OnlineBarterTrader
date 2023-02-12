@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //register the views for landing page
-        textView = findViewById(R.id.welcomeMessage);
+        textView = findViewById(R.id.providerHistory);
         signUpBotton = findViewById(R.id.signUpBotton);
         signInBotton = findViewById(R.id.signInBotton);
         signUpBotton.setOnClickListener(this);

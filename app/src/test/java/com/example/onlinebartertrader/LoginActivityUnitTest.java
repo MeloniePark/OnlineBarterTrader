@@ -1,2 +1,4 @@
-package com.example.onlinebartertrader;public class LoginActivityUnitTest {
+package com.example.onlinebartertrader;
+
+public class LoginActivityUnitTest {
 }

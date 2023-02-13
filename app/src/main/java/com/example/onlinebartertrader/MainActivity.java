@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void switch2SignInPage() {
-        Intent signInIntent = new Intent(MainActivity.this, SignInActivity.class);
+        Intent signInIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(signInIntent);
     }
     @Override

@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseDatabase firebaseDB;
     private DatabaseReference firebaseDBRef;
     private TextView textView;  //for reading whatever is in this textelement.
-    Button signUpBotton;
-    Button signInBotton;
+    Button signUpButton;
+    Button signInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //register the views for landing page
         textView = findViewById(R.id.providerHistory);
-        signUpBotton = findViewById(R.id.signUpBotton);
-        signInBotton = findViewById(R.id.signInBotton);
-        signUpBotton.setOnClickListener(this);
-        signInBotton.setOnClickListener(this);
+        signUpButton = findViewById(R.id.signUpButton);
+        signInButton = findViewById(R.id.signInButton);
+        signUpButton.setOnClickListener(this);
+        signInButton.setOnClickListener(this);
 
         //connect to firebase
         connectToFirebase();
@@ -94,10 +94,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.signInBotton){
+        if (view.getId() == R.id.signInButton){
             switch2SignInPage();
         }
-        else if(view.getId() == R.id.signUpBotton){
+        else if(view.getId() == R.id.signUpButton){
             switch2SignUpPage();
         }
     }

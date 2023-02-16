@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
         providerLoginButton = findViewById(R.id.providerLoginButton);
         receiverLoginButton = findViewById(R.id.receiverLoginButton);
         providerLoginButton.setOnClickListener(this);
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected boolean isValidPassword(String password) {
         return password.matches("^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,}$");
     }
+
 
     protected void switch2ProviderLandingPage() {
         Intent intent = new Intent(this, ProviderLandingPage.class);

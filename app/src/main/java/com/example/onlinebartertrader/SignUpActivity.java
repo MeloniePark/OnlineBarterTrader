@@ -25,7 +25,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Button cancel = findViewById(R.id.returnButton);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {switch2LandingPage();}
+           public void onClick(View v) {switch2LandingPage();}
         });
     }
 

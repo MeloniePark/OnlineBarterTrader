@@ -2,6 +2,8 @@ package com.example.onlinebartertrader;
 
 import android.content.Context;
 
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -16,6 +18,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.times;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
@@ -25,8 +28,8 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-//import static androidx.test.espresso.intent.Intents.intended;
-//import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
@@ -39,6 +42,20 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class SignUpEspressoTest {
 
+    @Rule
+    public ActivityScenarioRule<MainActivity> myRule = new ActivityScenarioRule<>(MainActivity.class);
+    public IntentsTestRule<MainActivity> myIntentRule = new IntentsTestRule<>(MainActivity.class);
+
+
+    @BeforeClass
+    public static void setup() {
+        Intents.init();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        System.gc();
+    }
 
     @Test
     public void useAppContext() {
@@ -52,9 +69,9 @@ public class SignUpEspressoTest {
     public void checkIfSignUpPageIsVisible() {
 
         onView(withId(R.id.signUpButton)).perform(click());
-        //onView(withId(R.id.emailAddress)).check(matches(withText("")));
-        //onView(withId(R.id.password)).check(matches(withText("")));
-        //onView(withId(R.id.passwordMatch)).check(matches(withText("")));
+        onView(withId(R.id.emailAddress)).check(matches(withText("")));
+        onView(withId(R.id.password)).check(matches(withText("")));
+        onView(withId(R.id.passwordMatch)).check(matches(withText("")));
     }
 
     @Test
@@ -117,12 +134,23 @@ public class SignUpEspressoTest {
         onView(withId(R.id.errorMessage)).check(matches(withText("Password did not mach")));
     }
 
-    //Don't know why intent did not work
-    //import static androidx.test.espresso.intent.Intents.intended;
-    //The .intent. is red in here
-    /*@Test
-    public void checkIfSwitched2WelcomePage() {
+    @Test
+    public void checkIfSwitched2MainPage() {
+        onView(withId(R.id.signUpButton)).perform(click());
         onView(withId(R.id.returnButton)).perform(click());
-        intended(hasComponent(WelcomeActivity.class.getName()));
-    }*/
+        intended(hasComponent(SignUpActivity.class.getName()));
+        intended(hasComponent(MainActivity.class.getName()),times(2));
+    }
+
+    @Test
+    public void checkIfSwitched2LoginActivityPage() {
+        onView(withId(R.id.signUpButton)).perform(click());
+        onView(withId(R.id.signUpButton)).perform(click());
+        onView(withId(R.id.emailAddress)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.password)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.passwordMatch)).perform(typeText("tianzheng123"));
+        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(SignUpActivity.class.getName()));
+        intended(hasComponent(LoginActivity.class.getName()));
+    }
 }

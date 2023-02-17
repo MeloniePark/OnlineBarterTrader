@@ -131,7 +131,7 @@ public class SignUpEspressoTest {
         onView(withId(R.id.password)).perform(typeText("tianzheng123"));
         onView(withId(R.id.passwordMatch)).perform(typeText("tianzheng"));
         onView(withId(R.id.signUpButton)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Password did not mach")));
+        onView(withId(R.id.errorMessage)).check(matches(withText("Two Passwords should be the same!")));
     }
 
     @Test

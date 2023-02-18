@@ -39,19 +39,6 @@ public class LoginActivityUnitTest {
     }
 
     @Test
-    public void checkIfPasswordIsValid() {
-        assertTrue(LoginActivity.isValidPassword("D@lhousie.2023"));
-    }
-
-    @Test
-    public void checkIfPasswordIsInvalid() {
-        assertFalse(LoginActivity.isValidPassword("Dalhousie22"));
-        assertFalse(LoginActivity.isValidPassword("9024941234"));
-        assertFalse(LoginActivity.isValidPassword("dal"));
-        assertFalse(LoginActivity.isValidPassword("@2212"));
-    }
-
-    @Test
     public void checkIfEmailIsValid() {
         assertTrue(LoginActivity.isValidEmailAddress("barter.system@university.ca"));
         assertTrue(LoginActivity.isValidEmailAddress("aap2212@canada.com"));

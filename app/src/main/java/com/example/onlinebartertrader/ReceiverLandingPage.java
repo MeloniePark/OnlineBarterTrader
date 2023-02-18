@@ -4,5 +4,4 @@ public class ReceiverLandingPage {
     static ReceiverLandingPage receiverLandingPage;
 
 
-
 }

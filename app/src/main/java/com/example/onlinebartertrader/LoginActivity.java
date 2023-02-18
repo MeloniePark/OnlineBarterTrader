@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,9 +14,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database = null;
@@ -39,8 +37,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         receiverLoginButton.setOnClickListener(this);
 
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
-        emailRef = database.getReference("Email Address");
-        passwordRef = database.getReference("Password");
+        emailRef = database.getReference("templateUser/provider/userInfo");
+        passwordRef = database.getReference("templateUser/provider/userInfo/email");
     }
 
     protected boolean isEmptyEmail(String emailAddress) {
@@ -55,71 +53,83 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return emailAddress.matches("^[A-Za-z0-9.+_-]+@[A-Za-z0-9-]+.[a-zA-Z0-9.-]+$");
     }
 
-    protected boolean isValidPassword(String password) {
-        return password.matches("^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,}$");
-    }
-
-
     protected void switch2ProviderLandingPage() {
         Intent intent = new Intent(this, ProviderLandingPage.class);
         intent.putExtra("emailAddress", emailAddress);
-        intent.putExtra("password", password);
         startActivity(intent);
     }
 
     protected void switch2ReceiverLandingPage() {
         Intent intent = new Intent(this, ReceiverLandingPage.class);
         intent.putExtra("emailAddress", emailAddress);
-        intent.putExtra("password", password);
         startActivity(intent);
+    }
+
+    protected boolean emailInDatabase(String emailAddress) {
+        Boolean[] value = new Boolean[1];
+        emailRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    emailFromDatabase = (String) childSnapshot.child("email").getValue();
+                    if (emailFromDatabase.equals(emailAddress)) {
+                        value[0] = true;
+                        break;
+                    }
+                    value[0] = false;
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Error", "Failed to read value.", databaseError.toException());
+            }
+        });
+        if (!value[0]) {
+            Toast.makeText(getApplicationContext(), "Email Address is not registered.", Toast.LENGTH_LONG).show();
+        }
+        return true;
+    }
+
+    protected boolean checkPassword(String password) {
+        Boolean[] value = new Boolean[1];
+        passwordRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    passwordFromDatabase = (String) childSnapshot.child("email").getValue();
+                    if (passwordFromDatabase.equals(password)) {
+                        value[0] = true;
+                        break;
+                    }
+                    value[0] = false;
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Error", "Failed to read value.", databaseError.toException());
+            }
+        });
+        return value[0];
     }
 
     @Override
     public void onClick(View view) {
-        if(isEmptyEmail(emailAddress) || isEmptyPassword(password)){
+        if (isEmptyEmail(emailAddress) || isEmptyPassword(password)){
             Toast.makeText(getApplicationContext(),"Either Email Address or Password is empty.", Toast.LENGTH_LONG).show();
         }
-        else if (isValidEmailAddress(emailAddress) && isValidPassword(password)){
-            emailRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    emailFromDatabase = dataSnapshot.getValue(String.class);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    String errorRead = error.getMessage();
-                    System.out.println(errorRead);
-                }
-            });
-            passwordRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    passwordFromDatabase = dataSnapshot.getValue(String.class);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    String errorRead = error.getMessage();
-                    System.out.println(errorRead);
-                }
-            });
-            if(emailAddress.equals(emailFromDatabase) && password.equals(passwordFromDatabase)){
-                receiverLoginButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        else if (isValidEmailAddress(emailAddress)) {
+            if (emailInDatabase(emailAddress)) {
+                if (checkPassword(password)) {
+                    if (view.getId() == R.id.providerLoginButton) {
+                        switch2ProviderLandingPage();
+                    } else if (view.getId() == R.id.receiverLoginButton) {
                         switch2ReceiverLandingPage();
                     }
-                });
-                providerLoginButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        switch2ProviderLandingPage();
-                    }
-                });
-            }
-            else{
-                Toast.makeText(getApplicationContext(),"Either Email Address or Password is Incorrect.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Password is incorrect.", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Enter Valid Email Address", Toast.LENGTH_LONG).show();
             }
         }
     }

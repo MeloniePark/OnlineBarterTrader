@@ -19,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class ReceiverLandingPage extends AppCompatActivity implements View.OnClickListener{
-    static ReceiverLandingPage receiverLandingPage;
 
     FirebaseDatabase database;
     DatabaseReference receiverDBRefAvailable;
@@ -103,8 +102,8 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             receiverDBRefHistory.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    String valueRead = snapshot.getValue(String.class);
-                    receiverItems.add(valueRead);
+                    String keyRead = snapshot.getKey();
+                    receiverItems.add(keyRead);
                     receiverArrAdapter.notifyDataSetChanged();
                 }
 

@@ -13,11 +13,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+//    EditText password;
+//    EditText passwordMatch;
+//    EditText email;
+//    TextView statusLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+//        password = findViewById(R.id.passwordSignUp);
+//        passwordMatch = findViewById(R.id.passwordMatchSignUp);
+//        email = findViewById(R.id.emailAddressSignUp);
+//        statusLabel = findViewById(R.id.errorMessageSignup);
 
         //attaching the event handler
         Button signUp = findViewById(R.id.signUpButtonSignUp);
@@ -115,9 +124,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         return email.getText().toString().trim();
     }
 
-
     protected void setStatusMessage(String message) {
-        TextView statusLabel = findViewById(R.id.errorMessage);
+        TextView statusLabel = findViewById(R.id.errorMessageSignup);
         statusLabel.setText(message.trim());
     }
 
@@ -138,41 +146,33 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String password = getPassword();
         String emailAddress = getEmail();
         String passwordMatch =getPasswordMatch();
-        String errorMessage = new String();
+        String errorMessage = "";
 
-        boolean should_switch = true;
 
         if (isEmptyEmail(emailAddress)) {
             errorMessage = getResources().getString(R.string.EMPTY_EMAIL_ADDRESS).trim();
-            setStatusMessage(errorMessage);
-            should_switch = false;
         }
 
-        if (isEmptyPassword(password)) {
+        else if (isEmptyPassword(password)||isEmptyPassword(passwordMatch)) {
             errorMessage = getResources().getString(R.string.EMPTY_PASSWORD).trim();
-            setStatusMessage(errorMessage);
-            should_switch = false;
         }
 
-        if (!isValidEmail(emailAddress)) {
+        else if (!isValidEmail(emailAddress)) {
             errorMessage = getResources().getString(R.string.INVALID_EMAIL_ADDRESS).trim();
             setStatusMessage(errorMessage);
-            should_switch = false;
         }
 
-        if (!isValidPassword(password)) {
+        else if (!isValidPassword(password)) {
             errorMessage = getResources().getString(R.string.INVALID_PASSWORD).trim();
-            setStatusMessage(errorMessage);
-            should_switch = false;
         }
 
-        if (!isSamePassword(password,passwordMatch)){
+        else if (!isSamePassword(password,passwordMatch)){
             errorMessage = getResources().getString(R.string.SAME_PASSWORD).trim();
-            setStatusMessage(errorMessage);
-            should_switch = false;
         }
 
-        if (should_switch) {
+        setStatusMessage(errorMessage);
+
+        if (errorMessage.equals("")){
             switch2LogInPage();
         }
 

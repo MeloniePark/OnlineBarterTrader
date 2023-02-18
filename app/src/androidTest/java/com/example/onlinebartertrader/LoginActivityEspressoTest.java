@@ -61,7 +61,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("a@dal.ca"));
         onView(withId(R.id.passwordLogIn)).perform(typeText(""));
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Either Email Address or Password is empty.")));
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText("Either Email Address or Password is empty.")));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc.123@dal.ca"));
         onView(withId(R.id.passwordLogIn)).perform(typeText("D@lhousie.2023"));
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Password is incorrect.")));
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText("Password is incorrect.")));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc.123@dal.ca"));
         onView(withId(R.id.passwordLogIn)).perform(typeText("B88001819"));
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText(R.string.EMPTY_STRING)));
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc.123@dal.ca"));
         onView(withId(R.id.passwordLogIn)).perform(typeText("D@lhousie.2023"));
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText(R.string.EMPTY_STRING)));
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc123.dal.ca"));
         onView(withId(R.id.passwordLogIn)).perform(typeText("D@lhousie.2023"));
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Enter Valid Email Address")));
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText("Enter Valid Email Address")));
     }
 }
 

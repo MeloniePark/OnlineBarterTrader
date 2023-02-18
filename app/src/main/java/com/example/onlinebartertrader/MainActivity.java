@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //register the views for landing page
-        textView = findViewById(R.id.providerHistory);
-        signUpButton = findViewById(R.id.signUpButtonSignUp);
-        signInButton = findViewById(R.id.signInButton);
+        textView = findViewById(R.id.welcomeMessageMainPage);
+        signUpButton = findViewById(R.id.signUpButtonMainPage);
+        signInButton = findViewById(R.id.signInButtonMainPage);
         signUpButton.setOnClickListener(this);
         signInButton.setOnClickListener(this);
 
@@ -114,10 +114,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.signInButton){
+        if (view.getId() == R.id.signInButtonMainPage){
             switch2SignInPage();
         }
-        else if(view.getId() == R.id.signUpButtonSignUp){
+        else if(view.getId() == R.id.signUpButtonMainPage){
             switch2SignUpPage();
         }
     }

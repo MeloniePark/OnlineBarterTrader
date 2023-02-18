@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_log_in);
 
         providerLoginButton = findViewById(R.id.providerLoginButtonLogIn);
         receiverLoginButton = findViewById(R.id.receiverLoginButtonLogIn);
@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     protected void setStatusMessage(String message) {
-        TextView statusLabel = findViewById(R.id.errorMessage);
+        TextView statusLabel = findViewById(R.id.errorMessageLogIn);
         statusLabel.setText(message.trim());
     }
 

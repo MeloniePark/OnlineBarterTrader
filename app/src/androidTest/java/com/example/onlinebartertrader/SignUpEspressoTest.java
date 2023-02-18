@@ -16,6 +16,8 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.times;
@@ -40,8 +42,8 @@ import static org.junit.Assert.assertEquals;
 public class SignUpEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> myRule = new ActivityScenarioRule<>(MainActivity.class);
-    public IntentsTestRule<MainActivity> myIntentRule = new IntentsTestRule<>(MainActivity.class);
+    public ActivityScenarioRule<SignUpActivity> myRule = new ActivityScenarioRule<>(SignUpActivity.class);
+    public IntentsTestRule<SignUpActivity> myIntentRule = new IntentsTestRule<>(SignUpActivity.class);
 
 
     @BeforeClass
@@ -64,8 +66,6 @@ public class SignUpEspressoTest {
 
     @Test
     public void checkIfSignUpPageIsVisible() {
-
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.emailAddressSignUp)).check(matches(withText("")));
         onView(withId(R.id.passwordSignUp)).check(matches(withText("")));
         onView(withId(R.id.passwordMatchSignUp)).check(matches(withText("")));
@@ -73,81 +73,95 @@ public class SignUpEspressoTest {
 
     @Test
     public void checkIfEmailIsEmpty() {
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.emailAddressSignUp)).perform(typeText(""));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Empty Email")));
+        onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_EMAIL_ADDRESS)));
     }
 
     @Test
     public void checkIfEmailIsInvalidate() {
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083dal.ca"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Invalidate Email Address")));
+        onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.INVALID_EMAIL_ADDRESS)));
     }
 
     @Test
     public void checkIfPasswordEmpty() {
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText(""));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Empty Password")));
+        onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_PASSWORD)));
     }
 
     @Test
     public void checkIfPasswordMatchEmpty() {
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText(""));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Have to conform your Password")));
+        onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_PASSWORD)));
     }
 
+    //only work in isolation for the same reason of A2.
     @Test
     public void checkIfPasswordValidate() {
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
-        onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(typeText("Test123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(typeText("Test123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("")));
+        onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_STRING)));
     }
 
     @Test
     public void checkIfPasswordInValidate() {
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
-        onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(typeText("Test123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(typeText("Tes123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Two Passwords should be the same!")));
+        onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.SAME_PASSWORD)));
     }
 
     @Test
     public void checkIfSwitched2MainPage() {
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.returnButtonSignUp)).perform(click());
-        intended(hasComponent(SignUpActivity.class.getName()));
-        intended(hasComponent(MainActivity.class.getName()),times(2));
+        intended(hasComponent(MainActivity.class.getName()));
     }
 
     @Test
     public void checkIfSwitched2LoginActivityPage() {
+        onView(withId(R.id.emailAddressSignUp)).perform(typeText("test@dal.ca"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(typeText("Test123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(typeText("Test123"));
+        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
-        onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng123"));
-        intended(hasComponent(MainActivity.class.getName()));
-        intended(hasComponent(SignUpActivity.class.getName()));
-        intended(hasComponent(LoginActivity.class.getName()));
+        //        if run in isolation, use this code
+        //        intended(hasComponent(LoginActivity.class.getName()));
+        //        otherwise if run the whole espresso test, use this code
+        intended(hasComponent(LoginActivity.class.getName()),times(2));
     }
 }

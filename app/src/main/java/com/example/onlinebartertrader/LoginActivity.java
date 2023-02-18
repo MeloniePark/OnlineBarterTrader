@@ -16,9 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database = null;
     DatabaseReference emailRef;
@@ -69,12 +66,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
     protected String getPasswordEntered() {
-        EditText password = findViewById(R.id.editTextTextPassword2);
+        EditText password = findViewById(R.id.password);
         return password.getText().toString().trim();
     }
 
     protected String getEmailAddressEntered() {
-        EditText emailAddress = findViewById(R.id.editTextTextEmailAddress2);
+        EditText emailAddress = findViewById(R.id.emailAddress);
         return emailAddress.getText().toString().trim();
     }
 

@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +15,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.security.Provider;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,10 +40,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                 (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
 
         //
-        providerItemLists = (ListView) findViewById(R.id.providerList);
+        providerItemLists = (ListView) findViewById(R.id.providerListProvider);
         providerItemLists.setAdapter(providerArrAdapter);
 
-        providerPostBtn = findViewById(R.id.providerPost);
+        providerPostBtn = findViewById(R.id.providerPostProvider);
         providerPostBtn.setOnClickListener(this);
 
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");

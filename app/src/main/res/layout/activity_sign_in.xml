@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/welcomeMessageLogIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
@@ -17,13 +17,13 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:text="Welcome to Online Barter Trader !!"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress2"
+        app:layout_constraintBottom_toTopOf="@+id/emailAddressLogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/emailAddressLogIn"
         android:layout_width="252dp"
         android:layout_height="45dp"
         android:layout_marginStart="71dp"
@@ -36,13 +36,13 @@
         android:textColor="@color/black"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2"
+        app:layout_constraintBottom_toTopOf="@+id/passwordLogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/passwordLogIn"
         android:layout_width="248dp"
         android:layout_height="48dp"
         android:layout_marginStart="71dp"
@@ -54,13 +54,13 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/receiverLoginButton"
+        app:layout_constraintBottom_toTopOf="@+id/receiverLoginButtonLogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailAddressLogIn" />
 
     <Button
-        android:id="@+id/receiverLoginButton"
+        android:id="@+id/receiverLoginButtonLogIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
@@ -68,13 +68,13 @@
         android:layout_marginEnd="124dp"
         android:layout_marginBottom="13dp"
         android:text="LOGIN AS RECEIVER"
-        app:layout_constraintBottom_toTopOf="@+id/providerLoginButton"
+        app:layout_constraintBottom_toTopOf="@+id/providerLoginButtonLogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordLogIn" />
 
     <Button
-        android:id="@+id/providerLoginButton"
+        android:id="@+id/providerLoginButtonLogIn"
         android:layout_width="187dp"
         android:layout_height="50dp"
         android:layout_marginStart="124dp"
@@ -85,5 +85,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiverLoginButton" />
+        app:layout_constraintTop_toBottomOf="@+id/receiverLoginButtonLogIn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

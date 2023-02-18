@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/providerPost"
+        android:id="@+id/providerPostProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="161dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/providerList"
+        android:id="@+id/providerListProvider"
         android:layout_width="302dp"
         android:layout_height="455dp"
         android:layout_marginStart="54dp"
@@ -30,5 +30,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/providerPost" />
+        app:layout_constraintTop_toBottomOf="@+id/providerPostProvider" />
 </androidx.constraintlayout.widget.ConstraintLayout>

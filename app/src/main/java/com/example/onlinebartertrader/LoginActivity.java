@@ -17,9 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database = null;
     DatabaseReference emailRef;
@@ -36,8 +33,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        providerLoginButton = findViewById(R.id.providerLoginButton);
-        receiverLoginButton = findViewById(R.id.receiverLoginButton);
+        providerLoginButton = findViewById(R.id.providerLoginButtonLogIn);
+        receiverLoginButton = findViewById(R.id.receiverLoginButtonLogIn);
         providerLoginButton.setOnClickListener(this);
         receiverLoginButton.setOnClickListener(this);
 
@@ -73,12 +70,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     protected String getPasswordEntered() {
-        EditText password = findViewById(R.id.editTextTextPassword2);
+        EditText password = findViewById(R.id.passwordLogIn);
         return password.getText().toString().trim();
     }
 
     protected String getEmailAddressEntered() {
-        EditText emailAddress = findViewById(R.id.editTextTextEmailAddress2);
+        EditText emailAddress = findViewById(R.id.emailAddressLogIn);
         return emailAddress.getText().toString().trim();
     }
 
@@ -132,9 +129,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (isValidEmailAddress(emailAddressEntered)) {
             if (emailInDatabase()) {
                 if (checkPassword()) {
-                    if (view.getId() == R.id.providerLoginButton) {
+                    if (view.getId() == R.id.providerLoginButtonLogIn) {
                         switch2ProviderLandingPage();
-                    } else if (view.getId() == R.id.receiverLoginButton) {
+                    } else if (view.getId() == R.id.receiverLoginButtonLogIn) {
                         switch2ReceiverLandingPage();
                     }
                 } else {

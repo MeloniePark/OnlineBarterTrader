@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/logoSignUp"
         android:layout_width="153dp"
         android:layout_height="128dp"
         android:layout_marginTop="72dp"
@@ -16,8 +16,9 @@
         app:srcCompat="@drawable/icons8_barter_96"
         tools:ignore="MissingConstraints" />
 
+
     <EditText
-        android:id="@+id/emailAddress"
+        android:id="@+id/emailAddressSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="97dp"
@@ -29,15 +30,15 @@
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintBottom_toTopOf="@+id/passwordSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintTop_toBottomOf="@+id/logoSignUp"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/passwordSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -46,14 +47,14 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/passwordMatch"
+        app:layout_constraintBottom_toTopOf="@+id/passwordMatchSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/emailAddressSignUp"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/passwordMatch"
+        android:id="@+id/passwordMatchSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -65,15 +66,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignUp"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/signUpButtonSignUp"
         android:layout_width="105dp"
         android:layout_height="56dp"
         android:text="Sign Up"
-        app:layout_constraintBottom_toTopOf="@+id/returnButton"
+        app:layout_constraintBottom_toTopOf="@+id/returnButtonSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +83,7 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/returnButton"
+        android:id="@+id/returnButtonSignUp"
         android:layout_width="102dp"
         android:layout_height="55dp"
         android:text="Cancel"

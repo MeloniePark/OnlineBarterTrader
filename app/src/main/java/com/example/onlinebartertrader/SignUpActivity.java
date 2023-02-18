@@ -20,9 +20,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_up);
 
         //attaching the event handler
-        Button signUp = findViewById(R.id.signUpButton);
+        Button signUp = findViewById(R.id.signUpButtonSignUp);
         signUp.setOnClickListener(this);
-        Button cancel = findViewById(R.id.returnButton);
+        Button cancel = findViewById(R.id.returnButtonSignUp);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
            public void onClick(View v) {switch2LandingPage();}
@@ -57,9 +57,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     //password can not longer than 8
     protected boolean checkPasswordLength(String password){
         if (password.length() >= 8){
-            return true;
-        }else {
             return false;
+        }else {
+            return true;
         }
     }
 
@@ -94,24 +94,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public boolean isSamePassword(String password, String passwordMatch) {
-        if (password.equals(passwordMatch)) {
+        if (password.equalsIgnoreCase(passwordMatch)) {
             return true;
         }
         return false;
     }
 
     protected String getPassword() {
-        EditText password = findViewById(R.id.password);
+        EditText password = findViewById(R.id.passwordSignUp);
         return password.getText().toString().trim();
     }
 
     protected String getPasswordMatch() {
-        EditText passwordMatch = findViewById(R.id.passwordMatch);
+        EditText passwordMatch = findViewById(R.id.passwordMatchSignUp);
         return passwordMatch.getText().toString().trim();
     }
 
     protected String getEmail() {
-        EditText email = findViewById(R.id.emailAddress);
+        EditText email = findViewById(R.id.emailAddressSignUp);
         return email.getText().toString().trim();
     }
 
@@ -128,7 +128,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(intent);
     }
 
-
+    //switch the page
+    protected void switch2LogInPage() {
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
 
     public void onClick(View v) {
         String password = getPassword();
@@ -136,31 +140,41 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String passwordMatch =getPasswordMatch();
         String errorMessage = new String();
 
+        boolean should_switch = true;
+
         if (isEmptyEmail(emailAddress)) {
             errorMessage = getResources().getString(R.string.EMPTY_EMAIL_ADDRESS).trim();
             setStatusMessage(errorMessage);
+            should_switch = false;
         }
 
         if (isEmptyPassword(password)) {
             errorMessage = getResources().getString(R.string.EMPTY_PASSWORD).trim();
             setStatusMessage(errorMessage);
+            should_switch = false;
         }
 
-        if (isValidEmail(emailAddress)) {
+        if (!isValidEmail(emailAddress)) {
             errorMessage = getResources().getString(R.string.INVALID_EMAIL_ADDRESS).trim();
             setStatusMessage(errorMessage);
+            should_switch = false;
         }
 
-        if (isValidPassword(password)) {
+        if (!isValidPassword(password)) {
             errorMessage = getResources().getString(R.string.INVALID_PASSWORD).trim();
             setStatusMessage(errorMessage);
+            should_switch = false;
         }
 
-        if (isSamePassword(password,passwordMatch)){
+        if (!isSamePassword(password,passwordMatch)){
             errorMessage = getResources().getString(R.string.SAME_PASSWORD).trim();
             setStatusMessage(errorMessage);
+            should_switch = false;
         }
 
+        if (should_switch) {
+            switch2LogInPage();
+        }
 
     }
 }

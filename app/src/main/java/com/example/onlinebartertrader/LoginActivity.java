@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onDataChange(DataSnapshot dataSnapshot) {
                 passwordFromDatabase = dataSnapshot.getValue(String.class);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("Error", "Failed to read value.", databaseError.toException());
@@ -60,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onDataChange(DataSnapshot dataSnapshot) {
                 emailFromDatabase = dataSnapshot.getValue(String.class);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("Error", "Failed to read value.", databaseError.toException());
@@ -68,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     }
+
     protected String getPasswordEntered() {
         EditText password = findViewById(R.id.editTextTextPassword2);
         return password.getText().toString().trim();
@@ -110,15 +114,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return passwordFromDatabase.equalsIgnoreCase(passwordEntered);
     }
 
+    protected void setStatusMessage(String message) {
+        TextView statusLabel = findViewById(R.id.errorMessage);
+        statusLabel.setText(message.trim());
+    }
+
     @Override
     public void onClick(View view) {
         emailAddressEntered = getEmailAddressEntered();
         passwordEntered = getPasswordEntered();
+        String errorMessage;
 
-        if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)){
-            Toast.makeText(getApplicationContext(),"Either Email Address or Password is empty.", Toast.LENGTH_LONG).show();
-        }
-        else if (isValidEmailAddress(emailAddressEntered)) {
+        if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)) {
+            errorMessage = "Either Email Address or Password is empty.";
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), "Either Email Address or Password is empty.", Toast.LENGTH_LONG).show();
+        } else if (isValidEmailAddress(emailAddressEntered)) {
             if (emailInDatabase()) {
                 if (checkPassword()) {
                     if (view.getId() == R.id.providerLoginButton) {

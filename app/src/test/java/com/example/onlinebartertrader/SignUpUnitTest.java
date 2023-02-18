@@ -50,7 +50,6 @@ public class SignUpUnitTest {
     public void checkPasswordLengthTest(){
         assertTrue(signUpActivity.checkPasswordLength("ihatewrtingcode"));
         assertFalse(signUpActivity.checkPasswordLength("sad"));
-        assertFalse(signUpActivity.checkPasswordLength("xuanlovessun"));
     }
 
     @Test

@@ -1,8 +1,10 @@
 package com.example.onlinebartertrader;
 
 import android.content.Context;
-import android.support.test.espresso.intent.Intents;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.espresso.intent.Intents;
+//import android.support.test.runner.AndroidJUnit4;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -26,8 +28,8 @@ import org.junit.runner.RunWith;
 public class LoginActivityEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<LoginActivity> myRule = new ActivityScenarioRule<>(LoginActivity.class);
-  //  public IntentsTestRule<LoginActivity> myIntentRule = new IntentsTestRule<>(LoginActivity.class);
+    public ActivityScenarioRule<MainActivity> myRule = new ActivityScenarioRule<>(MainActivity.class);
+    public IntentsTestRule<MainActivity> myIntentRule = new IntentsTestRule<>(MainActivity.class);
 
 
     @BeforeClass
@@ -49,46 +51,48 @@ public class LoginActivityEspressoTest {
 
     @Test
     public void checkIfLandingPageIsVisible() {
-        onView(withId(R.id.emailAddress)).check(matches(withText(R.string.EMPTY_STRING)));
-        onView(withId(R.id.password)).check(matches(withText(R.string.EMPTY_STRING)));
+        onView(withId(R.id.signInButton)).perform(click());
+        onView(withId(R.id.editTextTextEmailAddress2)).check(matches(withText(R.string.EMPTY_STRING)));
+        onView(withId(R.id.editTextTextPassword2)).check(matches(withText(R.string.EMPTY_STRING)));
     }
 
     @Test
     public void checkIfPasswordIDIsEmpty() {
-        onView(withId(R.id.emailAddress)).perform(typeText("abc.123@dal.ca"));
-        onView(withId(R.id.password)).perform(typeText(""));
-        onView(withId(R.id.receiverLoginButton)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText(R.string.EMPTY_STRING)));
+        onView(withId(R.id.signInButton)).perform(click());
+        onView(withId(R.id.editTextTextEmailAddress2)).perform(typeText("a@dal.ca"));
+        onView(withId(R.id.editTextTextPassword2)).perform(typeText(""));
+        onView(withId(R.id.providerLoginButton)).perform(click());
+        onView(withId(R.id.errorMessage)).check(matches(withText("Either Email Address or Password is empty.")));
     }
 
     @Test
     public void checkIfPasswordIsValid() {
-        onView(withId(R.id.emailAddress)).perform(typeText("abc.123@dal.ca"));
-        onView(withId(R.id.password)).perform(typeText("D@lhousie.2023"));
+        onView(withId(R.id.editTextTextEmailAddress2)).perform(typeText("abc.123@dal.ca"));
+        onView(withId(R.id.editTextTextPassword2)).perform(typeText("D@lhousie.2023"));
         onView(withId(R.id.receiverLoginButton)).perform(click());
         onView(withId(R.id.errorMessage)).check(matches(withText("Password is incorrect.")));
     }
 
     @Test
     public void checkIfBannerIDIsInvalid() {
-        onView(withId(R.id.emailAddress)).perform(typeText("abc.123@dal.ca"));
-        onView(withId(R.id.password)).perform(typeText("B88001819"));
+        onView(withId(R.id.editTextTextEmailAddress2)).perform(typeText("abc.123@dal.ca"));
+        onView(withId(R.id.editTextTextPassword2)).perform(typeText("B88001819"));
         onView(withId(R.id.receiverLoginButton)).perform(click());
         onView(withId(R.id.errorMessage)).check(matches(withText(R.string.EMPTY_STRING)));
     }
 
     @Test
     public void checkIfEmailIsValid() {
-        onView(withId(R.id.emailAddress)).perform(typeText("abc.123@dal.ca"));
-        onView(withId(R.id.password)).perform(typeText("D@lhousie.2023"));
+        onView(withId(R.id.editTextTextEmailAddress2)).perform(typeText("abc.123@dal.ca"));
+        onView(withId(R.id.editTextTextPassword2)).perform(typeText("D@lhousie.2023"));
         onView(withId(R.id.receiverLoginButton)).perform(click());
         onView(withId(R.id.errorMessage)).check(matches(withText(R.string.EMPTY_STRING)));
     }
 
     @Test
     public void checkIfEmailIsInvalid() {
-        onView(withId(R.id.emailAddress)).perform(typeText("abc123.dal.ca"));
-        onView(withId(R.id.password)).perform(typeText("D@lhousie.2023"));
+        onView(withId(R.id.editTextTextEmailAddress2)).perform(typeText("abc123.dal.ca"));
+        onView(withId(R.id.editTextTextPassword2)).perform(typeText("D@lhousie.2023"));
         onView(withId(R.id.receiverLoginButton)).perform(click());
         onView(withId(R.id.errorMessage)).check(matches(withText("Enter Valid Email Address")));
     }

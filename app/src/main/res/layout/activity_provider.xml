@@ -14,25 +14,21 @@
         android:layout_marginStart="161dp"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="162dp"
-        android:layout_marginBottom="21dp"
         android:text="Post"
-        app:layout_constraintBottom_toTopOf="@+id/providerLanding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/providerLanding"
-        android:layout_width="329dp"
-        android:layout_height="576dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="41dp"
-        android:layout_marginBottom="41dp"
-        android:text="The provider's list of all posted products will be fetched and listed here."
+    <ListView
+        android:id="@+id/providerList"
+        android:layout_width="302dp"
+        android:layout_height="455dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="97dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/providerPost" />
 </androidx.constraintlayout.widget.ConstraintLayout>

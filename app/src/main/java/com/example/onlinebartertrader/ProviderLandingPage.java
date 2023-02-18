@@ -2,25 +2,36 @@ package com.example.onlinebartertrader;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.Provider;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseDatabase database;
     DatabaseReference providerDBRef;
-    TextView textView;
+    ListView providerItemLists;
 
     Button providerPostBtn;
+
+    ArrayList<String> providerItems = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,48 +39,47 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provider);
 
-        textView = findViewById(R.id.providerLanding);
+        //array Adapter for the listview to list all the items of the provider.
+        final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<String>
+                (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
+
+        //
+        providerItemLists = (ListView) findViewById(R.id.providerList);
+        providerItemLists.setAdapter(providerArrAdapter);
+
         providerPostBtn = findViewById(R.id.providerPost);
         providerPostBtn.setOnClickListener(this);
 
-        //database
-        connectToProviderDB();
-        writeToProviderDB();
-        listenToProviderDB();
-
-
-    }
-
-    private void connectToProviderDB(){
-        //will get path or location of where the database is being hosted
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         //creating reference variable inside the databased called "templateUser"
         providerDBRef = database.getReference("templateUser").child("provider").child("goods");
-    }
 
-    //this will write into the key "templateUser" of the database
-    private void writeToProviderDB(){
-        providerDBRef.setValue("good2");
-    }
-
-    //reading from the database
-    private void listenToProviderDB(){
-        providerDBRef.addValueEventListener(new ValueEventListener() {
+        providerDBRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String valueRead = snapshot.getValue(String.class);
+                providerItems.add(valueRead);
+                providerArrAdapter.notifyDataSetChanged();
+            }
 
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final String valueRead = snapshot.getValue(String.class);
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                providerArrAdapter.notifyDataSetChanged();
+            }
 
-                //at res/layout/activity_provider.xml
-                //modify the helloWorld attribute id.
-                textView.setText("Success: " + valueRead);
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                //in case the textView fails
-                final String errorRead = error.getMessage();
-                textView.setText("Error: " + errorRead);
+
             }
         });
     }
@@ -77,6 +87,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-
+        //where we move on to posting provider's goods page.
     }
 }

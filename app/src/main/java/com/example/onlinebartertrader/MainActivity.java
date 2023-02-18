@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //this will write "Hello CSCI3130" into the key "message" of the database
     private void writeToFirebase(){
-        firebaseDBRef.setValue("Hello it is connected!");
+        firebaseDBRef.setValue("Barter Trader!");
     }
     public void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //at res/layout/activity_main.xml
                 //modify the helloWorld attribute id.
-                textView.setText("Success: " + valueRead);
+                textView.setText("Welcome to " + valueRead);
             }
 
             @Override

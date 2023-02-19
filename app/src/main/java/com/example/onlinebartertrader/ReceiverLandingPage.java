@@ -20,15 +20,20 @@ import java.util.ArrayList;
 
 public class ReceiverLandingPage extends AppCompatActivity implements View.OnClickListener{
 
+    //Firebase
     FirebaseDatabase database;
     DatabaseReference receiverDBRefAvailable;
     DatabaseReference receiverDBRefHistory;
+
+    //view for the lists
     ListView receiverLists;
 
     Button receiverTradedBtn;
     Button receiverAvailableBtn;
 
+    //arraylists for listviews
     ArrayList<String> receiverItems = new ArrayList<>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,8 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver);
 
+        //registering the button for the receiver's landing page
+        //onclick listener listens set for each button click
         receiverAvailableBtn = findViewById(R.id.availableProductsReceiver);
         receiverAvailableBtn.setOnClickListener(this);
 
@@ -52,19 +59,19 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
                 (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
 
-        //
+        //register the views, buttons and other components for the provider landing page.
         receiverLists = (ListView) findViewById(R.id.receiverListReceiver);
         receiverLists.setAdapter(receiverArrAdapter);
 
 
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
-        //creating reference variable inside the databased called "templateUser"
-
-
 
         //if availableProduct button is clicked -> show available products in that area.
         if (view.getId() == R.id.availableProductsReceiver){
+            //creating reference variable inside the databased called "templateUser"
             receiverDBRefAvailable = database.getReference("tradeArea").child("Halifax").child("goods");
+
+            //Firebase data addition, modification, deletion, reading performed through this section.
             receiverDBRefAvailable.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -98,7 +105,10 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
         //if traded items button is clicked -> show traded items history of receiver
         if (view.getId() == R.id.tradedHistoryReceiver){
+
             receiverDBRefHistory = database.getReference("templateUser").child("receiver").child("receivedItem");
+
+            //Firebase data addition, modification, deletion, reading performed through this section.
             receiverDBRefHistory.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {

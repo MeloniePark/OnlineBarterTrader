@@ -30,20 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textView;  //for reading whatever is in this textelement.
     Button signUpButton;
     Button signInButton;
-//    public class User {
-//        public String username;
-//        public String email;
-//
-//        public User() {
-//            // Default constructor required for calls to DataSnapshot.getValue(User.class)
-//        }
-//
-//        public User(String username, String email) {
-//            this.username = username;
-//            this.email = email;
-//        }
-//
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void writeToFirebase(){
         firebaseDBRef.setValue("Barter Trader!");
     }
-//    public void writeNewUser(String userId, String name, String email) {
-//        User user = new User(name, email);
-//        String usrs = "Users";
-//        //add the values of the rows and columns.
-//        firebaseDBRef.setValue(user);
-//    }
 
 
     //reading from the database

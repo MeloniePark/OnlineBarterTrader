@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView = findViewById(R.id.welcomeMessageMainPage);
         signUpButton = findViewById(R.id.signUpButtonMainPage);
         signInButton = findViewById(R.id.signInButtonMainPage);
+
+        //setting onclicklistener -> on button click, the listener will run functionality inside it.
         signUpButton.setOnClickListener(this);
         signInButton.setOnClickListener(this);
 
@@ -83,15 +85,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    //swithcing to sign up page
     protected void switch2SignUpPage() {
         Intent signUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
         startActivity(signUpIntent);
     }
 
+    //swithcing to sign in page.
     protected void switch2SignInPage() {
         Intent signInIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(signInIntent);
     }
+
+    //OnClick function for catching button clicks.
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.signInButtonMainPage){

@@ -21,29 +21,28 @@ public class LoginActivityUnitTest {
         System.gc();
     }
 
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
-    }
-
+    //*** User story 5, AT3 **/
     @Test
     public void checkIfEmailAddressIsEmpty() {
         assertTrue(LoginActivity.isEmptyEmail(""));
         assertFalse(LoginActivity.isEmptyEmail("xyz$56"));
     }
 
+    //*** User story 5, AT3 **/
     @Test
     public void checkIfPasswordIsEmpty() {
         assertTrue(LoginActivity.isEmptyPassword(""));
         assertFalse(LoginActivity.isEmptyPassword("xyz$56"));
     }
 
+    //*** User story 5, AT1 **/
     @Test
     public void checkIfEmailIsValid() {
         assertTrue(LoginActivity.isValidEmailAddress("barter.system@university.ca"));
         assertTrue(LoginActivity.isValidEmailAddress("aap2212@canada.com"));
     }
 
+    //*** User story 5, AT2 **/
     @Test
     public void checkIfEmailIsInvalid() {
         assertFalse(LoginActivity.isValidEmailAddress("barter.app.com"));

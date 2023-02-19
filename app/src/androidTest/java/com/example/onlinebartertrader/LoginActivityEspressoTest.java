@@ -51,12 +51,13 @@ public class LoginActivityEspressoTest {
         assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
     }
 
+    //*** User story 5, AT4 **/
     @Test
     public void checkIfLandingPageIsVisible() {
         onView(withId(R.id.emailAddressLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
         onView(withId(R.id.passwordLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
     }
-
+    //*** User story 5, AT3 **/
     @Test
     public void checkIfPasswordIsEmpty() {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("a@dal.ca"));
@@ -68,6 +69,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_EMAIL_OR_PASSWORD)));
     }
 
+    //*** User story 5, AT3 **/
     @Test
     public void checkIfEmailIsEmpty() {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText(""));
@@ -78,7 +80,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_EMAIL_OR_PASSWORD)));
     }
-
+    //*** User story 5, AT2 **/
     @Test
     public void checkIfPasswordIsInValid() {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
@@ -89,6 +91,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.INCORRECT_PASSWORD)));
     }
 
+    //*** User story 5, AT2 **/
     @Test
     public void checkIfEmailIsInvalid() {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc123.dal.ca"));
@@ -99,6 +102,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.NOT_REGISTERED_EMAIL)));
     }
 
+    //**check User story 5, AT1 in isolation*/
     // not working for the same reason of A2 isolation test
     @Test
     public void checkIfEmailAndPasswordIsValid() {

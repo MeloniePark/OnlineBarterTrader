@@ -1,7 +1,5 @@
 package com.example.onlinebartertrader;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,24 +7,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
-//    EditText password;
-//    EditText passwordMatch;
-//    EditText email;
-//    TextView statusLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-//        password = findViewById(R.id.passwordSignUp);
-//        passwordMatch = findViewById(R.id.passwordMatchSignUp);
-//        email = findViewById(R.id.emailAddressSignUp);
-//        statusLabel = findViewById(R.id.errorMessageSignup);
 
         //attaching the event handler
         Button signUp = findViewById(R.id.signUpButtonSignUp);
@@ -34,13 +25,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Button cancel = findViewById(R.id.returnButtonSignUp);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-           public void onClick(View v) {switch2LandingPage();}
+            public void onClick(View v) {
+                switch2LandingPage();
+            }
         });
     }
 
     protected boolean isEmptyEmail(String email) {
         return email.isEmpty();
     }
+
     protected boolean isEmptyPassword(String password) {
         return password.isEmpty();
     }
@@ -48,29 +42,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
 
-
     protected boolean isValidEmail(String email) {
-            Matcher matcher = EMAIL_PATTERN.matcher(email);
-            return matcher.find();
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        return matcher.find();
     }
 
     protected boolean isValidPassword(String password) {
-        if (checkPasswordLength(password) && checkPasswordCase(password) && checkPasswordSpecialChar(password)){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    //learn from TDDDemo code by Usmi Mukherjee
-    protected boolean checkPasswordLength(String password){
-        if (password.length() >= 6){
-            return true;
-        }else {
-            return false;
-        }
+        return checkPasswordLength(password) && checkPasswordCase(password) && checkPasswordSpecialChar(password);
     }
 
+    //learn from TDDDemo code by Usmi Mukherjee
+    protected boolean checkPasswordLength(String password) {
+        return password.length() >= 6;
+    }
 
     //learn from TDDDemo code by Usmi Mukherjee
     //password should be the combination of uppercase and lowercase
@@ -82,14 +66,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             currentChar = password.charAt(i);
             if (Character.isUpperCase(currentChar)) {
                 isUpperCase = true;
-            } else if(Character.isLowerCase(currentChar)) {
+            } else if (Character.isLowerCase(currentChar)) {
                 isLowerCase = true;
             }
         }
-        if(isUpperCase && isLowerCase)
-            return true;
-        else
-            return false;
+        return isUpperCase && isLowerCase;
     }
 
     //learn from TDDDemo code by Usmi Mukherjee
@@ -102,10 +83,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public boolean isSamePassword(String password, String passwordMatch) {
-        if (password.equalsIgnoreCase(passwordMatch)) {
-            return true;
-        }
-        return false;
+        return password.equalsIgnoreCase(passwordMatch);
     }
 
     protected String getPassword() {
@@ -128,7 +106,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         statusLabel.setText(message.trim());
     }
 
-
     //switch the page
     protected void switch2LandingPage() {
         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
@@ -144,34 +121,27 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         String password = getPassword();
         String emailAddress = getEmail();
-        String passwordMatch =getPasswordMatch();
+        String passwordMatch = getPasswordMatch();
         String errorMessage = "";
 
-
+        // Validating the email and password.
+        // Allow sign up only if both are in correct format.
         if (isEmptyEmail(emailAddress)) {
             errorMessage = getResources().getString(R.string.EMPTY_EMAIL_ADDRESS).trim();
-        }
-
-        else if (isEmptyPassword(password)||isEmptyPassword(passwordMatch)) {
+        } else if (isEmptyPassword(password) || isEmptyPassword(passwordMatch)) {
             errorMessage = getResources().getString(R.string.EMPTY_PASSWORD).trim();
-        }
-
-        else if (!isValidEmail(emailAddress)) {
+        } else if (!isValidEmail(emailAddress)) {
             errorMessage = getResources().getString(R.string.INVALID_EMAIL_ADDRESS).trim();
             setStatusMessage(errorMessage);
-        }
-
-        else if (!isValidPassword(password)) {
+        } else if (!isValidPassword(password)) {
             errorMessage = getResources().getString(R.string.INVALID_PASSWORD).trim();
-        }
-
-        else if (!isSamePassword(password,passwordMatch)){
+        } else if (!isSamePassword(password, passwordMatch)) {
             errorMessage = getResources().getString(R.string.SAME_PASSWORD).trim();
         }
 
         setStatusMessage(errorMessage);
 
-        if (errorMessage.equals("")){
+        if (errorMessage.equals("")) {
             switch2LogInPage();
         }
 

@@ -65,8 +65,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.e("Error", "Failed to read value.", databaseError.toException());
             }
         });
-
-
     }
 
     protected String getPasswordEntered() {
@@ -122,6 +120,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         passwordEntered = getPasswordEntered();
         String errorMessage;
 
+        // Validating the email and password.
+        // Allow login only there is a match in the database.
         if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)) {
             errorMessage = getResources().getString(R.string.EMPTY_EMAIL_OR_PASSWORD).trim();
             setStatusMessage(errorMessage);

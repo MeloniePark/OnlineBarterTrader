@@ -33,15 +33,28 @@
 
     <ListView
         android:id="@+id/receiverListReceiver"
-        android:layout_width="302dp"
-        android:layout_height="455dp"
+        android:layout_width="275dp"
+        android:layout_height="216dp"
         android:layout_marginStart="54dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
-        android:layout_marginBottom="81dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tradedHistoryReceiver" />
+
+    <ListView
+        android:id="@+id/receiverTraded"
+        android:layout_width="275dp"
+        android:layout_height="216dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="53dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/receiverListReceiver" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,12 +63,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
     //learn from TDDDemo code by Usmi Mukherjee
-    //password can not longer than 8
     protected boolean checkPasswordLength(String password){
-        if (password.length() >= 8){
-            return false;
-        }else {
+        if (password.length() >= 6){
             return true;
+        }else {
+            return false;
         }
     }
 
@@ -94,9 +93,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //learn from TDDDemo code by Usmi Mukherjee
-    //password should not include the special char expect for [a-zA-Z0-9_@$!]*
+    //password should not include the special char expect for [a-zA-Z0-9]*
     public boolean checkPasswordSpecialChar(String password) {
-        String regex = "[a-zA-Z0-9_@$!]*";
+        String regex = "[a-zA-Z0-9]*";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();

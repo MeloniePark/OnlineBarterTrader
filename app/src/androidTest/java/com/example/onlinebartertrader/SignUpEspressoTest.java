@@ -57,7 +57,7 @@ public class SignUpEspressoTest<IntentsTestRule> {
         assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
     }
 
-
+    //*** User story 4, AT1 **/
     @Test
     public void checkIfSignUpPageIsVisible() {
         onView(withId(R.id.emailAddressSignUp)).check(matches(withText("")));
@@ -65,6 +65,7 @@ public class SignUpEspressoTest<IntentsTestRule> {
         onView(withId(R.id.passwordMatchSignUp)).check(matches(withText("")));
     }
 
+    //*** User story 4, AT2 **/
     @Test
     public void checkIfEmailIsEmpty() {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText(""));
@@ -77,6 +78,7 @@ public class SignUpEspressoTest<IntentsTestRule> {
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_EMAIL_ADDRESS)));
     }
 
+    //*** User story 4, AT2 **/
     @Test
     public void checkIfEmailIsInvalidate() {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083dal.ca"));
@@ -89,6 +91,7 @@ public class SignUpEspressoTest<IntentsTestRule> {
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.INVALID_EMAIL_ADDRESS)));
     }
 
+    //*** User story 4, AT2 **/
     @Test
     public void checkIfPasswordEmpty() {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
@@ -101,6 +104,7 @@ public class SignUpEspressoTest<IntentsTestRule> {
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_PASSWORD)));
     }
 
+    //*** User story 4, AT2 **/
     @Test
     public void checkIfPasswordMatchEmpty() {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
@@ -113,7 +117,7 @@ public class SignUpEspressoTest<IntentsTestRule> {
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_PASSWORD)));
     }
 
-    //only work in isolation for the same reason of A2.
+    //*** User story 4, AT3 **/
     @Test
     public void checkIfPasswordValidate() {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
@@ -126,6 +130,7 @@ public class SignUpEspressoTest<IntentsTestRule> {
         intended(hasComponent(LoginActivity.class.getName()));
     }
 
+    //*** User story 4, AT3 **/
     @Test
     public void checkIfPasswordInValidate() {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
@@ -138,12 +143,14 @@ public class SignUpEspressoTest<IntentsTestRule> {
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.SAME_PASSWORD)));
     }
 
+    //*** User story 4, AT1 **/
     @Test
     public void checkIfSwitched2MainPage() {
         onView(withId(R.id.returnButtonSignUp)).perform(click());
         intended(hasComponent(MainActivity.class.getName()));
     }
 
+    //*** User story 4, AT1 **/
     @Test
     public void checkIfSwitched2LoginActivityPage() {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("test@dal.ca"));
@@ -153,9 +160,9 @@ public class SignUpEspressoTest<IntentsTestRule> {
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("Test123"));
         onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        //        if run in isolation, use this code
-        //        intended(hasComponent(LoginActivity.class.getName()));
-        //        otherwise if run the whole espresso test, use this code
+        // if run in isolation, use this code
+        //intended(hasComponent(LoginActivity.class.getName()));
+        // otherwise if run the whole espresso test, use this code
         intended(hasComponent(LoginActivity.class.getName()), times(2));
     }
 }

@@ -24,12 +24,14 @@ public class SignUpUnitTest {
         System.gc();
     }
 
+    //*** User story 4, AT2 **/
     @Test
     public void checkIfEmailEmpty(){
         assertTrue(signUpActivity.isEmptyEmail(""));
         assertFalse(signUpActivity.isEmptyEmail("tn785083@dal.ca"));
     }
 
+    //*** User story 4, AT2 **/
     @Test
     public void ifEmailIsValid(){
         assertTrue(signUpActivity.isValidEmail("tn785083@dal.ca"));
@@ -40,18 +42,21 @@ public class SignUpUnitTest {
         assertFalse(signUpActivity.isValidEmail("hou1871049656@gmail"));
     }
 
+    //*** User story 4, AT2 **/
     @Test
     public void checkIfPasswordEmpty(){
         assertTrue(signUpActivity.isEmptyPassword(""));
         assertFalse(signUpActivity.isEmptyPassword("tn785083@dal.ca"));
     }
 
+    //*** User story 4, AT3 **/
     @Test
     public void checkPasswordLengthTest(){
         assertTrue(signUpActivity.checkPasswordLength("test123"));
-        assertFalse(signUpActivity.checkPasswordLength("ihatewrtingcode"));
+        assertFalse(signUpActivity.checkPasswordLength("iha"));
     }
 
+    //*** User story 4, AT3 **/
     @Test
     public void checkPasswordCaseTest(){
         assertFalse(signUpActivity.checkPasswordCase("ihatewrtingcode"));
@@ -61,13 +66,17 @@ public class SignUpUnitTest {
 
     }
 
+    //*** User story 4, AT3 **/
     @Test
     public void checkPasswordSpecialCharTest(){
-        assertTrue(signUpActivity.checkPasswordSpecialChar("Ilovesun!"));
-        assertTrue(signUpActivity.checkPasswordSpecialChar("Ilovesun@"));
+        assertFalse(signUpActivity.checkPasswordSpecialChar("Ilovesun!"));
+        assertFalse(signUpActivity.checkPasswordSpecialChar("Ilovesun@"));
         assertFalse(signUpActivity.checkPasswordSpecialChar("Ilovesun#"));
+        assertTrue(signUpActivity.checkPasswordSpecialChar("IlovesuN"));
+        assertTrue(signUpActivity.checkPasswordSpecialChar("Test123"));
     }
 
+    //*** User story 4, AT2 **/
     @Test
     public void checkIfPasswordIsSame(){
         assertTrue(signUpActivity.isSamePassword("tianzheng123","tianzheng123"));

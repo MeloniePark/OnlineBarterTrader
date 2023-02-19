@@ -34,7 +34,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     //arraylists for listviews
     ArrayList<String> receiverItems = new ArrayList<>();
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -48,9 +47,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
         receiverTradedBtn = findViewById(R.id.tradedHistoryReceiver);
         receiverTradedBtn.setOnClickListener(this);
-
     }
-
 
     @Override
     public void onClick(View view) {
@@ -100,7 +97,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
                 }
             });
-
         }
 
         //if traded items button is clicked -> show traded items history of receiver
@@ -137,8 +133,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
                 }
             });
-
-
         }
     }
 }

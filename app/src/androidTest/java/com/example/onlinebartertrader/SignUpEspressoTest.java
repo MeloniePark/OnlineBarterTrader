@@ -129,7 +129,7 @@ public class SignUpEspressoTest {
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("Test123"));
         onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_STRING)));
+        intended(hasComponent(LoginActivity.class.getName()));
     }
 
     @Test

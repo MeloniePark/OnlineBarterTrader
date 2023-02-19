@@ -16,6 +16,7 @@ public class MainLandingUnitTest {
         System.gc();
     }
 
-
+    //As discussed with TA, due to the fact that there are no logical functions in mainLandingPage,
+    //there are no unit tests for main landing page for this iteration.
 
 }

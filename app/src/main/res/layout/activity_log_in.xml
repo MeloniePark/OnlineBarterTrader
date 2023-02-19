@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/welcomeMessageLogIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="83dp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:text="Welcome to Online Barter Trader !!"
+        app:layout_constraintBottom_toTopOf="@+id/emailAddressLogIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/emailAddressLogIn"
+        android:layout_width="252dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="71dp"
+        android:layout_marginBottom="53dp"
+        android:ems="10"
+        android:hint="Enter your email ID"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/passwordLogIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/passwordLogIn"
+        android:layout_width="248dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="71dp"
+        android:layout_marginBottom="82dp"
+        android:ems="10"
+        android:hint="Enter your Password"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/receiverLoginButtonLogIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailAddressLogIn" />
+
+    <Button
+        android:id="@+id/receiverLoginButtonLogIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="82dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="13dp"
+        android:text="LOGIN AS RECEIVER"
+        app:layout_constraintBottom_toTopOf="@+id/providerLoginButtonLogIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLogIn" />
+
+    <Button
+        android:id="@+id/providerLoginButtonLogIn"
+        android:layout_width="187dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="208dp"
+        android:text="LOGIN AS PROVIDER"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/receiverLoginButtonLogIn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:id="@+id/errorMessageLogIn"
+        android:text=""
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

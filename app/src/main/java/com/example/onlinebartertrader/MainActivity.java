@@ -2,13 +2,17 @@ package com.example.onlinebartertrader;
 
 /*
 Reference: Tutorial 3
-Will update the details of reference later.
+Will be updating this!!
+
  */
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,20 +22,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //two firebase library that we will be using.
     private FirebaseDatabase firebaseDB;
     private DatabaseReference firebaseDBRef;
     private TextView textView;  //for reading whatever is in this textelement.
-
+    Button signUpButton;
+    Button signInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView);
+        //register the views for landing page
+        textView = findViewById(R.id.welcomeMessageMainPage);
+        signUpButton = findViewById(R.id.signUpButtonMainPage);
+        signInButton = findViewById(R.id.signInButtonMainPage);
+
+        //setting onclicklistener -> on button click, the listener will run functionality inside it.
+        signUpButton.setOnClickListener(this);
+        signInButton.setOnClickListener(this);
 
         //connect to firebase
         connectToFirebase();
@@ -48,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
     //this will write "Hello CSCI3130" into the key "message" of the database
     private void writeToFirebase(){
-        firebaseDBRef.setValue("Hello it is connected!");
+        firebaseDBRef.setValue("Barter Trader!");
     }
+
 
     //reading from the database
     private void listenToDataChanges(){
@@ -60,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //at res/layout/activity_main.xml
                 //modify the helloWorld attribute id.
-                textView.setText("Success: " + valueRead);
+                textView.setText("Welcome to " + valueRead);
             }
 
             @Override
@@ -72,4 +85,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //swithcing to sign up page
+    protected void switch2SignUpPage() {
+        Intent signUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
+        startActivity(signUpIntent);
+    }
+
+    //swithcing to sign in page.
+    protected void switch2SignInPage() {
+        Intent signInIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(signInIntent);
+    }
+
+    //OnClick function for catching button clicks.
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.signInButtonMainPage){
+            switch2SignInPage();
+        }
+        else if(view.getId() == R.id.signUpButtonMainPage){
+            switch2SignUpPage();
+        }
+    }
 }

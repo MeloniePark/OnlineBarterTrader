@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -50,51 +51,61 @@ public class LoginActivityEspressoTest {
 
     @Test
     public void checkIfLandingPageIsVisible() {
-//        onView(withId(R.id.signInButton)).perform(click());
         onView(withId(R.id.emailAddressLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
         onView(withId(R.id.passwordLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
     }
 
     @Test
-    public void checkIfPasswordIDIsEmpty() {
-//        onView(withId(R.id.signInButton)).perform(click());
+    public void checkIfPasswordIsEmpty() {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("a@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText(""));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessageLogIn)).check(matches(withText("Either Email Address or Password is empty.")));
+        onView(withId(R.id.receiverLoginButtonLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_EMAIL_OR_PASSWORD)));
     }
 
     @Test
-    public void checkIfPasswordIsValid() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc.123@dal.ca"));
-        onView(withId(R.id.passwordLogIn)).perform(typeText("D@lhousie.2023"));
+    public void checkIfEmailIsEmpty() {
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText(""));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessageLogIn)).check(matches(withText("Password is incorrect.")));
+        onView(withId(R.id.receiverLoginButtonLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_EMAIL_OR_PASSWORD)));
     }
 
     @Test
-    public void checkIfPasswordIsInvalid() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc.123@dal.ca"));
-        onView(withId(R.id.passwordLogIn)).perform(typeText("B88001819"));
+    public void checkIfPasswordIsInValid() {
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test1223"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
-    }
-
-    @Test
-    public void checkIfEmailIsValid() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc.123@dal.ca"));
-        onView(withId(R.id.passwordLogIn)).perform(typeText("D@lhousie.2023"));
-        onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.INCORRECT_PASSWORD)));
     }
 
     @Test
     public void checkIfEmailIsInvalid() {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("abc123.dal.ca"));
-        onView(withId(R.id.passwordLogIn)).perform(typeText("D@lhousie.2023"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.errorMessageLogIn)).check(matches(withText("Enter Valid Email Address")));
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.NOT_REGISTERED_EMAIL)));
     }
+
+    // not working for the same reason of A2 isolation test
+    @Test
+    public void checkIfEmailAndPasswordIsValid() {
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
+        onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
+    }
+
 }
-
-

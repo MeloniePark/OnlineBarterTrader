@@ -76,9 +76,9 @@ public class SignUpEspressoTest {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText(""));
         onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_EMAIL_ADDRESS)));
     }
@@ -88,9 +88,9 @@ public class SignUpEspressoTest {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083dal.ca"));
         onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.INVALID_EMAIL_ADDRESS)));
     }
@@ -100,9 +100,9 @@ public class SignUpEspressoTest {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
         onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText(""));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_PASSWORD)));
     }
@@ -112,9 +112,9 @@ public class SignUpEspressoTest {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
         onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("tianzheng123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText(""));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_PASSWORD)));
     }
@@ -125,9 +125,9 @@ public class SignUpEspressoTest {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
         onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("Test123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("Test123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.EMPTY_STRING)));
     }
@@ -137,9 +137,9 @@ public class SignUpEspressoTest {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("tn785083@dal.ca"));
         onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("Test123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("Tes123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.errorMessageSignup)).check(matches(withText(R.string.SAME_PASSWORD)));
     }
@@ -155,9 +155,9 @@ public class SignUpEspressoTest {
         onView(withId(R.id.emailAddressSignUp)).perform(typeText("test@dal.ca"));
         onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordSignUp)).perform(typeText("Test123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordMatchSignUp)).perform(typeText("Test123"));
-        onView(withId(R.id.emailAddressSignUp)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordMatchSignUp)).perform(closeSoftKeyboard());
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
         //        if run in isolation, use this code
         //        intended(hasComponent(LoginActivity.class.getName()));

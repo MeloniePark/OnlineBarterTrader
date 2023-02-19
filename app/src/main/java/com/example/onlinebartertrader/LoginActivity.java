@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     protected boolean checkPassword() {
-        return passwordFromDatabase.equalsIgnoreCase(passwordEntered);
+        return passwordFromDatabase.equals(passwordEntered);
     }
 
     protected void setStatusMessage(String message) {
@@ -123,10 +123,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String errorMessage;
 
         if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)) {
-            errorMessage = "Either Email Address or Password is empty.";
+            errorMessage = getResources().getString(R.string.EMPTY_EMAIL_OR_PASSWORD).trim();
             setStatusMessage(errorMessage);
-            Toast.makeText(getApplicationContext(), "Either Email Address or Password is empty.", Toast.LENGTH_LONG).show();
-        } else if (isValidEmailAddress(emailAddressEntered)) {
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (isValidEmailAddress(emailAddressEntered)) {
             if (emailInDatabase()) {
                 if (checkPassword()) {
                     if (view.getId() == R.id.providerLoginButtonLogIn) {
@@ -134,12 +135,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     } else if (view.getId() == R.id.receiverLoginButtonLogIn) {
                         switch2ReceiverLandingPage();
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Password is incorrect.", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(getApplicationContext(), "The Email Address is not registered", Toast.LENGTH_LONG).show();
+                else {
+                    errorMessage = getResources().getString(R.string.INCORRECT_PASSWORD).trim();
+                    setStatusMessage(errorMessage);
+                    Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+
+                }
             }
+        }
+        else {
+            errorMessage = getResources().getString(R.string.NOT_REGISTERED_EMAIL).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
         }
     }
 }

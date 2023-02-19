@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -154,6 +155,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         if (errorMessage.equals("")) {
             switch2LogInPage();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
         }
 
     }

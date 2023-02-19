@@ -38,11 +38,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Finding the login buttons in the layout and attach click listeners to them
         providerLoginButton = findViewById(R.id.providerLoginButtonLogIn);
         receiverLoginButton = findViewById(R.id.receiverLoginButtonLogIn);
+
         providerLoginButton.setOnClickListener(this);
         receiverLoginButton.setOnClickListener(this);
 
         // Initializing Firebase database and get references to email and password nodes
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+
         emailRef = database.getReference("templateUser/provider/userInfo/email");
         passwordRef = database.getReference("templateUser/provider/userInfo/password");
 
@@ -165,7 +167,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     errorMessage = getResources().getString(R.string.INCORRECT_PASSWORD).trim();
                     setStatusMessage(errorMessage);
                     Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-
                 }
             }
         }

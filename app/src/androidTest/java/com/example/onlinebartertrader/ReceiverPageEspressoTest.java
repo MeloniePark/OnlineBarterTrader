@@ -1,24 +1,15 @@
 package com.example.onlinebartertrader;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.Intents.times;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.anything;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
 
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -39,7 +30,9 @@ public class ReceiverPageEspressoTest {
 
     @Rule
     public ActivityScenarioRule<ReceiverLandingPage> myRule = new ActivityScenarioRule<>(ReceiverLandingPage.class);
-    public IntentsTestRule<ReceiverLandingPage> myIntentRule = new IntentsTestRule<>(ReceiverLandingPage.class);
+    // We copy and pasted the template from assignment, but Intents rule is not used so far.
+    // Commented it out since it sometimes gives an error for now.
+    //public IntentsTestRule<ReceiverLandingPage> myIntentRule = new IntentsTestRule<>(ReceiverLandingPage.class);
 
 
     @BeforeClass
@@ -59,16 +52,19 @@ public class ReceiverPageEspressoTest {
         assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
     }
 
+    //*** User story 3, AT3 **/
     @Test
     public void checkIfAvailProductButtonExist() {
         onView(withId(R.id.availableProductsReceiver)).perform(click());
     }
 
+    //*** User story 3, AT3 **/
     @Test
     public void checkIfTradeHistButtonExist() {
         onView(withId(R.id.tradedHistoryReceiver)).perform(click());
     }
 
+    //*** User story 3, AT3 **/
     @Test
     public void checkIfReceiverItemsListed() {
         onView(withId(R.id.receiverListReceiver)).check(matches(isDisplayed()));

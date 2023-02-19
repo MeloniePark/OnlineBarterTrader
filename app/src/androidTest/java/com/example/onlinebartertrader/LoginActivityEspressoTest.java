@@ -1,20 +1,5 @@
 package com.example.onlinebartertrader;
 
-import android.content.Context;
-import androidx.test.espresso.intent.Intents;
-//import android.support.test.runner.AndroidJUnit4;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -26,12 +11,27 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 
+import android.content.Context;
+
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityEspressoTest {
 
     @Rule
     public ActivityScenarioRule<LoginActivity> myRule = new ActivityScenarioRule<>(LoginActivity.class);
-    public IntentsTestRule<LoginActivity> myIntentRule = new IntentsTestRule<>(LoginActivity.class);
+    // We copy and pasted the template from assignment, but Intents rule is not used so far.
+    // Commented it out since it sometimes gives an error for now.
+    //public IntentsTestRule<LoginActivity> myIntentRule = new IntentsTestRule<>(LoginActivity.class);
 
 
     @BeforeClass
@@ -57,6 +57,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.emailAddressLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
         onView(withId(R.id.passwordLogIn)).check(matches(withText(R.string.EMPTY_STRING)));
     }
+
     //*** User story 5, AT3 **/
     @Test
     public void checkIfPasswordIsEmpty() {
@@ -80,6 +81,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.errorMessageLogIn)).check(matches(withText(R.string.EMPTY_EMAIL_OR_PASSWORD)));
     }
+
     //*** User story 5, AT2 **/
     @Test
     public void checkIfPasswordIsInValid() {

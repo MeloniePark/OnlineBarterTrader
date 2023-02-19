@@ -2,11 +2,8 @@ package com.example.onlinebartertrader;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.Intents.times;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -15,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 import android.content.Context;
 
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -36,7 +32,9 @@ public class LandingPageEspressoTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> myRule = new ActivityScenarioRule<>(MainActivity.class);
-    public IntentsTestRule<MainActivity> myIntentRule = new IntentsTestRule<>(MainActivity.class);
+    // We copy and pasted the template from assignment, but Intents rule is not used so far.
+    // Commented it out since it sometimes gives an error for now.
+    //public IntentsTestRule<MainActivity> myIntentRule = new IntentsTestRule<>(MainActivity.class);
 
 
     @BeforeClass
@@ -57,17 +55,20 @@ public class LandingPageEspressoTest {
     }
 
 
+    //*** User story 3, AT1 **/
     @Test
     public void checkIfLandingPageIsVisible() {
         onView(withId(R.id.welcomeMessageMainPage)).check(matches(withText("Welcome to Barter Trader!")));
     }
 
+    //*** User story 3, AT1 **/
     @Test
     public void checkIfSwitched2SignUpPage() {
         onView(withId(R.id.signUpButtonMainPage)).perform(click());
         intended(hasComponent(SignUpActivity.class.getName()));
     }
 
+    //*** User story 3, AT1 **/
     @Test
     public void checkIfSwitched2LogInPage() {
         onView(withId(R.id.signInButtonMainPage)).perform(click());

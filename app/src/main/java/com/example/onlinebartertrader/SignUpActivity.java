@@ -31,22 +31,27 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    // Check if the email is not entered
     protected boolean isEmptyEmail(String email) {
         return email.isEmpty();
     }
 
+    // Check if the password is not entered
     protected boolean isEmptyPassword(String password) {
         return password.isEmpty();
     }
 
+    // regular expression for email address
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
 
+    // Check if the email entered is in correct format
     protected boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.find();
     }
 
+    // Check if the password entered is in correct format
     protected boolean isValidPassword(String password) {
         return checkPasswordLength(password) && checkPasswordCase(password) && checkPasswordSpecialChar(password);
     }
@@ -82,42 +87,48 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         return matcher.matches();
     }
 
+    // Validate the passwords entered twice match with each other
     public boolean isSamePassword(String password, String passwordMatch) {
         return password.equalsIgnoreCase(passwordMatch);
     }
 
+    // Retrieve the password entered by the user
     protected String getPassword() {
         EditText password = findViewById(R.id.passwordSignUp);
         return password.getText().toString().trim();
     }
 
+    // Retrieve the validating password entered by the user
     protected String getPasswordMatch() {
         EditText passwordMatch = findViewById(R.id.passwordMatchSignUp);
         return passwordMatch.getText().toString().trim();
     }
 
+    // Retrieve the email enterted by the user
     protected String getEmail() {
         EditText email = findViewById(R.id.emailAddressSignUp);
         return email.getText().toString().trim();
     }
 
+    // Set error message
     protected void setStatusMessage(String message) {
         TextView statusLabel = findViewById(R.id.errorMessageSignup);
         statusLabel.setText(message.trim());
     }
 
-    //switch the page
+    //switch the page to landing page if the user decides to cancel the current signup action
     protected void switch2LandingPage() {
         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
-    //switch the page
+    //switch the page to login page once sign up succeed
     protected void switch2LogInPage() {
         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
+    // This method is called when the user clicks the login button
     public void onClick(View v) {
         String password = getPassword();
         String emailAddress = getEmail();

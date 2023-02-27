@@ -8,12 +8,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +41,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 switch2LandingPage();
             }
         });
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     // Check if the email is not entered
@@ -150,8 +163,44 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else if (!isSamePassword(password, passwordMatch)) {
             errorMessage = getResources().getString(R.string.SAME_PASSWORD).trim();
         }
+        else {
+            mAuth.createUserWithEmailAndPassword(emailAddress, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
 
+                        String userId = user.getUid();
+                        String email = user.getEmail();
+
+                        User newUser = new User(email);
+
+                        mDatabase.child("users").child(userId).setValue(newUser)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    switch2LandingPage();
+                                } else {
+                                    Toast.makeText(SignUpActivity.this,
+                                            "Failed to create user account",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(SignUpActivity.this,
+                                "Failed to create user account",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+
+            }   });
+        }
         setStatusMessage(errorMessage);
+
 
         if (errorMessage.equals("")) {
             switch2LogInPage();

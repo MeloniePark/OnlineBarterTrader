@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //two firebase library that we will be using.
     private FirebaseDatabase firebaseDB;
+    private FirebaseAuth mAuth;
     private DatabaseReference firebaseDBRef;
     private TextView textView;  //for reading whatever is in this textelement.
     Button signUpButton;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         connectToFirebase();
         writeToFirebase();
         listenToDataChanges();
+        mAuth = FirebaseAuth.getInstance();
     }
 
     private void connectToFirebase(){

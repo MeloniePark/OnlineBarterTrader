@@ -94,6 +94,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     //learn from TDDDemo code by Usmi Mukherjee
     //password should not include the special char expect for [a-zA-Z0-9]*
+    public class User{
+
+
+        public String email;
+        public String password;
+        public User(){}
+        public User(String email, String password){
+            this.email = email;
+            this.password = password;
+        }
+
+    }
+
     public boolean checkPasswordSpecialChar(String password) {
         String regex = "[a-zA-Z0-9]*";
         Pattern pattern = Pattern.compile(regex);
@@ -171,12 +184,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        String userId = user.getUid();
                         String email = user.getEmail();
 
-                        User newUser = new User(email);
+                        User newUser = new User(email, password);
 
-                        mDatabase.child("users").child(userId).setValue(newUser)
+                        mDatabase.child("users").child(email).setValue(newUser)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

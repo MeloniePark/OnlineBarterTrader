@@ -70,6 +70,7 @@ public class ProviderProductAddUnitTest {
 
     @Test
     public void checkIfDateOfAvailabilityFieldIsEmpty(){
+
         assertTrue(providerPostItemActivity.isDateEmpty(""));
         assertFalse(providerPostItemActivity.isDateEmpty("2023-03-05"));
     }
@@ -93,17 +94,15 @@ public class ProviderProductAddUnitTest {
 
     @Test
     public void checkIfApproxMarketValueFieldIsEmpty(){
-        assertTrue(providerPostItemActivity.isApproxMarketValueEmpty());
-        assertFalse(providerPostItemActivity.isApproxMarketValueEmpty(190.00));
+        assertTrue(providerPostItemActivity.isApproxMarketValueEmpty(-1));
+        assertFalse(providerPostItemActivity.isApproxMarketValueEmpty(190));
     }
 
     @Test
     public void checkIfApproxMarketValueIsValid(){
-        assertFalse(providerPostItemActivity.isApproxMarketValueValid("twenty dollar"));
-        assertFalse(providerPostItemActivity.isApproxMarketValueValid(192,394.99));
-        assertFalse(providerPostItemActivity.isApproxMarketValueValid("negotiable"));
-        assertFalse(providerPostItemActivity.isApproxMarketValueValid("30 dollar"));
-        assertTrue(providerPostItemActivity.isApproxMarketValueValid(20.00));
+        assertFalse(providerPostItemActivity.isApproxMarketValueValid(1020030040));
+        assertFalse(providerPostItemActivity.isApproxMarketValueValid(-23));
+        assertTrue(providerPostItemActivity.isApproxMarketValueValid(20));
         assertTrue(providerPostItemActivity.isApproxMarketValueValid(70));
     }
 

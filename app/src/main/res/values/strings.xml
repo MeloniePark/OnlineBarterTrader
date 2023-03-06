@@ -15,6 +15,12 @@
     <string name="NOT_REGISTERED_EMAIL">The Email Address is not registered.</string>
     <string name="EMPTY_EMAIL_OR_PASSWORD">Either Email Address or Password is empty.</string>
     <string name="EMPTY_STRING">""</string>
+    <string name="EMPTY_PRODUCT_TYPE">""</string>
+    <string name="EMPTY_DATE_OF_AVAILABILITY">""</string>
+    <string name="EMPTY_ITEM_DESCRIPTION">""</string>
+    <string name="EMPTY_PLACE_OF_EXCHANGE">""</string>
+    <string name="EMPTY_APPROXIMATE_MARKET_VALUE">""</string>
+    <string name="EMPTY_PREFERRED_EXCHANGE_TYPE">""</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

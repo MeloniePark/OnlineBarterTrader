@@ -1,16 +1,19 @@
 
 package com.example.onlinebartertrader;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
+import android.widget.ListView;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.Intents;
@@ -71,10 +74,10 @@ public class ReceiverProductViewingEspressoTest {
 
         // post item
         onView(withId(R.id.providerPostProvider)).perform(click());
-        onView(withId(R.id.productTypeProviderPostItem)).perform(typeText("toy"));
-        onView(withId(R.id.productTypeProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("2023-"));
-        onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.productTypeProvider)).perform(typeText("toy"));
+        onView(withId(R.id.productTypeProvider)).perform(closeSoftKeyboard());
+        onView(withId(R.id.dateOfAvailabilityProvider)).perform(typeText("2023-"));
+        onView(withId(R.id.dateOfAvailabilityProvider)).perform(closeSoftKeyboard());
         onView(withId(R.id.descriptionProviderPostItem)).perform(typeText("happy toy"));
         onView(withId(R.id.descriptionProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(typeText("halifax"));

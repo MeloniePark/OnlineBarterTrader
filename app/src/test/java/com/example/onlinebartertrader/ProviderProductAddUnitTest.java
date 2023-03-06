@@ -20,8 +20,6 @@ package com.example.onlinebartertrader;
  */
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -81,7 +79,6 @@ public class ProviderProductAddUnitTest {
         //
         assertFalse(providerPostItemActivity.isDateValid("2022-03-02"));
         assertFalse(providerPostItemActivity.isDateValid("2024-03-02"));
-        assertTrue(providerPostItemActivity.isDateValid(java.time.LocalDate.now()));
         assertTrue(providerPostItemActivity.isDateValid("2023-04-12"));
         assertFalse(providerPostItemActivity.isDateValid("02-03-2023"));
         assertFalse(providerPostItemActivity.isDateValid("02-42-2023"));

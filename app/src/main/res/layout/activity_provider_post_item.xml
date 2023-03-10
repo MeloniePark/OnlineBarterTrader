@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProviderPostItemActivity">
+
+
+    <TextView
+        android:id="@+id/productTypeProvider"
+        android:layout_width="272dp"
+        android:layout_height="39dp"
+        android:text="Product type"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="65dp" />
+
+    <TextView
+        android:id="@+id/dateOfAvailabilityProvider"
+        android:layout_width="272dp"
+        android:layout_height="39dp"
+        android:text="Date of availability: yyyy-MM-dd"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+    <TextView
+        android:id="@+id/descriptionProviderPostItem"
+        android:layout_width="266dp"
+        android:layout_height="72dp"
+        android:text="Product description"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="179dp" />
+
+    <TextView
+        android:id="@+id/placeOfExchangeProviderPostItem"
+        android:layout_width="272dp"
+        android:layout_height="39dp"
+        android:text="Place of exchange"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="290dp" />
+
+    <TextView
+        android:id="@+id/preferredExchangesInReturnProviderPostItem"
+        android:layout_width="272dp"
+        android:layout_height="39dp"
+        android:text="Preferred item in return"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="403dp" />
+
+    <TextView
+        android:id="@+id/errorMessageProviderProductAdd"
+        android:layout_width="272dp"
+        android:layout_height="39dp"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="624dp" />
+
+    <TextView
+        android:id="@+id/approximateMarketValueProviderPostItem"
+        android:layout_width="272dp"
+        android:layout_height="39dp"
+        android:text="Approximate market value"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="347dp" />
+
+    <Button
+        android:id="@+id/providerSubmitPostProvider"
+        android:layout_width="157dp"
+        android:layout_height="60dp"
+        android:text="Submit Item"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="481dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

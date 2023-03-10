@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/productTypeProvider"
+        android:id="@+id/productTypeProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
         android:text="Product type"
@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteY="65dp" />
 
     <TextView
-        android:id="@+id/dateOfAvailabilityProvider"
+        android:id="@+id/dateOfAvailabilityProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
         android:text="Date of availability: yyyy-MM-dd"

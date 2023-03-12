@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/receiverListReceiver" />
 
     <TextView
-        android:id="@+id/locationStringReiceiver"
+        android:id="@+id/locationString"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Loading..."

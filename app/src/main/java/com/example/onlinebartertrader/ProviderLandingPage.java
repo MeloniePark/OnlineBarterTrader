@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,7 +26,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,14 +42,9 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     ListView providerItemLists;
 
     Button providerPostBtn;
-    // initialize the button
-    Button displayProviderItemsButton = findViewById(R.id.displayProviderItemsButton);
 
     //arraylists for listview
     ArrayList<String> providerItems = new ArrayList<>();
-    //array Adapter for the listview to list all the items of the provider.
-    final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<String>
-            (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
 
     //Location
     private LocationManager locationManager;
@@ -65,6 +58,9 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provider);
 
+        //array Adapter for the listview to list all the items of the provider.
+        final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<String>
+                (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
 
         //register the views, buttons and other components for the provider landing page.
         providerItemLists = (ListView) findViewById(R.id.providerListProvider);
@@ -77,8 +73,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
         //Firebase Connection
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
-        //creating reference variable inside the database called "Users"
-        providerDBRef = database.getReference("Users").child("Provider");
+        //creating reference variable inside the databased called "templateUser"
+        providerDBRef = database.getReference("templateUser").child("provider").child("goods");
 
 
         //Firebase data addition, modification, deletion, reading performed through this section.
@@ -136,34 +132,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     }
 
 
-
-
-    displayProviderItemsButton.OnClickListener(new View.OnClickListener()
-        @Override
-        public void onClick (View view){
+    @Override
+    public void onClick(View view) {
         //where we move on to posting provider's goods page.
-        //Functionality will be added in future iteration
-
-        // clear the arraylist before adding items
-        providerItems.clear();
-        // get the data from firebase and add it to the arraylist
-        providerDBRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                    String item = dataSnapshot.getValue(String.class);
-                    providerItems.add(item);
-                }
-                // update the adapter with the new data
-                providerArrAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "Failed to read value.", error.toException());
-            }
-        });
+        //Functionality will be added in future iteration 
     }
 
     @Override
@@ -171,13 +143,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         double lat = location.getLatitude();
         double lng = location.getLongitude();
 
-        //set geocoder to default
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-        //find the field to add text
         TextView textView = findViewById(R.id.locationString);
         try {
-            //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             if (addresses != null && addresses.size() > 0) {
                 Address address = addresses.get(0);
@@ -190,17 +159,4 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             textView.setText("CAN NOT FIND LOCATION");
         }
     }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-    }
-
 }

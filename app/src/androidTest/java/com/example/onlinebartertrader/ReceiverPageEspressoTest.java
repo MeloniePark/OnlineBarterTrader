@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
@@ -68,5 +69,12 @@ public class ReceiverPageEspressoTest {
     @Test
     public void checkIfReceiverItemsListed() {
         onView(withId(R.id.receiverListReceiver)).check(matches(isDisplayed()));
+    }
+
+    //*** Iteration 2 User story 1**/
+    @Test
+    public void checkIfAtDal() throws InterruptedException {
+        Thread.sleep(5000);
+        onView(withText("MacDonald Bldg, 6300 Coburg Rd, Halifax, NS B3H 4R2, Canada")).check(matches(isDisplayed()));
     }
 }

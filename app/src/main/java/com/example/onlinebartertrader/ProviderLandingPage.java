@@ -1,15 +1,26 @@
 package com.example.onlinebartertrader;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -18,9 +29,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener {
+public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
     //firebase
     FirebaseDatabase database;
@@ -38,6 +52,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     //array Adapter for the listview to list all the items of the provider.
     final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<String>
             (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
+
+    //Location
+    private LocationManager locationManager;
+    private String provider;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
 
 
     @Override
@@ -91,6 +110,29 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
             }
         });
+
+        initLocation();
+    }
+
+    private void initLocation(){
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        provider = LocationManager.GPS_PROVIDER;
+
+        // check if GPS is enabled
+        if (!locationManager.isProviderEnabled(provider)) {
+            // show an alert dialog to prompt the user to enable GPS
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_LOCATION);
+        }
+
+        // request location updates
+        locationManager.requestLocationUpdates(provider,0,0,this);
     }
 
 
@@ -122,5 +164,27 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                 Log.e(TAG, "Failed to read value.", error.toException());
             }
         });
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        TextView textView = findViewById(R.id.locationString);
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+                String addressString = address.getAddressLine(0);
+                textView.setText(addressString);
+                System.out.println("Location"+ addressString);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            textView.setText("CAN NOT FIND LOCATION");
+        }
     }
 }

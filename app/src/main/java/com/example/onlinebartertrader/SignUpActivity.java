@@ -23,11 +23,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-
+    //private FirebaseAuth mAuth;
+    //private DatabaseReference mDatabase;
+    private FirebaseDatabase firebaseDB;
+    private DatabaseReference emailRef;
+    private DatabaseReference passwordRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        firebaseDB = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        emailRef = firebaseDB.getReference("templateUser/provider/userInfo/email");
+        passwordRef = firebaseDB.getReference("templateUser/provider/userInfo/password");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -41,8 +47,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 switch2LandingPage();
             }
         });
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //mAuth = FirebaseAuth.getInstance();
+        //firebaseDB = FirebaseDatabase.getInstance().getReference();
     }
 
     // Check if the email is not entered
@@ -154,6 +160,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
     }
+    protected Task<Void> saveEmailAndPasswordToDB(){
+
+        emailRef.setValue(getEmail());
+        passwordRef.setValue(getPassword());
+        return null;
+    }
 
     // This method is called when the user clicks the login button
     public void onClick(View v) {
@@ -177,39 +189,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             errorMessage = getResources().getString(R.string.SAME_PASSWORD).trim();
         }
         else {
-            mAuth.createUserWithEmailAndPassword(emailAddress, password)
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
+            saveEmailAndPasswordToDB();
+            switch2LandingPage();
 
-                        String email = user.getEmail();
-
-                        User newUser = new User(email, password);
-
-                        mDatabase.child("users").child(email).setValue(newUser)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    switch2LandingPage();
-                                } else {
-                                    Toast.makeText(SignUpActivity.this,
-                                            "Failed to create user account",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        Toast.makeText(SignUpActivity.this,
-                                "Failed to create user account",
-                                Toast.LENGTH_SHORT).show();
-                    }
-
-
-            }   });
         }
         setStatusMessage(errorMessage);
 

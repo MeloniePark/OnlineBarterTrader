@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //two firebase library that we will be using.
     private FirebaseDatabase firebaseDB;
+    private DatabaseReference emailRef;
+    private DatabaseReference passwordRef;
     private FirebaseAuth mAuth;
     private DatabaseReference firebaseDBRef;
     private TextView textView;  //for reading whatever is in this textelement.
@@ -57,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void connectToFirebase(){
         //will get path or location of where the database is being hosted
         firebaseDB = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        emailRef = firebaseDB.getReference("templateUser/provider/userInfo/email");
+
+        passwordRef = firebaseDB.getReference("templateUser/provider/userInfo/password");
         //creating reference variable inside the databased called "message"
         firebaseDBRef = firebaseDB.getReference("message");
     }

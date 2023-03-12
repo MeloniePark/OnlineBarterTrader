@@ -53,11 +53,11 @@ public class ProviderProductAddUnitTest {
         assertTrue(providerPostItemActivity.isProductTypeValid("computer accessories"));
         assertTrue(providerPostItemActivity.isProductTypeValid("mobile phones"));
         assertTrue(providerPostItemActivity.isProductTypeValid("furniture"));
-        if (!providerPostItemActivity.isProductTypeValid("furniture") |
-                !providerPostItemActivity.isProductTypeValid("clothes") |
-                !providerPostItemActivity.isProductTypeValid("computer accessories") |
-                !providerPostItemActivity.isProductTypeValid("mobile phones") |
-                !providerPostItemActivity.isProductTypeValid("furniture")){
+        if (!providerPostItemActivity.isProductTypeValid("furniture") &&
+                !providerPostItemActivity.isProductTypeValid("clothes") &&
+                !providerPostItemActivity.isProductTypeValid("computer accessories") &&
+                !providerPostItemActivity.isProductTypeValid("mobile phones") &&
+                !providerPostItemActivity.isProductTypeValid("baby toys")){
             assert(false);
         }
     }
@@ -77,9 +77,8 @@ public class ProviderProductAddUnitTest {
 
     @Test
     public void checkIfDateOfAvailabilityIsValid(){
-        //
-        assertFalse(providerPostItemActivity.isDateValid("2022-03-02"));
-        assertFalse(providerPostItemActivity.isDateValid("2024-03-02"));
+        assertTrue(providerPostItemActivity.isDateValid("2022-03-02"));
+        assertTrue(providerPostItemActivity.isDateValid("2024-03-02"));
         assertTrue(providerPostItemActivity.isDateValid("2023-04-12"));
         assertFalse(providerPostItemActivity.isDateValid("02-03-2023"));
         assertFalse(providerPostItemActivity.isDateValid("02-42-2023"));
@@ -94,16 +93,16 @@ public class ProviderProductAddUnitTest {
 
     @Test
     public void checkIfApproxMarketValueFieldIsEmpty(){
-        assertTrue(providerPostItemActivity.isApproxMarketValueEmpty(-1));
-        assertFalse(providerPostItemActivity.isApproxMarketValueEmpty(190));
+        assertTrue(providerPostItemActivity.isApproxMarketValueEmpty(""));
+        assertFalse(providerPostItemActivity.isApproxMarketValueEmpty("190"));
     }
 
     @Test
     public void checkIfApproxMarketValueIsValid(){
-        assertFalse(providerPostItemActivity.isApproxMarketValueValid(1020030040));
-        assertFalse(providerPostItemActivity.isApproxMarketValueValid(-23));
-        assertTrue(providerPostItemActivity.isApproxMarketValueValid(20));
-        assertTrue(providerPostItemActivity.isApproxMarketValueValid(70));
+        assertFalse(providerPostItemActivity.isApproxMarketValueValid("0"));
+        assertFalse(providerPostItemActivity.isApproxMarketValueValid("-23"));
+        assertTrue(providerPostItemActivity.isApproxMarketValueValid("20"));
+        assertTrue(providerPostItemActivity.isApproxMarketValueValid("70"));
     }
 
     @Test

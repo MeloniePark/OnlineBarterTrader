@@ -1,4 +1,6 @@
 package com.example.onlinebartertrader;
 
-public class SearchFunctionality {
+import android.app.Activity;
+
+public class SearchFunctionality extends Activity {
 }

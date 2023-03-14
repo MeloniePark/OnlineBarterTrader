@@ -40,7 +40,6 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
     FirebaseDatabase database;
     DatabaseReference providerDBRef;
 
-
     //view for the lists
     ListView ProductType;
     ListView Description;
@@ -54,7 +53,10 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_provider);
+        setContentView(R.layout.activity_provider_post_item);
+
+        providerPostBtn = findViewById(R.id.providerSubmitPostProvider);
+        providerPostBtn.setOnClickListener(this);
     }
 
 
@@ -131,9 +133,6 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         }
         return false;
     }
-
-
-
 
     @Override
     public void onClick(View view) {

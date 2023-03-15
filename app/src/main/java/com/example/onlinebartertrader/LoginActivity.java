@@ -17,18 +17,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Declaring class-level variables to be used in different methods
     FirebaseDatabase database = null;
-    DatabaseReference emailRef;
-    DatabaseReference passwordRef;
+//    DatabaseReference emailRef;
+//    DatabaseReference passwordRef;
+    DatabaseReference userRefForCheckEmail;
+    DatabaseReference userRefForCheckPassword;
     String emailAddressEntered;
     String passwordEntered;
     Button providerLoginButton;
     Button receiverLoginButton;
     String emailFromDatabase;
     String passwordFromDatabase;
+//    final boolean[] EmailFound = {false};
+    ArrayList<String> emailsFound = new ArrayList<>();
+    ArrayList<String> passwordFound =new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,33 +51,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Initializing Firebase database and get references to email and password nodes
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        userRefForCheckEmail = database.getReference("Users/Provider/");
+        userRefForCheckPassword = database.getReference("Users/Provider/");
 
-        emailRef = database.getReference("templateUser/provider/userInfo/email");
-        passwordRef = database.getReference("templateUser/provider/userInfo/password");
-
-        // Adding a listener to get the value of the password node from the database
-        passwordRef.addValueEventListener(new ValueEventListener() {
+        userRefForCheckEmail.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                passwordFromDatabase = dataSnapshot.getValue(String.class);
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    String userEmail = userSnapshot.getKey().replace(".", "");
+                    emailsFound.add(userEmail);
+                    passwordFound.add(userSnapshot.child("password").getValue(String.class));
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("Error", "Failed to read value.", databaseError.toException());
-            }
-        });
-
-        // Adding a listener to get the value of the email node from the database
-        emailRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                emailFromDatabase = dataSnapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("Error", "Failed to read value.", databaseError.toException());
+                System.out.println("Failed to read value. " + databaseError.getCode());
             }
         });
     }
@@ -116,14 +112,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
     }
 
+
     // This method checks if the email address entered by the user is in the database
     protected boolean emailInDatabase() {
-        return emailFromDatabase.equalsIgnoreCase(emailAddressEntered);
+        int emailIndex = -1;
+        for(int index = 0; index< emailsFound.size(); index++){
+            String currentEmail = emailsFound.get(index);
+            if (currentEmail.equalsIgnoreCase(emailAddressEntered)){
+                emailIndex = index;
+                break;
+            }
+        }
+        return emailIndex != -1;
     }
 
     // This method checks if the entered password matches the password in the database
     protected boolean checkPassword() {
-        return passwordFromDatabase.equals(passwordEntered);
+        if (!emailInDatabase()){
+            return false;
+        }
+        int emailIndex = -1;
+        for(int index = 0; index< emailsFound.size(); index++){
+            String currentEmail = emailsFound.get(index);
+            if (currentEmail.equalsIgnoreCase(emailAddressEntered)){
+                emailIndex = index;
+                break;
+            }
+        }
+        String correspondingPassword = passwordFound.get(emailIndex);
+        return correspondingPassword.equals(passwordEntered);
     }
 
     // This method sets the error message that will be displayed to the user
@@ -133,13 +150,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         statusLabel.setText(message.trim());
     }
 
+    protected String getRidOfDot(String rawEmail) {
+        return rawEmail.replace(".", "");
+    }
     // This method is called when the user clicks the login button
     @Override
     public void onClick(View view) {
         // Getting the email and password entered by the user
-        emailAddressEntered = getEmailAddressEntered();
+        emailAddressEntered = getRidOfDot(getEmailAddressEntered());
         passwordEntered = getPasswordEntered();
         String errorMessage;
+        System.out.println(emailsFound);
+        System.out.println(passwordFound);
 
         // Check if either the email or password is empty
         if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)) {
@@ -153,6 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (emailInDatabase()) {
                 // Check if the entered password matches the password in the database
                 if (checkPassword()) {
+                    System.out.println("stage3");
                     // If the user is a provider, go to the provider landing page
                     if (view.getId() == R.id.providerLoginButtonLogIn) {
                         switch2ProviderLandingPage();
@@ -168,6 +191,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     setStatusMessage(errorMessage);
                     Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                 }
+            }
+            // If the entered email is not in the database, display an error message
+            else {
+                errorMessage = getResources().getString(R.string.NOT_REGISTERED_EMAIL).trim();
+                setStatusMessage(errorMessage);
+                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
             }
         }
         // If the entered email is not in the database, display an error message

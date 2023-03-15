@@ -7,7 +7,7 @@
     tools:context=".ProviderPostItemActivity">
 
 
-    <TextView
+    <EditText
         android:id="@+id/productTypeProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
+    <EditText
         android:id="@+id/dateOfAvailabilityProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productTypeProviderPostItem" />
 
-    <TextView
+    <EditText
         android:id="@+id/descriptionProviderPostItem"
         android:layout_width="266dp"
         android:layout_height="72dp"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/placeOfExchangeProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/preferredExchangesInReturnProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
@@ -69,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/errorMessageProviderProductAdd"
         android:layout_width="272dp"
         android:layout_height="39dp"
@@ -82,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/providerSubmitPostProvider" />
 
-    <TextView
+    <EditText
         android:id="@+id/approximateMarketValueProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"

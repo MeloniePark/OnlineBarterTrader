@@ -10,15 +10,25 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
+    FirebaseDatabase database = null;
+    DatabaseReference receiverReference;
+    DatabaseReference providerReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        receiverReference = database.getReference("Users/Receiver/");
+        providerReference = database.getReference("Users/Provider/");
 
         //attaching the event handler
         Button signUp = findViewById(R.id.signUpButtonSignUp);
@@ -129,6 +139,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(intent);
     }
 
+    protected void store2Database(String email, String password){
+        receiverReference = receiverReference.child(email.replace(".", ""));
+        receiverReference.child("preference").setValue("all");
+        receiverReference.child("password").setValue(password);
+
+        // Add user under "Provider" node
+        providerReference = providerReference.child(email.replace(".", ""));
+        providerReference.child("password").setValue(password);
+    }
+
     // This method is called when the user clicks the login button
     public void onClick(View v) {
         String password = getPassword();
@@ -154,6 +174,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setStatusMessage(errorMessage);
 
         if (errorMessage.equals("")) {
+            store2Database(emailAddress, password);
             switch2LogInPage();
         }
         else{

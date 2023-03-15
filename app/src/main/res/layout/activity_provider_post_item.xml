@@ -11,71 +11,113 @@
         android:id="@+id/productTypeProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="63dp"
         android:text="Product type"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="116dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/dateOfAvailabilityProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="26dp"
         android:text="Date of availability: yyyy-MM-dd"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="176dp" />
+        app:layout_constraintBottom_toTopOf="@+id/descriptionProviderPostItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productTypeProviderPostItem" />
 
     <TextView
         android:id="@+id/descriptionProviderPostItem"
         android:layout_width="266dp"
         android:layout_height="72dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginEnd="69dp"
+        android:layout_marginBottom="33dp"
         android:text="Product description"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="241dp" />
+        app:layout_constraintBottom_toTopOf="@+id/placeOfExchangeProviderPostItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/placeOfExchangeProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="16dp"
         android:text="Place of exchange"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="346dp" />
+        app:layout_constraintBottom_toTopOf="@+id/approximateMarketValueProviderPostItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/preferredExchangesInReturnProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="24dp"
         android:text="Preferred item in return"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="470dp" />
+        app:layout_constraintBottom_toTopOf="@+id/providerSubmitPostProvider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/errorMessageProviderProductAdd"
         android:layout_width="272dp"
         android:layout_height="39dp"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="624dp" />
+        android:layout_marginStart="82dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginBottom="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/providerSubmitPostProvider" />
 
     <TextView
         android:id="@+id/approximateMarketValueProviderPostItem"
         android:layout_width="272dp"
         android:layout_height="39dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="30dp"
         android:text="Approximate market value"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="401dp" />
+        app:layout_constraintBottom_toTopOf="@+id/preferredExchangesInReturnProviderPostItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/providerSubmitPostProvider"
         android:layout_width="157dp"
         android:layout_height="60dp"
+        android:layout_marginStart="127dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="127dp"
         android:text="Submit Item"
-        tools:layout_editor_absoluteX="127dp"
-        tools:layout_editor_absoluteY="533dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preferredExchangesInReturnProviderPostItem" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="266dp"
         android:layout_height="28dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginBottom="17dp"
         android:text="product name"
-        tools:layout_editor_absoluteX="78dp"
-        tools:layout_editor_absoluteY="71dp" />
+        app:layout_constraintBottom_toTopOf="@+id/productTypeProviderPostItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,26 +18,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.logging.*;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Declaring class-level variables to be used in different methods
     FirebaseDatabase database = null;
+//    DatabaseReference emailRef;
+//    DatabaseReference passwordRef;
     DatabaseReference userRefForCheckEmail;
     DatabaseReference userRefForCheckPassword;
     String emailAddressEntered;
     String passwordEntered;
     Button providerLoginButton;
     Button receiverLoginButton;
+    String emailFromDatabase;
+    String passwordFromDatabase;
+//    final boolean[] EmailFound = {false};
     ArrayList<String> emailsFound = new ArrayList<>();
     ArrayList<String> passwordFound =new ArrayList<>();
-    volatile boolean dataRetrieved = false;
-    //logger - logging is better exercise than system printing out.
-    private static final Logger logger = Logger.getLogger(LoginActivity.class.getName());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,41 +61,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String userEmail = userSnapshot.getKey().replace(".", "");
                     emailsFound.add(userEmail);
                     passwordFound.add(userSnapshot.child("password").getValue(String.class));
-                    dataRetrieved = true;
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                logger.info("Failed to read value. " + databaseError.getCode());
-            }
-        });
-    }
-
-    public interface EmailPasswordCallback {
-        void onEmailPasswordRetrieved(List<String> emails, List<String> passwords);
-    }
-
-    public void retrieveEmailPasswords(final EmailPasswordCallback callback) {
-        userRefForCheckEmail.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                emailsFound = new ArrayList<>();
-                passwordFound = new ArrayList<>();
-
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    String userEmail = userSnapshot.getKey().replace(".", "");
-                    emailsFound.add(userEmail);
-                    passwordFound.add(userSnapshot.child("password").getValue(String.class));
-                }
-
-                callback.onEmailPasswordRetrieved(emailsFound, passwordFound);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                logger.info("Failed to read value. " + databaseError.getCode());
-                callback.onEmailPasswordRetrieved(Collections.emptyList(), Collections.emptyList());
+                System.out.println("Failed to read value. " + databaseError.getCode());
             }
         });
     }
@@ -187,12 +156,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // This method is called when the user clicks the login button
     @Override
     public void onClick(View view) {
-        while (!dataRetrieved);
-
         // Getting the email and password entered by the user
         emailAddressEntered = getRidOfDot(getEmailAddressEntered());
         passwordEntered = getPasswordEntered();
         String errorMessage;
+        System.out.println(emailsFound);
+        System.out.println(passwordFound);
 
         // Check if either the email or password is empty
         if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)) {
@@ -206,6 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (emailInDatabase()) {
                 // Check if the entered password matches the password in the database
                 if (checkPassword()) {
+                    System.out.println("stage3");
                     // If the user is a provider, go to the provider landing page
                     if (view.getId() == R.id.providerLoginButtonLogIn) {
                         switch2ProviderLandingPage();

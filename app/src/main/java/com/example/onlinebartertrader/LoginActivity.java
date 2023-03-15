@@ -170,7 +170,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (emailInDatabase()) {
                 // Check if the entered password matches the password in the database
                 if (checkPassword()) {
-                    System.out.println("stage3");
                     // If the user is a provider, go to the provider landing page
                     if (view.getId() == R.id.providerLoginButtonLogIn) {
                         switch2ProviderLandingPage();

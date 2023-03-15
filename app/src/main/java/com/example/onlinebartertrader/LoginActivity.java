@@ -23,17 +23,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // Declaring class-level variables to be used in different methods
     FirebaseDatabase database = null;
-//    DatabaseReference emailRef;
-//    DatabaseReference passwordRef;
     DatabaseReference userRefForCheckEmail;
     DatabaseReference userRefForCheckPassword;
     String emailAddressEntered;
     String passwordEntered;
     Button providerLoginButton;
     Button receiverLoginButton;
-    String emailFromDatabase;
-    String passwordFromDatabase;
-//    final boolean[] EmailFound = {false};
     ArrayList<String> emailsFound = new ArrayList<>();
     ArrayList<String> passwordFound =new ArrayList<>();
 

@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,10 +54,11 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
     String placeOfExchange;
     String approxMarketValue;
     String preferredExchangeInReturn;
+    String productName;
     String currentStatus; //Available/Sold out.
     int currentID;
     Button providerPostBtn;
-    String userEmailAddress = getIntent().getStringExtra("emailAddress");
+    String userEmailAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,10 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provider_post_item);
 
-        providerDBRef = database.getReference("Users/Provider/"+userEmailAddress);
+        database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        userEmailAddress = getIntent().getStringExtra("emailAddress");
+        //userEmailAddress : test@dalca
+//        providerDBRef = database.getReference("Users/Provider/"+userEmailAddress+"/items/");
         currentIDRef = database.getReference("itemID");
         currentIDRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -80,6 +85,14 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
 
         providerPostBtn = findViewById(R.id.providerSubmitPostProvider);
         providerPostBtn.setOnClickListener(this);
+
+        Spinner spinnerForProductType = findViewById(R.id.productTypeMenuProviderPostItem);
+        // The product type drop down menu
+        String[] productTypeList = getResources().getStringArray(R.array.productType);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,
+                productTypeList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerForProductType.setAdapter(adapter);
     }
 
 
@@ -113,6 +126,12 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         return false;
     }
 
+    public boolean isProductNameEmpty(String productName){
+        if (productName.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
     public boolean isDateEmpty(String date){
         if (date.isEmpty()) {
             return true;
@@ -160,6 +179,7 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
     // This method starts the ProviderLandingPage activity with the email address entered by the user as an extra
     protected void switch2ProviderLandingPage() {
         Intent intent = new Intent(this, ProviderLandingPage.class);
+        intent.putExtra("emailAddress", userEmailAddress);
         startActivity(intent);
     }
     // This method sets the error message that will be displayed to the user
@@ -168,6 +188,7 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         TextView statusLabel = findViewById(R.id.errorMessageProviderProductAdd);
         statusLabel.setText(message.trim());
     }
+
     public int createNewIDThenIncrementRefID(){
         int newItemID = currentID + 1;
         currentIDRef.setValue(newItemID, new DatabaseReference.CompletionListener() {
@@ -186,11 +207,15 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
 
     // This method gets the value of the productType entered by the user
     protected String getProductType() {
-        //TODO: change type
-        EditText productType = findViewById(R.id.productTypeProviderPostItem);
-        return productType.getText().toString().trim();
+        Spinner productType = findViewById(R.id.productTypeMenuProviderPostItem);
+        String selectedOption = productType.getSelectedItem().toString();
+        return selectedOption;
     }
 
+    protected String getProductName() {
+        EditText description = findViewById(R.id.productNameProviderPostItem);
+        return description.getText().toString().trim();
+    }
     // This method gets the value of the description entered by the user
     protected String getDescription() {
         EditText description = findViewById(R.id.descriptionProviderPostItem);
@@ -218,51 +243,88 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         EditText preferredExchangeInReturn = findViewById(R.id.preferredExchangesInReturnProviderPostItem);
         return preferredExchangeInReturn.getText().toString().trim();
     }
+
     @Override
     public void onClick(View view) {
-//        //where we move on to posting provider's goods page.
-//        //Functionality will be added in future iteration
-//        emailAddressEntered = getRidOfDot(getEmailAddressEntered());
-//        passwordEntered = getPasswordEntered();
-//        String errorMessage;
-//
-//        // Check if either the email or password is empty
-//        if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)) {
-//            errorMessage = getResources().getString(R.string.EMPTY_EMAIL_OR_PASSWORD).trim();
-//            setStatusMessage(errorMessage);
-//            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-//        }
-//        // Checking if the entered email is a valid email format
-//        else if (isValidEmailAddress(emailAddressEntered)) {
-//            // Checking if the email is in the database
-//            if (emailInDatabase()) {
-//                // Check if the entered password matches the password in the database
-//                if (checkPassword()) {
-//                    // If the user is a provider, go to the provider landing page
-//                    if (view.getId() == R.id.providerLoginButtonLogIn) {
-//                        switch2ProviderLandingPage();
-//                    }
-//                }
-//                // If the entered password is incorrect, display an error message
-//                else {
-//                    errorMessage = getResources().getString(R.string.INCORRECT_PASSWORD).trim();
-//                    setStatusMessage(errorMessage);
-//                    Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-//                }
-//            }
-//            // If the entered email is not in the database, display an error message
-//            else {
-//                errorMessage = getResources().getString(R.string.NOT_REGISTERED_EMAIL).trim();
-//                setStatusMessage(errorMessage);
-//                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-//            }
-//        }
-//        // If the entered email is not in the database, display an error message
-//        else {
-//            errorMessage = getResources().getString(R.string.NOT_REGISTERED_EMAIL).trim();
-//            setStatusMessage(errorMessage);
-//            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-//        }
-//    }
+
+        String errorMessage;
+        productType = getProductType();
+        description = getDescription();
+        productName = getProductName();
+        availableDate = getAvailableDate();
+        placeOfExchange = getPlaceOfExchange();
+        approxMarketValue = getApproxMarketValue();
+        preferredExchangeInReturn = getPreferredExchangeInReturn();
+        currentStatus = "Available"; //Available/Sold out. Is available by default when first posted
+
+        if (isProductNameEmpty(productName)) {
+            errorMessage = getResources().getString(R.string.EMPTY_PRODUCT_NAME).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (isProductTypeEmpty(productType)) {
+            errorMessage = getResources().getString(R.string.EMPTY_PRODUCT_TYPE).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (isDescriptionEmpty(description)){
+            errorMessage = getResources().getString(R.string.EMPTY_ITEM_DESCRIPTION).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (isDateEmpty(availableDate)){
+            errorMessage = getResources().getString(R.string.EMPTY_DATE_OF_AVAILABILITY).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (isPlaceOfExchangeEmpty(placeOfExchange)){
+            errorMessage = getResources().getString(R.string.EMPTY_PLACE_OF_EXCHANGE).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (isApproxMarketValueEmpty(approxMarketValue)){
+            errorMessage = getResources().getString(R.string.EMPTY_APPROXIMATE_MARKET_VALUE).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (isPreferredExchangeInReturnEmpty(preferredExchangeInReturn)){
+            errorMessage = getResources().getString(R.string.EMPTY_PREFERRED_EXCHANGE_TYPE).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (!isProductTypeValid(productType)){
+            errorMessage = getResources().getString(R.string.INVALID_PRODUCT_TYPE).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (!isProductTypeValid(productType)){
+            errorMessage = getResources().getString(R.string.INVALID_PRODUCT_TYPE).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (!isApproxMarketValueValid(approxMarketValue)){
+            errorMessage = getResources().getString(R.string.INVALID_APPROXIMATE_MARKET_VALUE).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else if (!isDateValid(availableDate)){
+            errorMessage = getResources().getString(R.string.INVALID_DATE_OF_AVAILABILITY).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else {
+            int newID = createNewIDThenIncrementRefID();
+            String itemRef = "Users/Provider/" + userEmailAddress + "/items/" + newID;
+            providerDBRef = database.getReference(itemRef);
+            providerDBRef.child("productType").setValue(productType);
+            providerDBRef.child("description").setValue(description);
+            providerDBRef.child("productName").setValue(productName);
+            providerDBRef.child("dateOfAvailability").setValue(availableDate);
+            providerDBRef.child("placeOfExchange").setValue(placeOfExchange);
+            providerDBRef.child("approxMarketValue").setValue(approxMarketValue);
+            providerDBRef.child("preferredExchange").setValue(preferredExchangeInReturn);
+            providerDBRef.child("currentStatus").setValue(currentStatus);
+            switch2ProviderLandingPage();
+        }
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name='productType'>
+        <item>baby toys</item>
+        <item>clothes</item>
+        <item>computer accessories</item>
+        <item>mobile phones</item>
+        <item>furniture</item>
+    </string-array>
+
+</resources>

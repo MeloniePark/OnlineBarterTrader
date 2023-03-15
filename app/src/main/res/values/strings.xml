@@ -15,12 +15,16 @@
     <string name="NOT_REGISTERED_EMAIL">The Email Address is not registered.</string>
     <string name="EMPTY_EMAIL_OR_PASSWORD">Either Email Address or Password is empty.</string>
     <string name="EMPTY_STRING">""</string>
-    <string name="EMPTY_PRODUCT_TYPE">""</string>
-    <string name="EMPTY_DATE_OF_AVAILABILITY">""</string>
-    <string name="EMPTY_ITEM_DESCRIPTION">""</string>
-    <string name="EMPTY_PLACE_OF_EXCHANGE">""</string>
-    <string name="EMPTY_APPROXIMATE_MARKET_VALUE">""</string>
-    <string name="EMPTY_PREFERRED_EXCHANGE_TYPE">""</string>
+    <string name="EMPTY_PRODUCT_TYPE">"Product type is empty."</string>
+    <string name="EMPTY_PRODUCT_NAME">"Product name is empty"</string>
+    <string name="EMPTY_DATE_OF_AVAILABILITY">"Date of availability is empty"</string>
+    <string name="EMPTY_ITEM_DESCRIPTION">"Item description is empty"</string>
+    <string name="EMPTY_PLACE_OF_EXCHANGE">"Place of exchange is empty"</string>
+    <string name="EMPTY_APPROXIMATE_MARKET_VALUE">"Approximate market value is empty"</string>
+    <string name="EMPTY_PREFERRED_EXCHANGE_TYPE">"Preferred item in exchange is empty"</string>
+    <string name="INVALID_PRODUCT_TYPE">"Product type is invalid"</string>
+    <string name="INVALID_APPROXIMATE_MARKET_VALUE">"Approximate market value is not a numeric value"</string>
+    <string name="INVALID_DATE_OF_AVAILABILITY">"Date of availability is not a valid date"</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

@@ -1,6 +1,7 @@
 
 package com.example.onlinebartertrader;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -10,6 +11,9 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
@@ -60,7 +64,8 @@ public class ProviderProductAddEspressoTest {
     //*** Iteration 2 User story 2, AT1 **/
     @Test
     public void checkIfProviderPostItemPageVisible() {
-        onView(withId(R.id.productTypeProviderPostItem)).check(matches(withText(R.string.EMPTY_STRING)));
+        onView(withId(R.id.productTypeProviderPostItem)).check(matches(withText("Select Product Type")));
+        onView(withId(R.id.productNameProviderPostItem)).check(matches(withText(R.string.EMPTY_STRING)));
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).check(matches(withText(R.string.EMPTY_STRING)));
         onView(withId(R.id.descriptionProviderPostItem)).check(matches(withText(R.string.EMPTY_STRING)));
         onView(withId(R.id.placeOfExchangeProviderPostItem)).check(matches(withText(R.string.EMPTY_STRING)));
@@ -71,10 +76,12 @@ public class ProviderProductAddEspressoTest {
     //*** Iteration 2 User story 2, AT1 **/
     @Test
     public void checkIfProductPostable() {
-        onView(withId(R.id.providerPostProvider)).perform(click());
-        onView(withId(R.id.productTypeProviderPostItem)).perform(typeText("toy"));
-        onView(withId(R.id.productTypeProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("2023-"));
+        onView(withId(R.id.productTypeMenuProviderPostItem)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("baby toys"))).perform(click());
+
+        onView(withId(R.id.productNameProviderPostItem)).perform(typeText("toy"));
+        onView(withId(R.id.productNameProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("2023-01-01"));
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.descriptionProviderPostItem)).perform(typeText("happy toy"));
         onView(withId(R.id.descriptionProviderPostItem)).perform(closeSoftKeyboard());
@@ -82,7 +89,7 @@ public class ProviderProductAddEspressoTest {
         onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(typeText("123"));
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("book"));
+        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("clothes"));
         onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(closeSoftKeyboard());
 
         onView(withId(R.id.providerSubmitPostProvider)).perform(click());
@@ -91,31 +98,12 @@ public class ProviderProductAddEspressoTest {
 
     //*** Iteration 2 User story 2, AT1 **/
     @Test
-    public void checkIfProductTypeEmpty() {
-        onView(withId(R.id.providerPostProvider)).perform(click());
-        onView(withId(R.id.productTypeProviderPostItem)).perform(typeText(""));
-        onView(withId(R.id.productTypeProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("2023-03-01"));
-        onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.descriptionProviderPostItem)).perform(typeText("happy toy"));
-        onView(withId(R.id.descriptionProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(typeText("halifax"));
-        onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(typeText("123"));
-        onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("book"));
-        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(closeSoftKeyboard());
-
-        onView(withId(R.id.providerSubmitPostProvider)).perform(click());
-        onView(withId(R.id.errorMessageProviderProductAdd)).check(matches(withText(R.string.EMPTY_PRODUCT_TYPE)));
-    }
-
-    //*** Iteration 2 User story 2, AT1 **/
-    @Test
     public void checkIfDateOfAvailEmpty() {
-        onView(withId(R.id.providerPostProvider)).perform(click());
-        onView(withId(R.id.productTypeProviderPostItem)).perform(typeText("toy"));
-        onView(withId(R.id.productTypeProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.productTypeMenuProviderPostItem)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("baby toys"))).perform(click());
+
+        onView(withId(R.id.productNameProviderPostItem)).perform(typeText("toy"));
+        onView(withId(R.id.productNameProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText(""));
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.descriptionProviderPostItem)).perform(typeText("happy toy"));
@@ -124,7 +112,7 @@ public class ProviderProductAddEspressoTest {
         onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(typeText("123"));
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("book"));
+        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("clothes"));
         onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(closeSoftKeyboard());
 
         onView(withId(R.id.providerSubmitPostProvider)).perform(click());
@@ -133,10 +121,35 @@ public class ProviderProductAddEspressoTest {
 
     //*** Iteration 2 User story 2, AT1 **/
     @Test
+    public void checkIfDateOfAvailInvalid() {
+        onView(withId(R.id.productTypeMenuProviderPostItem)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("baby toys"))).perform(click());
+
+        onView(withId(R.id.productNameProviderPostItem)).perform(typeText("toy"));
+        onView(withId(R.id.productNameProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("Friday"));
+        onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.descriptionProviderPostItem)).perform(typeText("happy toy"));
+        onView(withId(R.id.descriptionProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(typeText("halifax"));
+        onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(typeText("123"));
+        onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("clothes"));
+        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(closeSoftKeyboard());
+
+        onView(withId(R.id.providerSubmitPostProvider)).perform(click());
+        onView(withId(R.id.errorMessageProviderProductAdd)).check(matches(withText(R.string.INVALID_DATE_OF_AVAILABILITY)));
+    }
+
+    //*** Iteration 2 User story 2, AT1 **/
+    @Test
     public void checkIfDescriptionEmpty() {
-        onView(withId(R.id.providerPostProvider)).perform(click());
-        onView(withId(R.id.productTypeProviderPostItem)).perform(typeText("toy"));
-        onView(withId(R.id.productTypeProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.productTypeMenuProviderPostItem)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("baby toys"))).perform(click());
+
+        onView(withId(R.id.productNameProviderPostItem)).perform(typeText("toy"));
+        onView(withId(R.id.productNameProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("2023-03-01"));
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.descriptionProviderPostItem)).perform(typeText(""));
@@ -145,7 +158,7 @@ public class ProviderProductAddEspressoTest {
         onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(typeText("123"));
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("book"));
+        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("clothes"));
         onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(closeSoftKeyboard());
 
         onView(withId(R.id.providerSubmitPostProvider)).perform(click());
@@ -155,9 +168,11 @@ public class ProviderProductAddEspressoTest {
     //*** Iteration 2 User story 2, AT1 **/
     @Test
     public void checkIfPlaceOfExchangeEmpty() {
-        onView(withId(R.id.providerPostProvider)).perform(click());
-        onView(withId(R.id.productTypeProviderPostItem)).perform(typeText("toy"));
-        onView(withId(R.id.productTypeProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.productTypeMenuProviderPostItem)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("baby toys"))).perform(click());
+
+        onView(withId(R.id.productNameProviderPostItem)).perform(typeText("toy"));
+        onView(withId(R.id.productNameProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("2023-03-01"));
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.descriptionProviderPostItem)).perform(typeText("happy toy"));
@@ -166,7 +181,7 @@ public class ProviderProductAddEspressoTest {
         onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(typeText("123"));
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("book"));
+        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("clothes"));
         onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(closeSoftKeyboard());
 
         onView(withId(R.id.providerSubmitPostProvider)).perform(click());
@@ -176,9 +191,11 @@ public class ProviderProductAddEspressoTest {
     //*** Iteration 2 User story 2, AT1 **/
     @Test
     public void checkIfApproximateMarketValueEmpty() {
-        onView(withId(R.id.providerPostProvider)).perform(click());
-        onView(withId(R.id.productTypeProviderPostItem)).perform(typeText("toy"));
-        onView(withId(R.id.productTypeProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.productTypeMenuProviderPostItem)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("baby toys"))).perform(click());
+
+        onView(withId(R.id.productNameProviderPostItem)).perform(typeText("toy"));
+        onView(withId(R.id.productNameProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("2023-03-01"));
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.descriptionProviderPostItem)).perform(typeText("happy toy"));
@@ -187,7 +204,7 @@ public class ProviderProductAddEspressoTest {
         onView(withId(R.id.placeOfExchangeProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(typeText(""));
         onView(withId(R.id.approximateMarketValueProviderPostItem)).perform(closeSoftKeyboard());
-        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("book"));
+        onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(typeText("clothes"));
         onView(withId(R.id.preferredExchangesInReturnProviderPostItem)).perform(closeSoftKeyboard());
 
         onView(withId(R.id.providerSubmitPostProvider)).perform(click());
@@ -197,9 +214,11 @@ public class ProviderProductAddEspressoTest {
     //*** Iteration 2 User story 2, AT1 **/
     @Test
     public void checkIfPreferredExchangesInReturnEmpty() {
-        onView(withId(R.id.providerPostProvider)).perform(click());
-        onView(withId(R.id.productTypeProviderPostItem)).perform(typeText("toy"));
-        onView(withId(R.id.productTypeProviderPostItem)).perform(closeSoftKeyboard());
+        onView(withId(R.id.productTypeMenuProviderPostItem)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("baby toys"))).perform(click());
+
+        onView(withId(R.id.productNameProviderPostItem)).perform(typeText("toy"));
+        onView(withId(R.id.productNameProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(typeText("2023-03-01"));
         onView(withId(R.id.dateOfAvailabilityProviderPostItem)).perform(closeSoftKeyboard());
         onView(withId(R.id.descriptionProviderPostItem)).perform(typeText("happy toy"));
@@ -214,5 +233,4 @@ public class ProviderProductAddEspressoTest {
         onView(withId(R.id.providerSubmitPostProvider)).perform(click());
         onView(withId(R.id.errorMessageProviderProductAdd)).check(matches(withText(R.string.EMPTY_PREFERRED_EXCHANGE_TYPE)));
     }
-    // TODO: check unique id and a status property
 }

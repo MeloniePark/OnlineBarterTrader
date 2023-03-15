@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,6 +49,7 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
     ListView ApproxMarketValue;
     ListView PreferredExchangeInReturn;
     Button providerPostBtn;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,13 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
 
         providerPostBtn = findViewById(R.id.providerSubmitPostProvider);
         providerPostBtn.setOnClickListener(this);
+
+        // The product type drop down menu
+        String[] productTypeList = getResources().getStringArray(R.array.productType);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,
+                productTypeList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
 

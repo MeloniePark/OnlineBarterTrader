@@ -7,12 +7,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +34,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Button signUp = findViewById(R.id.signUpButtonSignUp);
         signUp.setOnClickListener(this);
         Button cancel = findViewById(R.id.returnButtonSignUp);
-        cancel.setOnClickListener(v -> switch2LandingPage());
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch2LandingPage();
+            }
+        });
     }
 
     // Check if the email is not entered
@@ -135,12 +140,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     protected void store2Database(String email, String password){
-        receiverReference = receiverReference.child(email.toLowerCase(Locale.ROOT).replace(".", ""));
-        receiverReference.child("preference").setValue("nullType");
+        receiverReference = receiverReference.child(email.replace(".", ""));
+        receiverReference.child("preference").setValue("all");
         receiverReference.child("password").setValue(password);
 
         // Add user under "Provider" node
-        providerReference = providerReference.child(email.toLowerCase(Locale.ROOT).replace(".", ""));
+        providerReference = providerReference.child(email.replace(".", ""));
         providerReference.child("password").setValue(password);
     }
 

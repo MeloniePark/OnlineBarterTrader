@@ -1,14 +1,9 @@
 package com.example.onlinebartertrader;
 
-/*
+/**
 * This Unit Test are testing the producer's product adding page.
-* Producer clicks "POST" button to add another product.
-*
-*/
-
-
-/*
-1. Product type – a dropdown with values baby toys, clothes, computer accessories, mobile phones, and furniture - required
+* Producer clicks "POST" button to add another product with following fields in the form
+ 1. Product type – a dropdown with values baby toys, clothes, computer accessories, mobile phones, and furniture - required
  2. Description
  3. Date of availability - required
  4. Place of exchange - required
@@ -17,6 +12,12 @@ package com.example.onlinebartertrader;
  And the system should save the above information along with unique id and a status property into the database table.
  - Values for status field – Available/Sold out .
  - Preferred exchanges in return can be same as product type.
+*
+**/
+
+
+/*
+
  */
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

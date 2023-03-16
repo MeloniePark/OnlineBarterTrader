@@ -90,7 +90,7 @@ public class AlertEspressoTest<IntentsTestRule> {
         myItem.put("preferredExchange", "baby toys");
 
         DatabaseReference providerRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
-                .getReference("Users/Provider/test@dal.ca/items/9999");
+                .getReference("Users/Provider/test@dal.ca/items/-1");
         providerRef.setValue(myItem);
 
         Espresso.onView(withText("Sofa")).check(matches(isDisplayed()));
@@ -113,7 +113,7 @@ public class AlertEspressoTest<IntentsTestRule> {
         myItem.put("preferredExchange", "furniture");
 
         DatabaseReference providerRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
-                .getReference("Users/Provider/test@dal.ca/items/9999");
+                .getReference("Users/Provider/test@dal.ca/items/-1");
         providerRef.setValue(myItem);
 
         Espresso.onView(withText("Sofa")).check(matches(not(isDisplayed())));
@@ -136,7 +136,7 @@ public class AlertEspressoTest<IntentsTestRule> {
         myItem.put("preferredExchange", "baby toys");
 
         DatabaseReference providerRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
-                .getReference("Users/Provider/test@dalca/items/9999");
+                .getReference("Users/Provider/test@dalca/items/-1");
         providerRef.setValue(myItem);
 
         Espresso.onView(withText("Sofa")).check(matches(not(isDisplayed())));

@@ -36,7 +36,23 @@ import org.junit.runner.RunWith;
  * Instrumented test, which will execute on an Android device.
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ *
+ *
+ * * This Espresso Test are testing the producer's product adding page.
+ * * Producer clicks "POST" button to add another product with following fields in the form
+ *  1. Product type – a dropdown with values baby toys, clothes, computer accessories, mobile phones, and furniture - required
+ *  2. Description
+ *  3. Date of availability - required
+ *  4. Place of exchange - required
+ *  5. Approximate market value - required
+ *  6. Preferred exchanges in return – required
+ *  And the system should save the above information along with unique id and a status property into the database table.
+ *  - Values for status field – Available/Sold out .
+ *  - Preferred exchanges in return can be same as product type.
+ * *
+ *
  */
+
 @RunWith(AndroidJUnit4.class)
 public class ProviderProductAddEspressoTest {
 

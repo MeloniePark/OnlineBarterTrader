@@ -297,11 +297,6 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
             setStatusMessage(errorMessage);
             Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
         }
-        else if (isDescriptionEmpty(description)){
-            errorMessage = getResources().getString(R.string.EMPTY_ITEM_DESCRIPTION).trim();
-            setStatusMessage(errorMessage);
-            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-        }
         else if (isDateEmpty(availableDate)){
             errorMessage = getResources().getString(R.string.EMPTY_DATE_OF_AVAILABILITY).trim();
             setStatusMessage(errorMessage);

@@ -193,10 +193,12 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         double lat = location.getLatitude();
         double lng = location.getLongitude();
 
+        //set geocoder to default
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
+        //find the field to add text
         TextView textView = findViewById(R.id.locationString);
         try {
+            //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             if (addresses != null && addresses.size() > 0) {
                 Address address = addresses.get(0);

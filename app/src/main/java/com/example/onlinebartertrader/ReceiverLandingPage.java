@@ -2,6 +2,7 @@ package com.example.onlinebartertrader;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -53,6 +54,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     private LocationManager locationManager;
     private String provider;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
+    String userEmailAddress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,49 +70,12 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         receiverTradedBtn = findViewById(R.id.tradedHistoryReceiver);
         receiverTradedBtn.setOnClickListener(this);
 
+        //init database
+        database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        userEmailAddress = getIntent().getStringExtra("emailAddress");
+        receiverDBRefAvailable = database.getReference("Users").child("Receiver").child(userEmailAddress);
+        receiverDBRefHistory = database.getReference("Users").child("Receiver").child(userEmailAddress);
         initLocation();
-    }
-    private void initLocation(){
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        provider = LocationManager.GPS_PROVIDER;
-
-        // check if GPS is enabled
-        if (!locationManager.isProviderEnabled(provider)) {
-            // show an alert dialog to prompt the user to enable GPS
-        }
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_LOCATION);
-        }
-
-        // request location updates
-        locationManager.requestLocationUpdates(provider,0,0,this);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        double lat = location.getLatitude();
-        double lng = location.getLongitude();
-
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-        TextView textView = findViewById(R.id.locationString);
-        try {
-            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            if (addresses != null && addresses.size() > 0) {
-                Address address = addresses.get(0);
-                String addressString = address.getAddressLine(0);
-                textView.setText(addressString);
-                System.out.println("Location"+ addressString);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            textView.setText("CAN NOT FIND LOCATION");
-        }
     }
 
     @Override
@@ -128,8 +93,8 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             receiverLists = (ListView) findViewById(R.id.receiverListReceiver);
             receiverLists.setAdapter(receiverArrAdapter);
 
-            //creating reference variable inside the databased called "templateUser"
-            receiverDBRefAvailable = database.getReference("tradeArea").child("Halifax").child("goods");
+            //creating reference variable inside the databased called "User"
+            receiverDBRefAvailable = database.getReference("Users").child("Receiver").child(userEmailAddress);
 
             //Firebase data addition, modification, deletion, reading performed through this section.
             receiverDBRefAvailable.addChildEventListener(new ChildEventListener() {
@@ -168,7 +133,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             receiverTradeList = (ListView) findViewById(R.id.receiverTraded);
             receiverTradeList.setAdapter(receiverArrAdapter);
 
-            receiverDBRefHistory = database.getReference("templateUser").child("receiver").child("receivedItem");
+            receiverDBRefHistory = database.getReference("Users").child("Receiver").child(userEmailAddress);
 
             //Firebase data addition, modification, deletion, reading performed through this section.
             receiverDBRefHistory.addChildEventListener(new ChildEventListener() {
@@ -199,6 +164,49 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
                 }
             });
+        }
+    }
+
+    private void initLocation(){
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        provider = LocationManager.GPS_PROVIDER;
+
+        // check if GPS is enabled
+        if (!locationManager.isProviderEnabled(provider)) {
+            // show an alert dialog to prompt the user to enable GPS
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_LOCATION);
+        }
+
+        // request location updates
+        locationManager.requestLocationUpdates(provider,0,0,this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        TextView textView = findViewById(R.id.locationString);
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+                String addressString = address.getAddressLine(0);
+                textView.setText(addressString);
+                receiverDBRefAvailable.child("location").setValue(addressString);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            textView.setText("CAN NOT FIND LOCATION");
         }
     }
 }

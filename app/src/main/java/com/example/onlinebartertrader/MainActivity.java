@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //swithcing to sign in page.
     protected void switch2SignInPage() {
         Intent signInIntent = new Intent(MainActivity.this, LoginActivity.class);
+        //Intent signInIntent = new Intent(MainActivity.this, SearchFunctionality.class);
         startActivity(signInIntent);
     }
 

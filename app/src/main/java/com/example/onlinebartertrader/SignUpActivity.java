@@ -135,12 +135,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     protected void store2Database(String email, String password){
-        receiverReference = receiverReference.child(email.toLowerCase(Locale.ROOT).replace(".", ""));
-        receiverReference.child("preference").setValue("nullType");
+        receiverReference = receiverReference.child(email.replace(".", "").toLowerCase());
+        receiverReference.child("preference").setValue("all");
         receiverReference.child("password").setValue(password);
 
         // Add user under "Provider" node
-        providerReference = providerReference.child(email.toLowerCase(Locale.ROOT).replace(".", ""));
+        providerReference = providerReference.child(email.replace(".", "").toLowerCase());
         providerReference.child("password").setValue(password);
     }
 

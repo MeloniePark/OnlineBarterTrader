@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -140,12 +141,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     protected void store2Database(String email, String password){
-        receiverReference = receiverReference.child(email.replace(".", ""));
-        receiverReference.child("preference").setValue("all");
+        receiverReference = receiverReference.child(email.toLowerCase(Locale.ROOT).replace(".", ""));
+        receiverReference.child("preference").setValue("nullType");
         receiverReference.child("password").setValue(password);
 
         // Add user under "Provider" node
-        providerReference = providerReference.child(email.replace(".", ""));
+        providerReference = providerReference.child(email.toLowerCase(Locale.ROOT).replace(".", ""));
         providerReference.child("password").setValue(password);
     }
 

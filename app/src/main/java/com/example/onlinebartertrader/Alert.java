@@ -45,7 +45,7 @@ public class Alert {
 
     public Alert(String userEmail, Context myContext) {
         this.myContext = myContext;
-        this.userEmailAddress = userEmail;
+        this.userEmailAddress = userEmail.toLowerCase(Locale.ROOT);
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         String itemRef = "Users/Receiver/" + userEmailAddress + "/preference/";
         receiverDBRef = database.getReference(itemRef);
@@ -61,6 +61,9 @@ public class Alert {
                 System.out.println("Failed to read value. " + databaseError.getCode());
             }
         });
+
+        System.out.println(userEmail);
+        System.out.println(itemInterested);
     }
 
     public void startListening() {

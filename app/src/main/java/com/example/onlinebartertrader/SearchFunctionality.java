@@ -87,6 +87,6 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
+
 }

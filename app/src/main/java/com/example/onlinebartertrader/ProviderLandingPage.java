@@ -50,6 +50,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     private LocationManager locationManager;
     private String provider;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
+    String userEmailAddress;
 
 
     @Override
@@ -73,8 +74,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
         //Firebase Connection
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
-        //creating reference variable inside the databased called "templateUser"
-        providerDBRef = database.getReference("templateUser").child("provider").child("goods");
+        //get user email
+        userEmailAddress = getIntent().getStringExtra("emailAddress");
+        //creating reference variable inside the databased called "User"
+        providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress);
 
 
         //Firebase data addition, modification, deletion, reading performed through this section.
@@ -110,6 +113,12 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         initLocation();
     }
 
+    @Override
+    public void onClick(View view) {
+        //where we move on to posting provider's goods page.
+        //Functionality will be added in future iteration 
+    }
+
     private void initLocation(){
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = LocationManager.GPS_PROVIDER;
@@ -131,13 +140,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         locationManager.requestLocationUpdates(provider,0,0,this);
     }
 
-
-    @Override
-    public void onClick(View view) {
-        //where we move on to posting provider's goods page.
-        //Functionality will be added in future iteration 
-    }
-
     @Override
     public void onLocationChanged(Location location) {
         double lat = location.getLatitude();
@@ -152,7 +154,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                 Address address = addresses.get(0);
                 String addressString = address.getAddressLine(0);
                 textView.setText(addressString);
-                System.out.println("Location"+ addressString);
+                providerDBRef.child("location").setValue(addressString);
             }
         } catch (IOException e) {
             e.printStackTrace();

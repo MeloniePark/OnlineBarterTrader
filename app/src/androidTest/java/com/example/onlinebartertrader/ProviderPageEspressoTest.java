@@ -1,7 +1,10 @@
 package com.example.onlinebartertrader;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -14,6 +17,12 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
+import android.content.Context;
+import androidx.test.core.app.ApplicationProvider;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -30,16 +39,11 @@ import org.junit.runner.RunWith;
 public class ProviderPageEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<ProviderLandingPage> myRule = new ActivityScenarioRule<>(ProviderLandingPage.class);
+    public ActivityScenarioRule<LoginActivity> myRule = new ActivityScenarioRule<>(LoginActivity.class);
     // We copy and pasted the template from assignment, but Intents rule is not used so far.
     // Commented it out since it sometimes gives an error for now.
     //public IntentsTestRule<ProviderLandingPage> myIntentRule = new IntentsTestRule<>(ProviderLandingPage.class);
 
-
-    @BeforeClass
-    public static void setup() {
-        Intents.init();
-    }
 
     @AfterClass
     public static void tearDown() {
@@ -49,6 +53,11 @@ public class ProviderPageEspressoTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
     }
@@ -56,19 +65,35 @@ public class ProviderPageEspressoTest {
     //*** User story 3, AT2 **/
     @Test
     public void checkIfPostButtonExist() {
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
         onView(withId(R.id.providerPostProvider)).perform(click());
     }
 
     //*** User story 3, AT2 **/
     @Test
     public void checkIfProviderItemsListed() {
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
+        onView(withId(R.id.providerPostProvider)).perform(click());
         onView(withId(R.id.providerListProvider)).check(matches(isDisplayed()));
     }
 
     //*** Iteration 2 User story 1**/
     @Test
     public void checkIfAtDal() throws InterruptedException {
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
         Thread.sleep(5000);
-        onView(withText("MacDonald Bldg, 6300 Coburg Rd, Halifax, NS B3H 4R2, Canada")).check(matches(isDisplayed()));
+        onView(withId(R.id.locationString)).check(matches(withText("MacDonald Bldg, 6300 Coburg Rd, Halifax, NS B3H 4R2, Canada")));
     }
 }

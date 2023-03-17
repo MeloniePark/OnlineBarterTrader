@@ -2,9 +2,6 @@ package com.example.onlinebartertrader;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import android.app.NotificationManager;
 
 import com.google.firebase.FirebaseApp;
@@ -20,12 +17,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -74,7 +65,7 @@ public class AlertUnitTest {
     //*** User story 6, AT1 **/
     @Test
     public void itemInterested() {
-        String itemType = "baby toys";
+        String itemType = "nullType";
         Alert alert = new Alert();
         boolean result = alert.isUserInterested(itemType);
         assertTrue(result);

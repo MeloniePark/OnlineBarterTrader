@@ -1,59 +1,19 @@
 package com.example.onlinebartertrader;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import java.util.logging.*;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class ReceiverItemList {
     protected FirebaseDatabase database;
@@ -66,6 +26,10 @@ public class ReceiverItemList {
     DatabaseReference receiverDBRefAvailable;
     ArrayAdapter<String> receiverArrAdapter;
     ArrayList<String> receiverItems = new ArrayList<>();
+
+    //logger - logging is better exercise than system printing out.
+    private static final Logger logger = Logger.getLogger(Alert.class.getName());
+
 
     public ReceiverItemList() {
     }
@@ -80,10 +44,6 @@ public class ReceiverItemList {
     public void startListening() {
 
         //array Adapter for the listview to list all the items of the provider.
-        System.out.println(myContext);
-        System.out.println(receiverLists);
-        System.out.println(android.R.layout.simple_list_item_1);
-        System.out.println(receiverItems);
         ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
                 (myContext, android.R.layout.simple_list_item_1, receiverItems);
 
@@ -116,14 +76,23 @@ public class ReceiverItemList {
 
                         @Override
                         public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                            //this method was left empty for possible future implementation requirements
+                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+
                         }
 
                         @Override
                         public void onChildMoved(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
+                            //this method was left empty for possible future implementation requirements
+                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError snapshot) {
+                            //this method was left empty for possible future implementation requirements
+                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+
                         }
 
                     });
@@ -131,16 +100,29 @@ public class ReceiverItemList {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {}
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
+                //this method was left empty for possible future implementation requirements
+                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+
+            }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {}
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                //this method was left empty for possible future implementation requirements
+                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+            }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {}
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
+                //this method was left empty for possible future implementation requirements
+                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+            }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //this method was left empty for possible future implementation requirements
+                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+            }
 
         });
 

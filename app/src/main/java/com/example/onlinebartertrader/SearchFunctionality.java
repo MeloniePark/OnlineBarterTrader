@@ -27,9 +27,10 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
     DatabaseReference usersRef = database.getReference("Users/Provider/");
     DatabaseReference userRefForEmail;
     ArrayList<String> itemList = new ArrayList<>();
-    String[] preferences = { "All", "computer accessories", "Electronics", "Furniture", "General Goods"};
+    String[] preferences = { "All", "computer accessories", "Electronics", "Furniture", "baby toys"};
     String preference = "All";
     ListView receiverItemList;
+    String emailAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
         Intent intent = getIntent();
 
         // Retrieve the email address from the intent extra
-        String emailAddress = intent.getStringExtra("emailAddress");
+        emailAddress = intent.getStringExtra("emailAddress");
         userRefForEmail = database.getReference("Users/Receiver/"+emailAddress);
         DatabaseReference preferenceRef = userRefForEmail.child("preference");
 
@@ -82,11 +83,14 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
         String selectedValue = spinner.getSelectedItem().toString();
         DatabaseReference preferenceRef = userRefForEmail.child("preference");
         preferenceRef.setValue(selectedValue);
+        receiverItemList = (ListView) findViewById(R.id.receiverListReceiver);
+        System.out.println(receiverItemList);
+        ReceiverItemList receiverList = new ReceiverItemList(emailAddress, receiverItemList, this);
+        receiverList.startListening();
         System.out.println("Selected value: " + selectedValue);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
-
 }

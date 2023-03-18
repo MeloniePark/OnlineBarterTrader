@@ -50,12 +50,12 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     LocationManager locationManager;
     Button receiverTradedBtn;
     Button receiverAvailableBtn;
+    String userEmailAddress;
 
     //arraylists for listviews
     ArrayList<String> receiverItems = new ArrayList<>();
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
-    String userEmailAddress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver);
 
+        userEmailAddress = getIntent().getStringExtra("emailAddress");
         //registering the button for the receiver's landing page
         //onclick listener listens set for each button click
         receiverAvailableBtn = findViewById(R.id.availableProductsReceiver);
@@ -88,6 +89,10 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         initLocation();
+        // US6 new functionality: alert the receiver when there is a new item added
+        // and is interested by the user
+        Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
+        itemAlert.startListening();
     }
 
     @Override

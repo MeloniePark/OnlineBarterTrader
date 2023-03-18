@@ -79,13 +79,6 @@ public class AlertEspressoTest<IntentsTestRule> {
         System.gc();
     }
 
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
-    }
-
     //*** User story 6, AT1 **/
     @Test
     public void itemInterestedIsDisplayed() throws InterruptedException {
@@ -111,7 +104,7 @@ public class AlertEspressoTest<IntentsTestRule> {
         });
         onView(isRoot()).inRoot(RootMatchers.isDialog()).check(matches(isDisplayed()));
     }
-//
+
 //    //*** User story 6, AT1. This test will run for more than 1 minutes because it needs to wait
 //    // until time out to make sure no alert is displayed**/
 //    @Test

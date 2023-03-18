@@ -72,6 +72,23 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         receiverTradedBtn = findViewById(R.id.tradedHistoryReceiver);
         receiverTradedBtn.setOnClickListener(this);
 
+        //init database
+        database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        userEmailAddress = getIntent().getStringExtra("emailAddress");
+
+        if (userEmailAddress == null){
+            userEmailAddress = "test@dalca";
+        }
+        receiverDBRefAvailable = database.getReference("Users").child("Receiver").child(userEmailAddress);
+        receiverDBRefHistory = database.getReference("Users").child("Receiver").child(userEmailAddress);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+        }
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        initLocation();
         // US6 new functionality: alert the receiver when there is a new item added
         // and is interested by the user
         Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);

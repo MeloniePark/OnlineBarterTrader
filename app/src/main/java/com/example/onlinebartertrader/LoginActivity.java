@@ -18,6 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button receiverLoginButton;
     ArrayList<String> emailsFound = new ArrayList<>();
     ArrayList<String> passwordFound =new ArrayList<>();
-
+    volatile boolean dataRetrieved = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +59,41 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String userEmail = userSnapshot.getKey().replace(".", "");
                     emailsFound.add(userEmail);
                     passwordFound.add(userSnapshot.child("password").getValue(String.class));
+                    dataRetrieved = true;
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("Failed to read value. " + databaseError.getCode());
+            }
+        });
+    }
+
+    public interface EmailPasswordCallback {
+        void onEmailPasswordRetrieved(List<String> emails, List<String> passwords);
+    }
+
+    public void retrieveEmailPasswords(final EmailPasswordCallback callback) {
+        userRefForCheckEmail.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> emailsFound = new ArrayList<>();
+                List<String> passwordFound = new ArrayList<>();
+
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    String userEmail = userSnapshot.getKey().replace(".", "");
+                    emailsFound.add(userEmail);
+                    passwordFound.add(userSnapshot.child("password").getValue(String.class));
+                }
+
+                callback.onEmailPasswordRetrieved(emailsFound, passwordFound);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Failed to read value. " + databaseError.getCode());
+                callback.onEmailPasswordRetrieved(Collections.emptyList(), Collections.emptyList());
             }
         });
     }
@@ -151,12 +183,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // This method is called when the user clicks the login button
     @Override
     public void onClick(View view) {
+        while (!dataRetrieved);
         // Getting the email and password entered by the user
         emailAddressEntered = getRidOfDot(getEmailAddressEntered());
         passwordEntered = getPasswordEntered();
         String errorMessage;
-        System.out.println(emailsFound);
-        System.out.println(passwordFound);
 
         // Check if either the email or password is empty
         if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)) {

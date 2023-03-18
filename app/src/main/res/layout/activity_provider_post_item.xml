@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProviderPostItemActivity">
+
+
+    <TextView
+        android:id="@+id/productTypeProviderPostItem"
+        android:layout_width="227dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="113dp"
+        android:text="Please Select Product Type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/productTypeMenuProviderPostItem"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="71dp"
+        android:contentDescription="Selecting the product type"
+        app:layout_constraintBottom_toTopOf="@+id/productNameProviderPostItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productTypeProviderPostItem" />
+
+    <EditText
+        android:id="@+id/placeOfExchangeProviderPostItem"
+        android:layout_width="270dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="71dp"
+        android:hint="Place of exchange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateOfAvailabilityProviderPostItem" />
+
+    <EditText
+        android:id="@+id/dateOfAvailabilityProviderPostItem"
+        android:layout_width="270dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="71dp"
+        android:hint="Date of availability: yyyy-MM-dd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionProviderPostItem" />
+
+    <EditText
+        android:id="@+id/descriptionProviderPostItem"
+        android:layout_width="270dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="71dp"
+        android:hint="Product description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productNameProviderPostItem" />
+
+    <Button
+        android:id="@+id/providerSubmitPostProvider"
+        android:layout_width="166dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="122dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="123dp"
+        android:layout_marginBottom="10dp"
+        android:text="Submit Item"
+        app:layout_constraintBottom_toTopOf="@+id/errorMessageProviderProductAdd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preferredExchangesInReturnProviderPostItem" />
+
+    <EditText
+        android:id="@+id/approximateMarketValueProviderPostItem"
+        android:layout_width="270dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="71dp"
+        android:hint="Approximate market value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeOfExchangeProviderPostItem" />
+
+    <EditText
+        android:id="@+id/preferredExchangesInReturnProviderPostItem"
+        android:layout_width="270dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="71dp"
+        android:hint="Preferred item in return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/approximateMarketValueProviderPostItem" />
+
+    <TextView
+        android:id="@+id/errorMessageProviderProductAdd"
+        android:layout_width="276dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/productNameProviderPostItem"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="71dp"
+        android:hint="product name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productTypeMenuProviderPostItem" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

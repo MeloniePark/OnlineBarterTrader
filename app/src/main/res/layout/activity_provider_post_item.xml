@@ -26,6 +26,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="71dp"
+        android:contentDescription="Selecting the product type"
         app:layout_constraintBottom_toTopOf="@+id/productNameProviderPostItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -53,7 +53,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     private LocationManager locationManager;
     private String provider;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
-    String userEmailAddress;
 
 
     @Override

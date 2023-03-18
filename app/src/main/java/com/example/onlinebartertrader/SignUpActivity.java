@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
@@ -35,12 +34,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Button signUp = findViewById(R.id.signUpButtonSignUp);
         signUp.setOnClickListener(this);
         Button cancel = findViewById(R.id.returnButtonSignUp);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch2LandingPage();
-            }
-        });
+        cancel.setOnClickListener(v -> switch2LandingPage());
     }
 
     // Check if the email is not entered

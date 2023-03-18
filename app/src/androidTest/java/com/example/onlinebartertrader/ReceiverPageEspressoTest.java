@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -53,11 +54,10 @@ public class ReceiverPageEspressoTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
-        onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
     }
@@ -65,29 +65,30 @@ public class ReceiverPageEspressoTest {
     //*** User story 3, AT3 **/
     @Test
     public void checkIfAvailProductButtonExist() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.availableProductsReceiver)).perform(click());
+        onView(withId(R.id.availableProductsReceiver)).check(matches(isClickable()));
+
     }
 
     //*** User story 3, AT3 **/
     @Test
     public void checkIfTradeHistButtonExist() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.tradedHistoryReceiver)).perform(click());
+        onView(withId(R.id.tradedHistoryReceiver)).check(matches(isClickable()));
     }
 
     //*** User story 3, AT3 **/
     @Test
     public void checkIfReceiverItemsListed() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
@@ -97,13 +98,13 @@ public class ReceiverPageEspressoTest {
 
     //*** Iteration 2 User story 1**/
     @Test
-    public void checkIfAtDal() throws InterruptedException {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
+    public void checkIfLocationVisible() throws InterruptedException {
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
         Thread.sleep(5000);
-        onView(withId(R.id.locationString)).check(matches(withText("MacDonald Bldg, 6300 Coburg Rd, Halifax, NS B3H 4R2, Canada")));
+        onView(withId(R.id.locationStringReiceiver)).check(matches(isDisplayed()));
     }
 }

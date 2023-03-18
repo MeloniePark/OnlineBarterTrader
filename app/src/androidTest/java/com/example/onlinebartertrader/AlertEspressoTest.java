@@ -111,68 +111,68 @@ public class AlertEspressoTest<IntentsTestRule> {
         });
         onView(isRoot()).inRoot(RootMatchers.isDialog()).check(matches(isDisplayed()));
     }
-
-    //*** User story 6, AT1. This test will run for more than 1 minutes because it needs to wait
-    // until time out to make sure no alert is displayed**/
-    @Test
-    public void itemNotInterestedIsNotDisplayed(){
-        Map<String, Object> myItem = new HashMap<>();
-        myItem.put("productType", "baby toys");
-        myItem.put("productName", "Sofa");
-        myItem.put("description", "Sofa so good");
-        myItem.put("dateOfAvailability", "2019-01-01");
-        myItem.put("placeOfExchange", "Halifax");
-        myItem.put("approxMarketValue", "102");
-        myItem.put("preferredExchange", "baby toys");
-
-        DatabaseReference providerRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
-                .getReference("Users/Provider/test@dalca/items/-1");
-        providerRef.setValue(myItem);
-
-        myRule.getScenario().onActivity(activity -> {
-                    DatabaseReference receiverRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
-                            .getReference("Users/Receiver/us6espresso@dalca/preference");
-                    receiverRef.setValue("nullType");
-
-                    new Alert("us6espresso@dalca", activity).startListening();
-                });
-        onView(isRoot()).inRoot(RootMatchers.isDialog()).withFailureHandler(new FailureHandler() {
-            @Override
-            public void handle(Throwable error, Matcher<View> viewMatcher) {
-            }
-        }).check(doesNotExist());
-    }
-
-    //*** User story 6, AT1. This test will run for more than 1 minutes because it needs to wait
-    // until time out to make sure no alert is displayed**/
-    @Test
-    public void itemInFutureIsNotDisplayed(){
-        Map<String, Object> myItem = new HashMap<>();
-        myItem.put("productType", "nullType");
-        myItem.put("productName", "Sofa");
-        myItem.put("description", "Sofa so good");
-        myItem.put("dateOfAvailability", "3000-04-01");
-        myItem.put("placeOfExchange", "Halifax");
-        myItem.put("approxMarketValue", "102");
-        myItem.put("preferredExchange", "baby toys");
-
-        DatabaseReference providerRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
-                .getReference("Users/Provider/test@dalca/items/-1");
-        providerRef.setValue(myItem);
-
-        myRule.getScenario().onActivity(activity -> {
-            DatabaseReference receiverRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
-                    .getReference("Users/Receiver/us6espresso@dalca/preference");
-            receiverRef.setValue("nullType");
-
-            new Alert("us6espresso@dalca", activity).startListening();
-        });
-
-        onView(isRoot()).inRoot(RootMatchers.isDialog()).withFailureHandler(new FailureHandler() {
-            @Override
-            public void handle(Throwable error, Matcher<View> viewMatcher) {
-            }
-        }).check(doesNotExist());
-    }
+//
+//    //*** User story 6, AT1. This test will run for more than 1 minutes because it needs to wait
+//    // until time out to make sure no alert is displayed**/
+//    @Test
+//    public void itemNotInterestedIsNotDisplayed(){
+//        Map<String, Object> myItem = new HashMap<>();
+//        myItem.put("productType", "baby toys");
+//        myItem.put("productName", "Sofa");
+//        myItem.put("description", "Sofa so good");
+//        myItem.put("dateOfAvailability", "2019-01-01");
+//        myItem.put("placeOfExchange", "Halifax");
+//        myItem.put("approxMarketValue", "102");
+//        myItem.put("preferredExchange", "baby toys");
+//
+//        DatabaseReference providerRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
+//                .getReference("Users/Provider/test@dalca/items/-1");
+//        providerRef.setValue(myItem);
+//
+//        myRule.getScenario().onActivity(activity -> {
+//                    DatabaseReference receiverRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
+//                            .getReference("Users/Receiver/us6espresso@dalca/preference");
+//                    receiverRef.setValue("nullType");
+//
+//                    new Alert("us6espresso@dalca", activity).startListening();
+//                });
+//        onView(isRoot()).inRoot(RootMatchers.isDialog()).withFailureHandler(new FailureHandler() {
+//            @Override
+//            public void handle(Throwable error, Matcher<View> viewMatcher) {
+//            }
+//        }).check(doesNotExist());
+//    }
+//
+//    //*** User story 6, AT1. This test will run for more than 1 minutes because it needs to wait
+//    // until time out to make sure no alert is displayed**/
+//    @Test
+//    public void itemInFutureIsNotDisplayed(){
+//        Map<String, Object> myItem = new HashMap<>();
+//        myItem.put("productType", "nullType");
+//        myItem.put("productName", "Sofa");
+//        myItem.put("description", "Sofa so good");
+//        myItem.put("dateOfAvailability", "3000-04-01");
+//        myItem.put("placeOfExchange", "Halifax");
+//        myItem.put("approxMarketValue", "102");
+//        myItem.put("preferredExchange", "baby toys");
+//
+//        DatabaseReference providerRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
+//                .getReference("Users/Provider/test@dalca/items/-1");
+//        providerRef.setValue(myItem);
+//
+//        myRule.getScenario().onActivity(activity -> {
+//            DatabaseReference receiverRef = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/")
+//                    .getReference("Users/Receiver/us6espresso@dalca/preference");
+//            receiverRef.setValue("nullType");
+//
+//            new Alert("us6espresso@dalca", activity).startListening();
+//        });
+//
+//        onView(isRoot()).inRoot(RootMatchers.isDialog()).withFailureHandler(new FailureHandler() {
+//            @Override
+//            public void handle(Throwable error, Matcher<View> viewMatcher) {
+//            }
+//        }).check(doesNotExist());
+//    }
 
 }

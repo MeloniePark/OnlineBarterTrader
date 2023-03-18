@@ -77,7 +77,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         //get user email
         userEmailAddress = getIntent().getStringExtra("emailAddress");
         //creating reference variable inside the databased called "User"
-        providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress);
+        providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
         System.out.println(userEmailAddress);
 
         //Firebase data addition, modification, deletion, reading performed through this section.
@@ -85,8 +85,14 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 try {
-                    String valueRead = snapshot.getValue(String.class);
-                    providerItems.add(valueRead);
+                    //String valueRead = snapshot.getValue(String.class);
+                    //providerItems.add(valueRead);
+                    //providerArrAdapter.notifyDataSetChanged();
+
+                    String itemType = snapshot.child("productType").getValue(String.class);
+                    String itemName = snapshot.child("productName").getValue(String.class);
+
+                    providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType);
                     providerArrAdapter.notifyDataSetChanged();
                 }catch (Exception e){
                     System.out.println("It can not convert to string");

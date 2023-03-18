@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //two firebase library that we will be using.
-    private FirebaseDatabase firebaseDB;
+
     private DatabaseReference firebaseDBRef;
     private TextView textView;  //for reading whatever is in this textelement.
     Button signUpButton;
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void connectToFirebase(){
+        FirebaseDatabase firebaseDB;
         //will get path or location of where the database is being hosted
         firebaseDB = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         //creating reference variable inside the databased called "message"

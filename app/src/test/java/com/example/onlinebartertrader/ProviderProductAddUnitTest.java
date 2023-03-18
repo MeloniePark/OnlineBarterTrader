@@ -39,12 +39,14 @@ public class ProviderProductAddUnitTest {
         System.gc();
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfProductTypeFieldIsEmpty() {
         assertTrue(providerPostItemActivity.isProductTypeEmpty(""));
         assertFalse(providerPostItemActivity.isProductTypeEmpty("baby toys"));
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfProductTypeIsValid(){
         assertFalse(providerPostItemActivity.isProductTypeValid(""));
@@ -62,12 +64,14 @@ public class ProviderProductAddUnitTest {
         }
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfDescriptionFieldIsEmpty(){
         assertTrue(providerPostItemActivity.isDescriptionEmpty(""));
         assertFalse(providerPostItemActivity.isDescriptionEmpty("This baby toy is squicky clean new!"));
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfDateOfAvailabilityFieldIsEmpty(){
 
@@ -75,6 +79,7 @@ public class ProviderProductAddUnitTest {
         assertFalse(providerPostItemActivity.isDateEmpty("2023-03-05"));
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfDateOfAvailabilityIsValid(){
         assertTrue(providerPostItemActivity.isDateValid("2022-03-02"));
@@ -85,18 +90,21 @@ public class ProviderProductAddUnitTest {
         assertFalse(providerPostItemActivity.isDateValid("this Friday"));
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfPlaceOfExchangeIsEmpty(){
         assertTrue(providerPostItemActivity.isPlaceOfExchangeEmpty(""));
         assertFalse(providerPostItemActivity.isPlaceOfExchangeEmpty("Halifax City Hall"));
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfApproxMarketValueFieldIsEmpty(){
         assertTrue(providerPostItemActivity.isApproxMarketValueEmpty(""));
         assertFalse(providerPostItemActivity.isApproxMarketValueEmpty("190"));
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfApproxMarketValueIsValid(){
         assertFalse(providerPostItemActivity.isApproxMarketValueValid("0"));
@@ -105,6 +113,7 @@ public class ProviderProductAddUnitTest {
         assertTrue(providerPostItemActivity.isApproxMarketValueValid("70"));
     }
 
+    //** Iteration 2 User story 2, AT2 **/
     @Test
     public void checkIfPreferredExchangeInReturnFieldIsEmpty(){
         assertTrue(providerPostItemActivity.isPreferredExchangeInReturnEmpty(""));

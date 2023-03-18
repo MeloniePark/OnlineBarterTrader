@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.onlinebartertrader.ProviderLandingPage;
+import com.example.onlinebartertrader.R;
+import com.example.onlinebartertrader.ReceiverLandingPage;
+//import com.example.onlinebartertrader.SearchFunctionality;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

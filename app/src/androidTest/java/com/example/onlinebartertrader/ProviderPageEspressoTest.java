@@ -81,7 +81,6 @@ public class ProviderPageEspressoTest {
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.providerPostProvider)).perform(click());
         onView(withId(R.id.providerListProvider)).check(matches(isDisplayed()));
     }
 

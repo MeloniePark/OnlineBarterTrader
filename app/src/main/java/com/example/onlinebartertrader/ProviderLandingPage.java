@@ -2,6 +2,7 @@ package com.example.onlinebartertrader;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -79,6 +80,9 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         //get user email
         userEmailAddress = getIntent().getStringExtra("emailAddress");
         //creating reference variable inside the databased called "User"
+        if (userEmailAddress == null){
+            userEmailAddress = "test@dalca";
+        }
         providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
 
         //Firebase data addition, modification, deletion, reading performed through this section.
@@ -86,10 +90,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 try {
-                    //String valueRead = snapshot.getValue(String.class);
-                    //providerItems.add(valueRead);
-                    //providerArrAdapter.notifyDataSetChanged();
-
                     String itemType = snapshot.child("productType").getValue(String.class);
                     String itemName = snapshot.child("productName").getValue(String.class);
 
@@ -132,8 +132,12 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         //where we move on to posting provider's goods page.
-        //Functionality will be added in future iteration 
+        //Functionality will be added in future iteration
+        Intent intent = new Intent(this, ProviderPostItemActivity.class);
+        intent.putExtra("emailAddress", userEmailAddress);
+        startActivity(intent);
     }
+
 
     private void initLocation(){
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -173,7 +177,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             String city = "";
             //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            System.out.println(addresses);
             if (addresses != null && addresses.size() > 0) {
                 Address address = addresses.get(0);
                 city = address.getLocality();

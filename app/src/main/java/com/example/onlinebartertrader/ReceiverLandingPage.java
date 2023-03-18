@@ -109,6 +109,13 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
         //if availableProduct button is clicked -> show available products in that area.
         if (view.getId() == R.id.availableProductsReceiver){
+//
+//            //array Adapter for the listview to list all the items of the provider.
+//            final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
+//                    (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
+
+//            database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+
             //register the views, buttons and other components for the receiver landing page.
             receiverLists = (ListView) findViewById(R.id.receiverListReceiver);
             System.out.println(receiverLists);

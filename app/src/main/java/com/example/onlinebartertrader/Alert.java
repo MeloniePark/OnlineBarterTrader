@@ -20,15 +20,32 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.*;
 
+/**
+ * US 6: Alert
+ * This Alert class is responsible for the User Story 6 Alert functionality
+ *      with following acceptance criteria:
+ *      AT1: As a user, when I log in as a receiver, if I have saved a preference
+ *      through the search feature, then I should be notified through the app
+ *      when a product matching the saved preference is available for sale.
+ *
+ *      AT2: As a user, when I log in as a receiver, if I have not saved a preference
+ *      through the search feature, then I should not be notified about product
+ *      availability, since I did not set the preference
+ *
+ */
+
 public class Alert {
+    //firebase linking & references variables initialization
     protected FirebaseDatabase database;
     protected DatabaseReference receiverDBRef;
     DatabaseReference providerDBRef;
+
+    //variables initialization
     protected String userEmailAddress;
     protected String itemInterested = "nullType";
     protected Context myContext;
 
-    //logger
+    //logger - logging is better exercise than system printing out.
     private static final Logger logger = Logger.getLogger(Alert.class.getName());
 
 
@@ -41,42 +58,58 @@ public class Alert {
             userEmail = "us6espresso@dalca";
         }
         this.userEmailAddress = userEmail.toLowerCase(Locale.ROOT);
+
+        //Links the database & get reference to the path we want to listen to data change or read value from
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         String itemRef = "Users/Receiver/" + userEmailAddress + "/preference/";
         receiverDBRef = database.getReference(itemRef);
 
         receiverDBRef.addValueEventListener(new ValueEventListener() {
+            //on data change, gets the
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 itemInterested = dataSnapshot.getValue(String.class);
             }
 
+            //log the database error code when fail to read from database
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 logger.info("Failed to read value. " + databaseError.getCode());
             }
         });
 
+        // logging these info - better exercise than system printing them out.
         logger.info(userEmail);
         logger.info(itemInterested);
     }
 
+    //The receiver side listens to the provider's item addition to notify receiver about item addition
+    //  that matches their preference.
     public void startListening() {
+
+        //listens to the data (item addition) in provider side (created reference to provider's DB)
         providerDBRef = database.getReference("Users/Provider");
         providerDBRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String providerEmail = dataSnapshot.getKey();
+
+                //database reference to where the provider's items are added
                 DatabaseReference providerItemsRef = database.getReference("Users/Provider/" + providerEmail + "/items");
                 providerItemsRef.addChildEventListener(new ChildEventListener() {
+
+                    //This method runs when the items gets added by the provider:
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         String itemType = dataSnapshot.child("productType").getValue(String.class);
                         String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
                         String itemName = dataSnapshot.child("productName").getValue(String.class);
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+                        //If item type, item available date, item name is fetched from the database:
                         if (itemType != null && itemAvailDateString != null && itemName != null){
                             Date itemAvailDate = new Date();
+                            //Sends the notification (+ logging) to the user about newly added item.
                             try {
                                 logger.info("date is "+itemAvailDateString);
                                 itemAvailDate = format.parse(itemAvailDateString);
@@ -89,12 +122,15 @@ public class Alert {
                         }
                     }
 
+                    //This method runs when the items gets modified by the provider:
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         String itemType = dataSnapshot.child("productType").getValue(String.class);
                         String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
                         String itemName = dataSnapshot.child("productName").getValue(String.class);
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+                        //Sends the notification (+ logging) to the user about modified item.
                         if (itemType != null && itemAvailDateString != null && itemName != null){
                             Date itemAvailDate = new Date();
                             try {
@@ -157,6 +193,7 @@ public class Alert {
         });
     }
 
+    //This method checks if the item available date is valid (available date is not in the past)
     boolean isItemAvailable(Date itemAvailDate) {
         // adapted from A3
         Calendar currentCalendar = Calendar.getInstance();
@@ -165,12 +202,15 @@ public class Alert {
         return currentTime.after(itemAvailDate);
     }
 
+    //This method checks if the itemType matches the receiver's item type preference.
     boolean isUserInterested(String itemType) {
         return itemType.equalsIgnoreCase(itemInterested);
     }
 
-//    https://developer.android.com/develop/ui/views/notifications/build-notification
-void sendNotification(String itemType, String itemName) {
+
+    //    https://developer.android.com/develop/ui/views/notifications/build-notification
+    // This method is responsible for sending the notification.
+    void sendNotification(String itemType, String itemName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
         builder.setMessage("A new item that you are interested is added or modified!\nItem Type: "
                         +itemType+"\nItem Name: "+itemName)

@@ -79,8 +79,8 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         if (userEmailAddress == null){
             userEmailAddress = "test@dalca";
         }
-        receiverDBRefAvailable = database.getReference("Users").child("Receiver").child(userEmailAddress);
-        receiverDBRefHistory = database.getReference("Users").child("Receiver").child(userEmailAddress);
+        receiverDBRefAvailable = database.getReference("Users/Receiver").child(userEmailAddress);
+        receiverDBRefHistory = receiverDBRefAvailable;
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
@@ -99,7 +99,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
 
         //array Adapter for the listview to list all the items of the provider.
-        final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
+        final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<>
                 (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
 
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
@@ -111,7 +111,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             receiverLists.setAdapter(receiverArrAdapter);
 
             //creating reference variable inside the databased called "User"
-            receiverDBRefAvailable = database.getReference("Users").child("Receiver").child(userEmailAddress);
+            receiverDBRefAvailable = database.getReference("Users/Receiver").child(userEmailAddress);
 
             //Firebase data addition, modification, deletion, reading performed through this section.
             receiverDBRefAvailable.addChildEventListener(new ChildEventListener() {
@@ -129,17 +129,17 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                    //don't need this method
                 }
 
                 @Override
                 public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                    //don't need this method
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    //don't need this method
                 }
             });
         }
@@ -168,17 +168,17 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                    //don't need this method
                 }
 
                 @Override
                 public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                    //don't need this method
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    //don't need this method
                 }
             });
         }
@@ -222,7 +222,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             String city = "";
             //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            if (addresses != null && addresses.size() > 0) {
+            if (addresses != null && addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 city = address.getLocality();
                 String addressString = address.getAddressLine(0);
@@ -239,14 +239,17 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        //don't need this method
     }
 
     @Override
     public void onProviderEnabled(String provider) {
+        //don't need this method
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+        //don't need this method
     }
 
 }

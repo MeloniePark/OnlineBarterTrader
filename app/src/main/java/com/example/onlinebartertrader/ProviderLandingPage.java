@@ -4,7 +4,6 @@ package com.example.onlinebartertrader;
 import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -36,6 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
     //firebase
@@ -53,9 +55,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     ArrayList<String> providerItems = new ArrayList<>();
 
     //Location
-    private LocationManager locationManager;
-    private String provider;
+    LocationManager locationManager;
+    String provider;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
+    Logger logger = Logger.getLogger(ProviderLandingPage.class.getName());
 
 
     @Override
@@ -65,10 +68,9 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_provider);
 
         //array Adapter for the listview to list all the items of the provider.
-        final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<String>
+        final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<>
                 (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
 
-        userEmailAddress = getIntent().getStringExtra("emailAddress");
         //register the views, buttons and other components for the provider landing page.
         providerItemLists = (ListView) findViewById(R.id.providerListProvider);
         //setting array Adapter for the ListView providerItemLists.
@@ -99,7 +101,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                     providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType);
                     providerArrAdapter.notifyDataSetChanged();
                 }catch (Exception e){
-                    System.out.println("It can not convert to string");
+                    logger.log(Level.WARNING,"It can not convert to string");
                 }
 
             }
@@ -111,17 +113,17 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                //don't need this method
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                //don't need this method
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                //don't need this method
             }
         });
 
@@ -180,7 +182,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             String city = "";
             //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            if (addresses != null && addresses.size() > 0) {
+            if (addresses != null && addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 city = address.getLocality();
                 String addressString = address.getAddressLine(0);
@@ -195,14 +197,17 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        //don't need this method
     }
 
     @Override
     public void onProviderEnabled(String provider) {
+        //don't need this method
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+        //don't need this method
     }
 
 }

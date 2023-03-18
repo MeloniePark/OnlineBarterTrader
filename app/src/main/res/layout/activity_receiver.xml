@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/availableProductsReceiver" />
 
     <ListView
-        android:id="@+id/receiverListReceiver"
+        android:id="@+id/receiverTraded"
         android:layout_width="275dp"
         android:layout_height="216dp"
         android:layout_marginStart="54dp"
@@ -42,20 +42,7 @@
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tradedHistoryReceiver" />
-
-    <ListView
-        android:id="@+id/receiverTraded"
-        android:layout_width="275dp"
-        android:layout_height="216dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="68dp"
-        android:layout_marginBottom="53dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiverListReceiver" />
+    <!--app:layout_constraintTop_toBottomOf="@+id/receiverListReceiver" />-->
 
     <TextView
         android:id="@+id/locationString"

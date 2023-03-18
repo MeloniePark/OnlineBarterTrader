@@ -121,9 +121,9 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-
         //if availableProduct button is clicked -> show available products in that area.
         if (view.getId() == R.id.availableProductsReceiver){
+            setContentView(R.layout.activity_search);
 //
 //            //array Adapter for the listview to list all the items of the provider.
 //            final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
@@ -186,3 +186,5 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         }
     }
 }
+
+

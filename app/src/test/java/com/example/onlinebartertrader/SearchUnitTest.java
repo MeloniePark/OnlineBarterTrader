@@ -5,31 +5,21 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import android.util.Log;
-import android.widget.EditText;
-
 import androidx.test.runner.AndroidJUnit4;
 
-import com.example.onlinebartertrader.MainActivity;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 
 
 @RunWith(AndroidJUnit4.class)
 public class SearchUnitTest {
-    static com.example.onlinebartertrader.search SearchFunctionality;
+    static SearchPage SearchFunctionality;
 
-    private search activity;
+    private SearchPage activity;
     private DatabaseReference mockUsersRef;
     private DatabaseReference mockUserRefForEmail;
     private DatabaseReference mockPreferenceRef;
@@ -37,7 +27,7 @@ public class SearchUnitTest {
 
     @BeforeClass
     public  void setup() {
-        SearchFunctionality = new search();
+        SearchFunctionality = new SearchPage();
         //   when(Log.e(any(String.class),any(String.class))).thenReturn(any(Integer.class));
         mockUsersRef = mock(DatabaseReference.class);
         mockUserRefForEmail = mock(DatabaseReference.class);
@@ -62,14 +52,14 @@ public class SearchUnitTest {
     }
     @Test
     public void onCreate_setsContentView() {
-        search searchFunctionality = new search();
+        SearchPage searchFunctionality = new SearchPage();
         searchFunctionality.onCreate(null);
         assertNotNull(searchFunctionality.findViewById(R.id.searchView));
     }
 
     @Test
     public void onItemSelected_setsPreference() {
-        search searchFunctionality = new search();
+        SearchPage searchFunctionality = new SearchPage();
         searchFunctionality.userRefForEmail = mock(DatabaseReference.class);
         searchFunctionality.onItemSelected(null, null, 1, 0);
         assertEquals("Electronics", searchFunctionality.preference);
@@ -77,7 +67,7 @@ public class SearchUnitTest {
 
     @Test
     public void onNothingSelected_doesNothing() {
-        search searchFunctionality = new search();
+        SearchPage searchFunctionality = new SearchPage();
         searchFunctionality.onNothingSelected(null);
         // no exception should be thrown
     }

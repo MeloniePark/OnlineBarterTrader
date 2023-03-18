@@ -158,14 +158,13 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         }
     }
 
-
     private void initLocation(){
 
         //Location
-        String provider = LocationManager.GPS_PROVIDER;
+        String receiver = LocationManager.GPS_PROVIDER;
 
         // check if GPS is enabled
-        if (!locationManager.isProviderEnabled(provider)) {
+        if (!locationManager.isProviderEnabled(receiver)) {
             // show an alert dialog to prompt the user to enable GPS
         }
 
@@ -178,7 +177,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         }
 
         // request location updates
-        locationManager.requestLocationUpdates(provider,0,0,this);
+        locationManager.requestLocationUpdates(receiver,0,0,this);
 
     }
 
@@ -191,7 +190,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         //set geocoder to default
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         //find the field to add text
-        TextView textView = findViewById(R.id.locationStringReiceiver);
+        TextView textView = findViewById(R.id.locationStringReceiver);
 
         try {
             String city = "";
@@ -226,5 +225,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     public void onProviderDisabled(String provider) {
         //don't need this method
     }
+
 
 }

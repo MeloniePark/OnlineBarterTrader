@@ -61,7 +61,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     //Location
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -159,16 +158,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             // show an alert dialog to prompt the user to enable GPS
         }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_LOCATION);
-        }
-
-        // request location updates
-        locationManager.requestLocationUpdates(provider,0,0,this);
     }
 
     @Override

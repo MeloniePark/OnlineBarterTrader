@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,6 +38,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     //firebase
     FirebaseDatabase database;
     DatabaseReference providerDBRef;
+    DatabaseReference providerDBRefLoc;
 
     //view for the lists
     ListView providerItemLists;
@@ -78,7 +80,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         userEmailAddress = getIntent().getStringExtra("emailAddress");
         //creating reference variable inside the databased called "User"
         providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
-        System.out.println(userEmailAddress);
 
         //Firebase data addition, modification, deletion, reading performed through this section.
         providerDBRef.addChildEventListener(new ChildEventListener() {
@@ -121,6 +122,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             }
         });
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+        }
+
         initLocation();
     }
 
@@ -153,6 +158,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onLocationChanged(Location location) {
+
+        providerDBRefLoc = database.getReference("Users").child("Provider").child(userEmailAddress);
         double lat = location.getLatitude();
         double lng = location.getLongitude();
 
@@ -160,15 +167,19 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         //find the field to add text
-        TextView textView = findViewById(R.id.locationString);
+        TextView textView = findViewById(R.id.locationStringProvider);
+
         try {
+            String city = "";
             //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            System.out.println(addresses);
             if (addresses != null && addresses.size() > 0) {
                 Address address = addresses.get(0);
+                city = address.getLocality();
                 String addressString = address.getAddressLine(0);
                 textView.setText(addressString);
-                providerDBRef.child("location").setValue(addressString);
+                providerDBRefLoc.child("location").setValue(city);
             }
         } catch (IOException e) {
             e.printStackTrace();

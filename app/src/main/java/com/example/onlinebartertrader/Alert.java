@@ -1,21 +1,9 @@
 package com.example.onlinebartertrader;
 
-import static androidx.test.InstrumentationRegistry.getContext;
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,10 +15,10 @@ import com.google.firebase.database.annotations.Nullable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.*;
 
 public class Alert {
     protected FirebaseDatabase database;
@@ -39,6 +27,10 @@ public class Alert {
     protected String userEmailAddress;
     protected String itemInterested = "nullType";
     protected Context myContext;
+
+    //logger
+    private static final Logger logger = Logger.getLogger(Alert.class.getName());
+
 
     public Alert() {
     }
@@ -58,12 +50,12 @@ public class Alert {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("Failed to read value. " + databaseError.getCode());
+                logger.info("Failed to read value. " + databaseError.getCode());
             }
         });
 
-        System.out.println(userEmail);
-        System.out.println(itemInterested);
+        logger.info(userEmail);
+        logger.info(itemInterested);
     }
 
     public void startListening() {
@@ -83,7 +75,7 @@ public class Alert {
                         if (itemType != null && itemAvailDateString != null && itemName != null){
                             Date itemAvailDate = new Date();
                             try {
-                                System.out.println("date is "+itemAvailDateString);
+                                logger.info("date is "+itemAvailDateString);
                                 itemAvailDate = format.parse(itemAvailDateString);
                                 if (isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
                                     sendNotification(itemType, itemName);
@@ -103,7 +95,7 @@ public class Alert {
                         if (itemType != null && itemAvailDateString != null && itemName != null){
                             Date itemAvailDate = new Date();
                             try {
-                                System.out.println("date is "+itemAvailDateString);
+                                logger.info("date is "+itemAvailDateString);
                                 itemAvailDate = format.parse(itemAvailDateString);
                                 if (isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
                                     sendNotification(itemType, itemName);
@@ -116,30 +108,48 @@ public class Alert {
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                        //this method was left empty for possible future implementation requirements
+                        throw new UnsupportedOperationException("No support for this operation in iteration 2");
                     }
 
                     @Override
                     public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        //this method was left empty for possible future implementation requirements
+                        throw new UnsupportedOperationException("No support for this operation in iteration 2");
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
+                        //this method was left empty for possible future implementation requirements
+                        throw new UnsupportedOperationException("No support for this operation in iteration 2");
                     }
 
                 });
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //this method was left empty for possible future implementation requirements
+                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+            }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {}
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                //this method was left empty for possible future implementation requirements
+                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+            }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //this method was left empty for possible future implementation requirements
+                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+            }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //this method was left empty for possible future implementation requirements
+                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+            }
 
         });
     }

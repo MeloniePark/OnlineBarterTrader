@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -46,6 +47,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     ListView receiverLists;
     ListView receiverTradeList;
 
+    LocationManager locationManager;
     Button receiverTradedBtn;
     Button receiverAvailableBtn;
 
@@ -79,6 +81,8 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
         }
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         initLocation();
     }
@@ -175,7 +179,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     private void initLocation(){
 
         //Location
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         String provider = LocationManager.GPS_PROVIDER;
 
         // check if GPS is enabled
@@ -198,7 +201,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onLocationChanged(Location location) {
-
+        System.out.println(location);
         receiverDBRefLoc = database.getReference("Users").child("Receiver").child(userEmailAddress);
         double lat = location.getLatitude();
         double lng = location.getLongitude();
@@ -212,7 +215,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             String city = "";
             //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            System.out.println(addresses);
             if (addresses != null && addresses.size() > 0) {
                 Address address = addresses.get(0);
                 city = address.getLocality();
@@ -225,5 +227,19 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
             textView.setText("CAN NOT FIND LOCATION");
         }
+
     }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
 }

@@ -190,4 +190,17 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             textView.setText("CAN NOT FIND LOCATION");
         }
     }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
 }

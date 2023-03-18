@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.*;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,6 +36,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ArrayList<String> emailsFound = new ArrayList<>();
     ArrayList<String> passwordFound =new ArrayList<>();
     volatile boolean dataRetrieved = false;
+    //logger - logging is better exercise than system printing out.
+    private static final Logger logger = Logger.getLogger(LoginActivity.class.getName());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Failed to read value. " + databaseError.getCode());
+                logger.info("Failed to read value. " + databaseError.getCode());
             }
         });
     }
@@ -78,8 +82,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userRefForCheckEmail.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> emailsFound = new ArrayList<>();
-                List<String> passwordFound = new ArrayList<>();
+                emailsFound = new ArrayList<>();
+                passwordFound = new ArrayList<>();
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     String userEmail = userSnapshot.getKey().replace(".", "");
@@ -92,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Failed to read value. " + databaseError.getCode());
+                logger.info("Failed to read value. " + databaseError.getCode());
                 callback.onEmailPasswordRetrieved(Collections.emptyList(), Collections.emptyList());
             }
         });
@@ -184,6 +188,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         while (!dataRetrieved);
+
         // Getting the email and password entered by the user
         emailAddressEntered = getRidOfDot(getEmailAddressEntered());
         passwordEntered = getPasswordEntered();

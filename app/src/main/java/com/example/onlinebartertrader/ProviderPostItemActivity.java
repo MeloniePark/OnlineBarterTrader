@@ -32,13 +32,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+
+import java.util.logging.*;
+
 
 /*
  ** ProviderPostItemActivity class
@@ -54,6 +51,9 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
     FirebaseDatabase database;
     DatabaseReference providerDBRef;
     DatabaseReference currentIDRef;
+
+    //logger
+    private static final Logger logger = Logger.getLogger(ProviderPostItemActivity.class.getName());
 
     //Post page's fields (text fields, button, or) variables
     String productType;         //Drop down product types menu
@@ -86,7 +86,7 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Failed to read value. " + databaseError.getCode());
+                logger.info("Failed to read value. " + databaseError.getCode());
             }
         });
 
@@ -106,10 +106,7 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
 
     //This method checks if the product type field of the form is empty.
     public boolean isProductTypeEmpty(String productType){
-        if (productType.isEmpty()) {
-            return true;
-        }
-        return false;
+        return productType.isEmpty();
     }
 
     //This method checks if the product type value is valid.
@@ -120,80 +117,53 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         String type3 = "computer accessories";
         String type4 = "mobile phones";
         String type5 = "baby toys";
-        if (productType.equalsIgnoreCase(type1)||
+        return productType.equalsIgnoreCase(type1)||
                 productType.equalsIgnoreCase(type2)||
                 productType.equalsIgnoreCase(type3)||
                 productType.equalsIgnoreCase(type4)||
-                productType.equalsIgnoreCase(type5))   {
-            return true;
-        }
-        return false;
+                productType.equalsIgnoreCase(type5);
     }
 
     //This method checks if the description field of the form is empty.
     public boolean isDescriptionEmpty(String description){
-        if (description.isEmpty()) {
-            return true;
-        }
-        return false;
+        return (description.isEmpty());
     }
 
     //This method checks if the product name field of the form is empty.
     public boolean isProductNameEmpty(String productName){
-        if (productName.isEmpty()) {
-            return true;
-        }
-        return false;
+        return (productName.isEmpty());
     }
 
     //This method checks if the date field of the form is empty.
     public boolean isDateEmpty(String date){
-        if (date.isEmpty()) {
-            return true;
-        }
-        return false;
+        return (date.isEmpty());
     }
 
     //This method checks if the inputted date is valid - date should be later than current date.
     public boolean isDateValid(String date){
         Pattern pattern = Pattern.compile("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$");
-        if (pattern.matcher(date).matches()) {
-            return true;
-        }
-        return false;
+        return (pattern.matcher(date).matches());
     }
 
     //This method checks if the place of exchange field of the form is empty.
     public boolean isPlaceOfExchangeEmpty(String exchangePlace){
-        if (exchangePlace.isEmpty()) {
-            return true;
-        }
-        return false;
+        return (exchangePlace.isEmpty());
     }
 
     //This method checks if the approximate market value field of the form is empty.
     public boolean isApproxMarketValueEmpty(String marketValue){
-        if (marketValue.isEmpty()) {
-            return true;
-        }
-        return false;
+        return (marketValue.isEmpty());
     }
 
     //This method checks if the approximate market value's format is valid. - should be integer.
     public boolean isApproxMarketValueValid(String marketValue){
         Pattern pattern = Pattern.compile("[1-9][0-9]*");
-        if (pattern.matcher(marketValue).matches()) {
-            return true;
-        }
-        return false;
+        return (pattern.matcher(marketValue).matches());
     }
 
     //This method checks if preferred exchange in return field of the form is empty.
     public boolean isPreferredExchangeInReturnEmpty(String preferredExchange){
-        if (preferredExchange.isEmpty()) {
-            return true;
-        }
-        return false;
+        return (preferredExchange.isEmpty());
     }
 
 
@@ -219,9 +189,9 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError == null) {
-                    System.out.println("itemID updated successfully.");
+                    logger.info("itemID updated successfully.");
                 } else {
-                    System.out.println("Failed to update itemID. " + databaseError.getCode());
+                    logger.info("Failed to update itemID. " + databaseError.getCode());
                 }
             }
         });
@@ -232,8 +202,7 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
     // This method gets the value of the productType entered by the user
     protected String getProductType() {
         Spinner productType = findViewById(R.id.productTypeMenuProviderPostItem);
-        String selectedOption = productType.getSelectedItem().toString();
-        return selectedOption;
+        return (productType.getSelectedItem().toString());
     }
 
     //This method gets the value of the product name entered by the user.
@@ -322,11 +291,6 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
             setStatusMessage(errorMessage);
             Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
         }
-        else if (!isProductTypeValid(productType)){
-            errorMessage = getResources().getString(R.string.INVALID_PRODUCT_TYPE).trim();
-            setStatusMessage(errorMessage);
-            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-        }
         else if (!isApproxMarketValueValid(approxMarketValue)){
             errorMessage = getResources().getString(R.string.INVALID_APPROXIMATE_MARKET_VALUE).trim();
             setStatusMessage(errorMessage);
@@ -342,7 +306,6 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
             int newID = createNewIDThenIncrementRefID();
 
             //Data reference path for saving the product added.
-            // path: database.getReference("Users/Provider/"+userEmailAddress+"/items/");
             String itemRef = "Users/Provider/" + userEmailAddress + "/items/" + newID;
 
             //Adds all the user provided fields in the form to the database.

@@ -72,8 +72,8 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
         // US6 new functionality: alert the receiver when there is a new item added
         // and is interested by the user
-        Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
-        itemAlert.startListening();
+//        Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
+//        itemAlert.startListening();
 //        initLocation();
     }
     private void initLocation(){

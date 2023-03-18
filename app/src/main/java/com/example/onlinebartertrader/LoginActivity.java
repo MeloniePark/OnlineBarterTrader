@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button receiverLoginButton;
     ArrayList<String> emailsFound = new ArrayList<>();
     ArrayList<String> passwordFound =new ArrayList<>();
+    boolean retrievedEmail = false, retrievedPassword=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String userEmail = userSnapshot.getKey().replace(".", "");
                     emailsFound.add(userEmail);
                     passwordFound.add(userSnapshot.child("password").getValue(String.class));
+                    if (emailsFound.size()!=0){
+                        retrievedEmail = true;
+                    }
                 }
             }
 
@@ -152,6 +156,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         // Getting the email and password entered by the user
+        while (retrievedEmail ==false);
         emailAddressEntered = getRidOfDot(getEmailAddressEntered());
         passwordEntered = getPasswordEntered();
         String errorMessage;

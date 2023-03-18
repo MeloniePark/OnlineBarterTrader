@@ -3,6 +3,7 @@
   <component name="AndroidTestResultsUserPreferences">
     <option name="androidTestResultsTableState">
       <map>
+<<<<<<< HEAD
         <entry key="-2108871208">
           <value>
             <AndroidTestResultsTableState>
@@ -16,12 +17,15 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+=======
+>>>>>>> fc14de7 (Debug: debugged null pointer issue for location reading functionality)
         <entry key="-2014309771">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+<<<<<<< HEAD
                   <entry key="Pixel_6_API_30" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -101,6 +105,8 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+=======
+>>>>>>> fc14de7 (Debug: debugged null pointer issue for location reading functionality)
                   <entry key="Pixel_XL_API_22" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -114,6 +120,7 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+<<<<<<< HEAD
                   <entry key="Pixel_6_API_30" value="120" />
                   <entry key="Pixel_6_Pro_API_30" value="120" />
                   <entry key="Tests" value="360" />
@@ -247,6 +254,8 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+=======
+>>>>>>> fc14de7 (Debug: debugged null pointer issue for location reading functionality)
                   <entry key="Pixel_XL_API_22" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -454,6 +463,19 @@
           </value>
         </entry>
         <entry key="1899787904">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_XL_API_22" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="770161219">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">

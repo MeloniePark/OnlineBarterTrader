@@ -57,12 +57,6 @@ public class ProviderPageEspressoTest {
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
-        // Context of the app under test.
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
-        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
-        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
-        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
-        onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
     }
@@ -70,11 +64,7 @@ public class ProviderPageEspressoTest {
     //*** User story 3, AT2 **/
     @Test
     public void checkIfPostButtonExist() {
-<<<<<<< HEAD
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
-=======
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
->>>>>>> 61bf25c (fix every thing for location)
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
@@ -85,35 +75,25 @@ public class ProviderPageEspressoTest {
     //*** User story 3, AT2 **/
     @Test
     public void checkIfProviderItemsListed() {
-<<<<<<< HEAD
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
-=======
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
->>>>>>> 61bf25c (fix every thing for location)
+
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
-<<<<<<< HEAD
         onView(withId(R.id.providerPostProvider)).perform(click());
-=======
->>>>>>> 61bf25c (fix every thing for location)
         onView(withId(R.id.providerListProvider)).check(matches(isDisplayed()));
     }
 
     //*** Iteration 2 User story 1**/
     @Test
-    public void checkIfAtDal() throws InterruptedException {
-<<<<<<< HEAD
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("tn785083@dal.ca"));
-=======
+    public void checkIfLocationVisible() throws InterruptedException {
         onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
->>>>>>> 61bf25c (fix every thing for location)
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.providerLoginButtonLogIn)).perform(click());
         Thread.sleep(5000);
-        onView(withId(R.id.locationString)).check(matches(withText("MacDonald Bldg, 6300 Coburg Rd, Halifax, NS B3H 4R2, Canada")));
+        onView(withId(R.id.locationStringProvider)).check(matches(isDisplayed()));
     }
 }

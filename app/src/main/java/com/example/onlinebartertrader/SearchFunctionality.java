@@ -2,6 +2,7 @@ package com.example.onlinebartertrader;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +27,9 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
     DatabaseReference usersRef = database.getReference("Users/Provider/");
     DatabaseReference userRefForEmail;
     ArrayList<String> itemList = new ArrayList<>();
-    String[] preferences = { "All", "Clothing", "Electronics", "Furniture", "General Goods"};
+    String[] preferences = { "All", "computer accessories", "Electronics", "Furniture", "General Goods"};
     String preference = "All";
+    ListView receiverItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,10 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
         userRefForEmail = database.getReference("Users/Receiver/"+emailAddress);
         DatabaseReference preferenceRef = userRefForEmail.child("preference");
 
+        receiverItemList = (ListView) findViewById(R.id.receiverListReceiver);
+        System.out.println(receiverItemList);
+        ReceiverItemList receiverList = new ReceiverItemList(emailAddress, receiverItemList, this);
+        receiverList.startListening();
         // Attach a ValueEventListener to preferenceRef
         preferenceRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

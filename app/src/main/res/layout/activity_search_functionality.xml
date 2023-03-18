@@ -33,13 +33,12 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="10dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="370dp"
-            android:layout_height="611dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="40dp" />
-
+        <ListView
+            android:id="@+id/receiverListReceiver"
+            android:layout_width="363dp"
+            android:layout_height="616dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

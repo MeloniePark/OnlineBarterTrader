@@ -37,6 +37,9 @@ public class Alert {
 
     public Alert(String userEmail, Context myContext) {
         this.myContext = myContext;
+        if (userEmail == null){
+            userEmail = "us6espresso@dalca";
+        }
         this.userEmailAddress = userEmail.toLowerCase(Locale.ROOT);
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         String itemRef = "Users/Receiver/" + userEmailAddress + "/preference/";

@@ -94,63 +94,33 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
         itemAlert.startListening();
     }
-
     @Override
     public void onClick(View view) {
-
-        //array Adapter for the listview to list all the items of the provider.
-        final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<>
-                (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
-
-        database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
 
         //if availableProduct button is clicked -> show available products in that area.
         if (view.getId() == R.id.availableProductsReceiver){
             //register the views, buttons and other components for the receiver landing page.
             receiverLists = (ListView) findViewById(R.id.receiverListReceiver);
-            receiverLists.setAdapter(receiverArrAdapter);
+            System.out.println(receiverLists);
 
-            //creating reference variable inside the databased called "User"
-            receiverDBRefAvailable = database.getReference("Users/Receiver").child(userEmailAddress);
-
-            //Firebase data addition, modification, deletion, reading performed through this section.
-            receiverDBRefAvailable.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    String valueRead = snapshot.getValue(String.class);
-                    receiverItems.add(valueRead);
-                    receiverArrAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    receiverArrAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                    //don't need this method
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    //don't need this method
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    //don't need this method
-                }
-            });
+            ReceiverItemList myList = new ReceiverItemList(userEmailAddress, receiverLists, ReceiverLandingPage.this);
+            myList.startListening();
         }
 
         //if traded items button is clicked -> show traded items history of receiver
         if (view.getId() == R.id.tradedHistoryReceiver){
+
+            //array Adapter for the listview to list all the items of the provider.
+            final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
+                    (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
+
+            database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+
             //register the views, buttons and other components for the receiver landing page.
             receiverTradeList = (ListView) findViewById(R.id.receiverTraded);
             receiverTradeList.setAdapter(receiverArrAdapter);
 
-            receiverDBRefHistory = database.getReference("Users").child("Receiver").child(userEmailAddress);
+            receiverDBRefHistory = database.getReference("templateUser").child("receiver").child("receivedItem");
 
             //Firebase data addition, modification, deletion, reading performed through this section.
             receiverDBRefHistory.addChildEventListener(new ChildEventListener() {
@@ -168,21 +138,22 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                    //don't need this method
+
                 }
 
                 @Override
                 public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    //don't need this method
+
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    //don't need this method
+
                 }
             });
         }
     }
+
 
     private void initLocation(){
 

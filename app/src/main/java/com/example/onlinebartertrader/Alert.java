@@ -80,14 +80,17 @@ public class Alert {
                         String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
                         String itemName = dataSnapshot.child("productName").getValue(String.class);
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                        Date itemAvailDate = new Date();
-                        try {
-                            itemAvailDate = format.parse(itemAvailDateString);
-                            if (isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
-                                sendNotification(itemType, itemName);
+                        if (itemType != null && itemAvailDateString != null && itemName != null){
+                            Date itemAvailDate = new Date();
+                            try {
+                                System.out.println("date is "+itemAvailDateString);
+                                itemAvailDate = format.parse(itemAvailDateString);
+                                if (isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
+                                    sendNotification(itemType, itemName);
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
                         }
                     }
 
@@ -97,14 +100,17 @@ public class Alert {
                         String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
                         String itemName = dataSnapshot.child("productName").getValue(String.class);
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                        Date itemAvailDate = new Date();
-                        try {
-                            itemAvailDate = format.parse(itemAvailDateString);
-                            if (isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
-                                sendNotification(itemType, itemName);
+                        if (itemType != null && itemAvailDateString != null && itemName != null){
+                            Date itemAvailDate = new Date();
+                            try {
+                                System.out.println("date is "+itemAvailDateString);
+                                itemAvailDate = format.parse(itemAvailDateString);
+                                if (isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
+                                    sendNotification(itemType, itemName);
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
                         }
                     }
 

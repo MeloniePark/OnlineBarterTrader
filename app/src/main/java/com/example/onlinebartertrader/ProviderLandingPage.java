@@ -1,5 +1,7 @@
 package com.example.onlinebartertrader;
 
+
+import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +47,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     ListView providerItemLists;
 
     Button providerPostBtn;
+    String userEmailAddress;
 
     //arraylists for listview
     ArrayList<String> providerItems = new ArrayList<>();
@@ -66,6 +69,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<String>
                 (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
 
+        userEmailAddress = getIntent().getStringExtra("emailAddress");
         //register the views, buttons and other components for the provider landing page.
         providerItemLists = (ListView) findViewById(R.id.providerListProvider);
         //setting array Adapter for the ListView providerItemLists.

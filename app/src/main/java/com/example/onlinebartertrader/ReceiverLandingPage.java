@@ -75,6 +75,9 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         userEmailAddress = getIntent().getStringExtra("emailAddress");
 
+        if (userEmailAddress == null){
+            userEmailAddress = "test@dalca";
+        }
         receiverDBRefAvailable = database.getReference("Users").child("Receiver").child(userEmailAddress);
         receiverDBRefHistory = database.getReference("Users").child("Receiver").child(userEmailAddress);
 
@@ -201,7 +204,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onLocationChanged(Location location) {
-        System.out.println(location);
         receiverDBRefLoc = database.getReference("Users").child("Receiver").child(userEmailAddress);
         double lat = location.getLatitude();
         double lng = location.getLongitude();

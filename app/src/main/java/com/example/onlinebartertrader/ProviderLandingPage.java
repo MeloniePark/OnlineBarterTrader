@@ -4,6 +4,7 @@ package com.example.onlinebartertrader;
 import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -11,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,6 +41,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     //firebase
     FirebaseDatabase database;
     DatabaseReference providerDBRef;
+    DatabaseReference providerDBRefLoc;
 
     //view for the lists
     ListView providerItemLists;
@@ -53,6 +56,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     private LocationManager locationManager;
     private String provider;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
+    String userEmailAddress;
 
 
     @Override
@@ -77,17 +81,28 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
         //Firebase Connection
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
-        //creating reference variable inside the databased called "templateUser"
-        providerDBRef = database.getReference("templateUser").child("provider").child("goods");
-
+        //get user email
+        userEmailAddress = getIntent().getStringExtra("emailAddress");
+        //creating reference variable inside the databased called "User"
+        if (userEmailAddress == null){
+            userEmailAddress = "test@dalca";
+        }
+        providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
 
         //Firebase data addition, modification, deletion, reading performed through this section.
         providerDBRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String valueRead = snapshot.getValue(String.class);
-                providerItems.add(valueRead);
-                providerArrAdapter.notifyDataSetChanged();
+                try {
+                    String itemType = snapshot.child("productType").getValue(String.class);
+                    String itemName = snapshot.child("productName").getValue(String.class);
+
+                    providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType);
+                    providerArrAdapter.notifyDataSetChanged();
+                }catch (Exception e){
+                    System.out.println("It can not convert to string");
+                }
+
             }
 
             @Override
@@ -111,8 +126,22 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             }
         });
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+        }
+
         initLocation();
     }
+
+    @Override
+    public void onClick(View view) {
+        //where we move on to posting provider's goods page.
+        //Functionality will be added in future iteration
+        Intent intent = new Intent(this, ProviderPostItemActivity.class);
+        intent.putExtra("emailAddress", userEmailAddress);
+        startActivity(intent);
+    }
+
 
     private void initLocation(){
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -135,35 +164,46 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         locationManager.requestLocationUpdates(provider,0,0,this);
     }
 
-
-    @Override
-    public void onClick(View view) {
-        //where we move on to posting provider's goods page.
-        //Functionality will be added in future iteration
-        Intent intent = new Intent(this, ProviderPostItemActivity.class);
-        intent.putExtra("emailAddress", userEmailAddress);
-        startActivity(intent);
-    }
-
     @Override
     public void onLocationChanged(Location location) {
+
+        providerDBRefLoc = database.getReference("Users").child("Provider").child(userEmailAddress);
         double lat = location.getLatitude();
         double lng = location.getLongitude();
 
+        //set geocoder to default
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-        TextView textView = findViewById(R.id.locationString);
+        //find the field to add text
+        TextView textView = findViewById(R.id.locationStringProvider);
+
         try {
+            String city = "";
+            //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             if (addresses != null && addresses.size() > 0) {
                 Address address = addresses.get(0);
+                city = address.getLocality();
                 String addressString = address.getAddressLine(0);
                 textView.setText(addressString);
-                System.out.println("Location"+ addressString);
+                providerDBRefLoc.child("location").setValue(city);
             }
         } catch (IOException e) {
             e.printStackTrace();
             textView.setText("CAN NOT FIND LOCATION");
         }
     }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
 }

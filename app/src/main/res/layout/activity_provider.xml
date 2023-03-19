@@ -19,6 +19,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/displayProviderItemsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Display Provider Items"
+        app:layout_constraintBottom_toTopOf="@id/providerListProvider"
+        app:layout_constraintEnd_toEndOf="@id/providerListProvider"
+        app:layout_constraintStart_toStartOf="@id/providerListProvider"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
     <ListView
         android:id="@+id/providerListProvider"
         android:layout_width="302dp"

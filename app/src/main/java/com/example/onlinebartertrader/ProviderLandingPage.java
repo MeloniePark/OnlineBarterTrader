@@ -1,10 +1,8 @@
 package com.example.onlinebartertrader;
 
-
 import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -31,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.logging.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +48,14 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     Button providerPostBtn;
     String userEmailAddress;
 
+    //Logging
+    Logger logger = Logger.getLogger(ProviderLandingPage.class.getName());
+
+
     //arraylists for listview
     ArrayList<String> providerItems = new ArrayList<>();
 
     //Location
-    private LocationManager locationManager;
-    private String provider;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
 
 
@@ -100,7 +101,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                     providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Status: " + status);
                     providerArrAdapter.notifyDataSetChanged();
                 }catch (Exception e){
-                    System.out.println("It can not convert to string");
+                    logger.info("It can not convert to string");
                 }
             }
 
@@ -111,17 +112,20 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
             }
         });
 
@@ -143,6 +147,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
 
     private void initLocation(){
+        String provider;
+        LocationManager locationManager;
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = LocationManager.GPS_PROVIDER;
 
@@ -180,7 +186,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             String city = "";
             //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            if (addresses != null && addresses.size() > 0) {
+            if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 city = address.getLocality();
                 String addressString = address.getAddressLine(0);
@@ -194,15 +200,15 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
     public void onProviderEnabled(String provider) {
+        //unused for now but possible to be used in future iteration
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+        //unused for now but possible to be used in future iteration
+        throw new UnsupportedOperationException();
     }
 
 }

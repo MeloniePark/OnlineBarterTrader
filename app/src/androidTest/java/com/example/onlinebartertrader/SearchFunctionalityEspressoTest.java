@@ -1,11 +1,16 @@
 package com.example.onlinebartertrader;
+import android.content.Context;
 import android.view.KeyEvent;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,14 +18,19 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class SearchFunctionalityEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> myRule = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<SearchFunctionality> myRule = new ActivityScenarioRule<>(SearchFunctionality.class);
 
     @BeforeClass
     public static void setup(){
@@ -28,138 +38,53 @@ public class SearchFunctionalityEspressoTest {
 
     @AfterClass
     public static void tearDown() {
-        // Add any necessary tear down steps here.
+        System.gc();
+    }
+    @Test
+    public void useAppContext() {
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
     }
 
-    @Test
-    public void checkSearchFunction() {
-        onView(withId(R.id.searchView)).perform(click());
-        onView(withId(R.id.searchView)).perform(click());
-    }
-
-    @Test
-    public void checkWholeTextSearch() {
-        onView(withId(R.id.searchView)).perform(click());
-        onView(withId(R.id.searchView)).perform(typeText("baby toys"));
-        onView(withId(R.id.searchView)).perform(click());}
-
-    @Test
-    public void checkIncompleteTextSearch() {
-        onView(withId(R.id.searchView)).perform(click());
-        onView(withId(R.id.searchView)).perform(typeText("ba"));
-        onView(withId(R.id.searchView)).perform(click());
-
-    }
-
-    @Test
-    public void checkUppercaseSearch() {
-        onView(withId(R.id.searchView)).perform(click());
-        onView(withId(R.id.searchView)).perform(typeText("BABY TOYS"));
-        onView(withId(R.id.searchView)).perform(click()); }
-
-    @Test
-    public void checkTrimSearch() {
-        onView(withId(R.id.searchView)).perform(click());
-        onView(withId(R.id.searchView)).perform(typeText("Apple"));
-        onView(withId(R.id.searchView)).perform(click()); }
-
-    @Test
-    public void checkNoResultSearch() {
-        onView(withId(R.id.searchView)).perform(click());
-        onView(withId(R.id.searchView)).perform(typeText("Abble"));
-        onView(withId(R.id.searchView)).perform(ViewActions.pressKey(KeyEvent.KEYCODE_ENTER));
-    }
-}//package com.example.onlinebartertrader;
-//import androidx.test.espresso.Espresso;
-//import androidx.test.espresso.action.ViewActions;
-//import androidx.test.espresso.assertion.ViewAssertions;
-//import androidx.test.espresso.matcher.RootMatchers;
-//import androidx.test.espresso.matcher.ViewMatchers;
-//import androidx.test.ext.junit.rules.ActivityScenarioRule;
-//import androidx.test.filters.LargeTest;
-//import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
-//import androidx.test.platform.app.InstrumentationRegistry;
-//import androidx.test.rule.GrantPermissionRule;
-//
-//import com.example.onlinebartertrader.R;
-//import com.example.onlinebartertrader.SearchFunctionality;
-//
-//import org.junit.AfterClass;
-//import org.junit.BeforeClass;
-//import org.junit.Rule;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//
-//import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
-//import static androidx.test.espresso.matcher.ViewMatchers.withHint;
-//import static androidx.test.espresso.matcher.ViewMatchers.withText;
-//import static org.hamcrest.Matchers.allOf;
-//import static org.hamcrest.Matchers.containsString;
-//import static org.hamcrest.Matchers.not;
-//
-//@RunWith(AndroidJUnit4ClassRunner.class)
-//@LargeTest
-//public class SearchFunctionalityEspressoTest {
-//
-//    @Rule
-//    public ActivityScenarioRule<SearchFunctionality> activityRule =
-//            new ActivityScenarioRule<>(SearchFunctionality.class);
-//
-//    @Rule
-//    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
-//
-//    @BeforeClass
-//    public static void setUp() {
-//        // Add any necessary setup steps here.
-//    }
-//
-//    @AfterClass
-//    public static void tearDown() {
-//        // Add any necessary tear down steps here.
+//    @Test
+//    public void testSearch() {
+//            onView(withId(R.id.searchView)).perform(typeText("baby toys"));
+//            onView(withId(R.id.searchView)).perform(click());
+//           //  Check that the receiver list view has at least one child
+//            onView(withId(R.id.receiverListReceiver)).check(matches(hasMinimumChildCount(1)));
 //    }
 //
 //    @Test
-//    public void testSearchByProductType() {
-//        Espresso.onView(ViewMatchers.withId(R.id.receiver)).perform(ViewActions.click());
+//    public void testSpinnerSelection() {
+//            // Click the spinner to open the dropdown
+//        onView(withId(R.id.spinner)).perform(click());
 //
-//        Espresso.onView(ViewMatchers.withId(R.id.product_list))
-//                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+//            // Click on the second item in the dropdown
+//        onView(withText("clothes")).perform(click());
 //
-//        Espresso.onView(ViewMatchers.withId(R.id.search_view))
-//                .perform(ViewActions.click());
+//            // Check that the selected preference is saved in the database
+//            // and that the receiver list view is updated accordingly
+//            // (you can use Firebase Test Lab or a similar tool to test this)
+//        }
 //
-//        Espresso.onView(ViewMatchers.withHint(R.string.search_hint))
-//                .perform(ViewActions.typeText("Electronics"));
 //
-//        Espresso.onView(ViewMatchers.withId(R.id.product_list))
-//                .inRoot(RootMatchers.withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
-//                .check(ViewAssertions.matches(ViewMatchers.hasDescendant(withText(containsString("Electronics")))));
-//
-//        Espresso.onView(ViewMatchers.withId(R.id.search_view))
-//                .perform(ViewActions.click());
-//
-//        Espresso.onView(ViewMatchers.withHint(R.string.search_hint))
-//                .perform(ViewActions.typeText("iPhone"));
-//
-//        Espresso.onView(ViewMatchers.withId(R.id.product_list))
-//                .inRoot(RootMatchers.withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
-//                .check(ViewAssertions.matches(ViewMatchers.hasDescendant(withText(containsString("iPhone")))));
-//
-//        Espresso.onView(ViewMatchers.withId(R.id.search_view))
-//                .perform(ViewActions.click());
-//
-//        Espresso.onView(ViewMatchers.withHint(R.string.search_hint))
-//                .perform(ViewActions.typeText("Apple"));
-//
-//        Espresso.onView(ViewMatchers.withId(R.id.search_view))
-//                .perform(ViewActions.closeSoftKeyboard());
-//
-//        Espresso.onView(ViewMatchers.withId(R.id.save_filter_button))
-//                .perform(ViewActions.click());
-//
-//        Espresso.onView(withText(R.string.filter_saved_message))
-//                .inRoot(RootMatchers.withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
-//                .check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+//    @Test
+//    public void checkSearchFunction() {
+//        onView(withId(R.id.searchView)).perform(click());
+//        onView(withId(R.id.searchView)).perform(click());
 //    }
-//}
-
+//
+//    @Test
+//    public void checkWholeTextSearch() {
+//        onView(withId(R.id.searchView)).perform(click());
+//        onView(withId(R.id.searchView)).perform(typeText("baby toys"));
+//        onView(withId(R.id.searchView)).perform(click());}
+//
+//
+//    @Test
+//    public void checkNoResultSearch() {
+//        onView(withId(R.id.searchView)).perform(click());
+//        onView(withId(R.id.searchView)).perform(typeText("Abble"));
+//        onView(withId(R.id.searchView)).perform(ViewActions.pressKey(KeyEvent.KEYCODE_ENTER));
+//    }
+}

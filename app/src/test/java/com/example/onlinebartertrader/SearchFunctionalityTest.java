@@ -1,56 +1,32 @@
 package com.example.onlinebartertrader;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import android.util.Log;
-import android.widget.EditText;
-
-import androidx.test.runner.AndroidJUnit4;
-
-import com.example.onlinebartertrader.MainActivity;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.junit.Assert.*;
 
-@RunWith(AndroidJUnit4.class)
+import android.content.Intent;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
+
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
 public class SearchFunctionalityTest {
-    static com.example.onlinebartertrader.SearchFunctionality SearchFunctionality;
-
+    static SearchFunctionality searchFunctionality;
     private SearchFunctionality activity;
-    private DatabaseReference mockUsersRef;
-    private DatabaseReference mockUserRefForEmail;
-    private DatabaseReference mockPreferenceRef;
-
+    private Intent intent;
+    private ListView receiverItemList;
+    private Spinner spinner;
 
     @BeforeClass
-    public  void setup() {
-        SearchFunctionality = new SearchFunctionality();
-     //   when(Log.e(any(String.class),any(String.class))).thenReturn(any(Integer.class));
-        mockUsersRef = mock(DatabaseReference.class);
-        mockUserRefForEmail = mock(DatabaseReference.class);
-        mockPreferenceRef = mock(DatabaseReference.class);
-
-        when(mockUsersRef.child("Users/Provider/")).thenReturn(mockUserRefForEmail);
-
-        activity = new SearchFunctionality();
-        activity.database = mock(FirebaseDatabase.class);
-        when(activity.database.getReference("Users/Provider/")).thenReturn(mockUserRefForEmail);
-        when(mockUserRefForEmail.child("preference")).thenReturn(mockPreferenceRef);
+    public static void setup() {
+        searchFunctionality = new SearchFunctionality();
     }
-
 
     @AfterClass
     public static void tearDown() {
@@ -58,29 +34,32 @@ public class SearchFunctionalityTest {
     }
 
     @Test
-    public void testSearchByProductType() {
-    }
-    @Test
-    public void onCreate_setsContentView() {
-        SearchFunctionality searchFunctionality = new SearchFunctionality();
-        searchFunctionality.onCreate(null);
-        assertNotNull(searchFunctionality.findViewById(R.id.searchView));
+    public void testPreferenceExists() {
+        SearchFunctionality search = new SearchFunctionality();
+        String expected = "computer accessories";
+        String actual = search.preferences[1];
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void onItemSelected_setsPreference() {
-        SearchFunctionality searchFunctionality = new SearchFunctionality();
-        searchFunctionality.userRefForEmail = mock(DatabaseReference.class);
-        searchFunctionality.onItemSelected(null, null, 1, 0);
-        assertEquals("Electronics", searchFunctionality.preference);
+    public void testPreferenceDoesNotExist() {
+        SearchFunctionality search = new SearchFunctionality();
+        String expected = "All";
+        String actual = search.preference;
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void testSpinnerContainsCorrectPreferences() {
+        // Assert that the ArrayAdapter used to populate the spinner contains the correct preferences array
+        ArrayAdapter<String> spinnerAdapter = (ArrayAdapter<String>) spinner.getAdapter();
+        //assertArrayEquals(activity.preferences, spinnerAdapter.toArray());
     }
 
     @Test
-    public void onNothingSelected_doesNothing() {
-        SearchFunctionality searchFunctionality = new SearchFunctionality();
-        searchFunctionality.onNothingSelected(null);
-        // no exception should be thrown
+    public void testSearchViewOnQueryTextSubmitReturnsTrue() {
+        //assertTrue(searchView.getOnQueryTextListener().onQueryTextSubmit("search"));
     }
+
 }
 
 

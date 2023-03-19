@@ -44,7 +44,7 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
         // Get the intent that started this activity
         Intent intent = getIntent();
 
-        // Retrieve the email address from the intent extra
+        // Retrieve the email addresss from the intent extra
         emailAddress = intent.getStringExtra("emailAddress");
         if (emailAddress==null){
             emailAddress = "test@dalca";
@@ -67,7 +67,7 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
                     preferenceList.add(0, preference);
                     preferences = preferenceList.toArray(new String[preferenceList.size()]);
 
-                    Spinner spin = findViewById(R.id.spinner);
+                    Spinner spin = findViewById(R.id.spinnerSearch);
                     spin.setOnItemSelectedListener(SearchFunctionality.this);
                     ArrayAdapter<String> aa = new ArrayAdapter<>(SearchFunctionality.this, android.R.layout.simple_spinner_item, preferences);
                     aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -106,7 +106,7 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Spinner spinner = findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.spinnerSearch);
         String selectedValue = spinner.getSelectedItem().toString();
         DatabaseReference preferenceRef = userRefForEmail.child("preference");
         preferenceRef.setValue(selectedValue);

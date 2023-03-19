@@ -3,9 +3,7 @@ package com.example.onlinebartertrader;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
-
 import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;

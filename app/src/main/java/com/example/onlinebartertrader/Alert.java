@@ -204,7 +204,12 @@ public class Alert {
 
     //This method checks if the itemType matches the receiver's item type preference.
     boolean isUserInterested(String itemType) {
-        return itemType.equalsIgnoreCase(itemInterested);
+        if (itemInterested.toLowerCase(Locale.ROOT).equalsIgnoreCase("all")){
+            return true;
+        }
+        else {
+            return itemType.equalsIgnoreCase(itemInterested);
+        }
     }
 
 

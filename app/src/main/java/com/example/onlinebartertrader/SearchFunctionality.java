@@ -46,6 +46,9 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
 
         // Retrieve the email address from the intent extra
         emailAddress = intent.getStringExtra("emailAddress");
+        if (emailAddress==null){
+            emailAddress = "test@dalca";
+        }
         userRefForEmail = database.getReference("Users/Receiver/"+emailAddress);
         DatabaseReference preferenceRef = userRefForEmail.child("preference");
 

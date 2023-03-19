@@ -95,13 +95,13 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                 try {
                     String itemType = snapshot.child("productType").getValue(String.class);
                     String itemName = snapshot.child("productName").getValue(String.class);
+                    String status = snapshot.child("currentStatus").getValue(String.class);
 
-                    providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType);
+                    providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Status: " + status);
                     providerArrAdapter.notifyDataSetChanged();
                 }catch (Exception e){
                     System.out.println("It can not convert to string");
                 }
-
             }
 
             @Override

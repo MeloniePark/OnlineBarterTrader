@@ -105,6 +105,6 @@ public class ReceiverPageEspressoTest {
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
         Thread.sleep(5000);
-        onView(withId(R.id.locationStringReiceiver)).check(matches(isDisplayed()));
+        onView(withId(R.id.locationStringReceiver)).check(matches(isDisplayed()));
     }
 }

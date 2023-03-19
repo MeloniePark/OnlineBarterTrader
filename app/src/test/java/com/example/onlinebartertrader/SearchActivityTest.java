@@ -14,16 +14,16 @@ import android.widget.Spinner;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class SearchFunctionalityTest {
-    static SearchFunctionality searchFunctionality;
-    private SearchFunctionality activity;
+public class SearchActivityTest {
+    static SearchActivity searchActivity;
+    private SearchActivity activity;
     private Intent intent;
     private ListView receiverItemList;
     private Spinner spinner;
 
     @BeforeClass
     public static void setup() {
-        searchFunctionality = new SearchFunctionality();
+        searchActivity = new SearchActivity();
     }
 
     @AfterClass
@@ -33,7 +33,7 @@ public class SearchFunctionalityTest {
 
     @Test
     public void testPreferenceExists() {
-        SearchFunctionality search = new SearchFunctionality();
+        SearchActivity search = new SearchActivity();
         String expected = "computer accessories";
         String actual = search.preferences[1];
         assertEquals(expected, actual);
@@ -41,7 +41,7 @@ public class SearchFunctionalityTest {
 
     @Test
     public void testPreferenceDoesNotExist() {
-        SearchFunctionality search = new SearchFunctionality();
+        SearchActivity search = new SearchActivity();
         String expected = "All";
         String actual = search.preference;
         assertEquals(expected, actual);

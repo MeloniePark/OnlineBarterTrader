@@ -9,7 +9,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -43,26 +42,22 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     DatabaseReference receiverDBRefHistory;
     DatabaseReference receiverDBRefLoc;
 
-
     //view for the lists
     ListView receiverLists;
     ListView receiverTradeList;
 
-//    LocationManager locationManager;
     Button receiverTradedBtn;
     Button receiverAvailableBtn;
+    Button receiverSearchBtn;
     String userEmailAddress;
 
     //arraylists for listviews
     ArrayList<String> receiverItems = new ArrayList<>();
 
-//    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
-
     //Location
     private LocationManager locationManager;
-    private String provider;
+    private String receiver;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +74,8 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         receiverTradedBtn = findViewById(R.id.tradedHistoryReceiver);
         receiverTradedBtn.setOnClickListener(this);
 
+        receiverSearchBtn = findViewById(R.id.searchButtonReceiver);
+        receiverSearchBtn.setOnClickListener(this);
         //init database
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         userEmailAddress = getIntent().getStringExtra("emailAddress");
@@ -103,7 +100,9 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 //        Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
 //        itemAlert.startListening();
         initLocation();
+
     }
+
     @Override
     public void onClick(View view) {
 
@@ -161,6 +160,15 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
                 }
             });
+        }
+
+        System.out.println("here1");
+        //if search item button is clicked -> switch to search page
+        if (view.getId() == R.id.searchButtonReceiver){
+            System.out.println("here");
+            Intent intent = new Intent(this, SearchActivity.class);
+            intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
+            startActivity(intent);
         }
     }
 

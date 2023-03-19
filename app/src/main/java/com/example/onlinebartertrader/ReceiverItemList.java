@@ -30,7 +30,6 @@ public class ReceiverItemList {
     //logger - logging is better exercise than system printing out.
     private static final Logger logger = Logger.getLogger(Alert.class.getName());
 
-
     public ReceiverItemList() {
     }
 

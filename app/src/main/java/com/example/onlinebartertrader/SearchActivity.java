@@ -2,14 +2,13 @@ package com.example.onlinebartertrader;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import androidx.appcompat.widget.SearchView;
 import android.widget.Spinner;
@@ -18,17 +17,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SearchFunctionality extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
     DatabaseReference usersRef = database.getReference("Users/Provider/");
     DatabaseReference userRefForEmail;
     ArrayList<String> itemList = new ArrayList<>();
-    String[] preferences = { "All", "computer accessories", "Electronics", "Furniture", "baby toys"};
+    String[] preferences = { "All","clothes","furniture", "computer accessories", "mobile phones", "baby toys"};
     String preference = "All";
     ListView receiverItemList;
     String emailAddress;
@@ -36,6 +34,7 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
     protected ArrayAdapter<String> receiverArrAdapter;
     protected ArrayList<String> receiverItems = new ArrayList<>();
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +51,9 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
         userRefForEmail = database.getReference("Users/Receiver/"+emailAddress);
         DatabaseReference preferenceRef = userRefForEmail.child("preference");
 
-        receiverItemList = (ListView) findViewById(R.id.receiverListReceiver);
+        receiverItemList = (ListView) findViewById(R.id.receiverListSearch);
         System.out.println(receiverItemList);
-        ReceiverItemList receiverList = new ReceiverItemList(emailAddress, receiverItemList, this, query);
+        SearchedItemList receiverList = new SearchedItemList(emailAddress, receiverItemList, this, query);
         receiverList.startListening();
         // Attach a ValueEventListener to preferenceRef
         preferenceRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,8 +67,8 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
                     preferences = preferenceList.toArray(new String[preferenceList.size()]);
 
                     Spinner spin = findViewById(R.id.spinnerSearch);
-                    spin.setOnItemSelectedListener(SearchFunctionality.this);
-                    ArrayAdapter<String> aa = new ArrayAdapter<>(SearchFunctionality.this, android.R.layout.simple_spinner_item, preferences);
+                    spin.setOnItemSelectedListener(SearchActivity.this);
+                    ArrayAdapter<String> aa = new ArrayAdapter<>(SearchActivity.this, android.R.layout.simple_spinner_item, preferences);
                     aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spin.setAdapter(aa);
                 } else {
@@ -83,15 +82,17 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
             }
         });
 
-        SearchView searchView = findViewById(R.id.searchView);
+        SearchView searchView = findViewById(R.id.searchViewSearch);
+
+        searchView.setVisibility(View.VISIBLE);
         System.out.println(searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String searchedText) {
                 query = searchedText;
-                receiverItemList = (ListView) findViewById(R.id.receiverListReceiver);
+                receiverItemList = (ListView) findViewById(R.id.receiverListSearch);
                 System.out.println(receiverItemList);
-                ReceiverItemList receiverList = new ReceiverItemList(emailAddress, receiverItemList, SearchFunctionality.this, query);
+                SearchedItemList receiverList = new SearchedItemList(emailAddress, receiverItemList, SearchActivity.this, query);
                 receiverList.startListening();
                 return true;
             }
@@ -111,9 +112,9 @@ public class SearchFunctionality extends AppCompatActivity implements AdapterVie
         DatabaseReference preferenceRef = userRefForEmail.child("preference");
         preferenceRef.setValue(selectedValue);
         query = "null";
-        receiverItemList = (ListView) findViewById(R.id.receiverListReceiver);
+        receiverItemList = (ListView) findViewById(R.id.receiverListSearch);
         System.out.println(receiverItemList);
-        ReceiverItemList receiverList = new ReceiverItemList(emailAddress, receiverItemList, this, query);
+        SearchedItemList receiverList = new SearchedItemList(emailAddress, receiverItemList, this, query);
         receiverList.startListening();
         System.out.println("Selected value: " + selectedValue);
     }

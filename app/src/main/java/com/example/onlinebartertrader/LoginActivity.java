@@ -146,11 +146,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // This method starts the ReceiverLandingPage activity with the email address entered by the user as an extra
     protected void switch2ReceiverLandingPage() {
         Intent intent = new Intent(this, ReceiverLandingPage.class);
-        Intent intentSearch = new Intent(this, SearchFunctionality.class);
         intent.putExtra("emailAddress", emailAddressEntered.toLowerCase());
-        intentSearch.putExtra("emailAddress", emailAddressEntered.toLowerCase());
-        //startActivity(intent);
-        startActivity(intentSearch);
+        startActivity(intent);
     }
 
 

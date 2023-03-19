@@ -60,7 +60,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
     //Location
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
-    Logger logger = Logger.getLogger(ProviderLandingPage.class.getName());
 
 
     @Override

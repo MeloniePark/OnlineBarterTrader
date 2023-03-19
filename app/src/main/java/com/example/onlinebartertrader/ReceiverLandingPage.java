@@ -222,7 +222,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             String city = "";
             //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            if (addresses != null && addresses.isEmpty()) {
+            if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 city = address.getLocality();
                 String addressString = address.getAddressLine(0);

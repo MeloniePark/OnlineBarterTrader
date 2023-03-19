@@ -125,9 +125,11 @@ public class ReceiverItemList {
             }
 
         });
+
     }
 
     boolean checkItemIsPostedByTheReceiver(String receiverEmail, String providerEmail) {
         return receiverEmail.equalsIgnoreCase(providerEmail);
     }
+
 }

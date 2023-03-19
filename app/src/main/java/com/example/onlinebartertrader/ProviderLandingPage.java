@@ -35,6 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
     //firebase
@@ -57,6 +60,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
     //Location
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
+    Logger logger = Logger.getLogger(ProviderLandingPage.class.getName());
 
 
     @Override
@@ -66,10 +70,9 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_provider);
 
         //array Adapter for the listview to list all the items of the provider.
-        final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<String>
+        final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<>
                 (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
 
-        userEmailAddress = getIntent().getStringExtra("emailAddress");
         //register the views, buttons and other components for the provider landing page.
         providerItemLists = (ListView) findViewById(R.id.providerListProvider);
         //setting array Adapter for the ListView providerItemLists.

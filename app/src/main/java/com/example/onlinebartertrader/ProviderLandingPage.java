@@ -1,6 +1,5 @@
 package com.example.onlinebartertrader;
 
-
 import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
@@ -30,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.logging.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +51,14 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     Button providerPostBtn;
     String userEmailAddress;
 
+    //Logging
+    Logger logger = Logger.getLogger(ProviderLandingPage.class.getName());
+
+
     //arraylists for listview
     ArrayList<String> providerItems = new ArrayList<>();
 
     //Location
-    LocationManager locationManager;
-    String provider;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
     Logger logger = Logger.getLogger(ProviderLandingPage.class.getName());
 
@@ -97,13 +99,13 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                 try {
                     String itemType = snapshot.child("productType").getValue(String.class);
                     String itemName = snapshot.child("productName").getValue(String.class);
+                    String status = snapshot.child("currentStatus").getValue(String.class);
 
-                    providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType);
+                    providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Status: " + status);
                     providerArrAdapter.notifyDataSetChanged();
                 }catch (Exception e){
-                    logger.log(Level.WARNING,"It can not convert to string");
+                    logger.info("It can not convert to string");
                 }
-
             }
 
             @Override
@@ -113,17 +115,20 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                //don't need this method
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                //don't need this method
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                //don't need this method
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
             }
         });
 
@@ -145,6 +150,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
 
     private void initLocation(){
+        String provider;
+        LocationManager locationManager;
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = LocationManager.GPS_PROVIDER;
 
@@ -182,7 +189,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             String city = "";
             //get the location string and push to text view and data base
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            if (addresses != null && addresses.isEmpty()) {
+            if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 city = address.getLocality();
                 String addressString = address.getAddressLine(0);
@@ -196,18 +203,15 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        //don't need this method
-    }
-
-    @Override
     public void onProviderEnabled(String provider) {
-        //don't need this method
+        //unused for now but possible to be used in future iteration
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        //don't need this method
+        //unused for now but possible to be used in future iteration
+        throw new UnsupportedOperationException();
     }
 
 }

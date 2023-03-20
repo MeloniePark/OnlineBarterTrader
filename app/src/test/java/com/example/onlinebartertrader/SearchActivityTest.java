@@ -23,7 +23,6 @@ public class SearchActivityTest {
 
     @BeforeClass
     public static void setup() {
-        searchActivity = new SearchActivity();
     }
 
     @AfterClass
@@ -32,30 +31,19 @@ public class SearchActivityTest {
     }
 
     @Test
-    public void testPreferenceExists() {
-        SearchActivity search = new SearchActivity();
-        String expected = "computer accessories";
-        String actual = search.preferences[1];
-        assertEquals(expected, actual);
+    public void itemIsPostedByTheUser() {
+        SearchedItemList search = new SearchedItemList();
+        String expected = "test@dal.ca";
+        String actual = "test@dal.ca";
+        assertTrue(search.checkItemIsPostedByTheReceiver(expected,actual));
     }
 
     @Test
-    public void testPreferenceDoesNotExist() {
-        SearchActivity search = new SearchActivity();
-        String expected = "All";
-        String actual = search.preference;
-        assertEquals(expected, actual);
-    }
-    @Test
-    public void testSpinnerContainsCorrectPreferences() {
-        // Assert that the ArrayAdapter used to populate the spinner contains the correct preferences array
-        ArrayAdapter<String> spinnerAdapter = (ArrayAdapter<String>) spinner.getAdapter();
-        //assertArrayEquals(activity.preferences, spinnerAdapter.toArray());
-    }
-
-    @Test
-    public void testSearchViewOnQueryTextSubmitReturnsTrue() {
-        //assertTrue(searchView.getOnQueryTextListener().onQueryTextSubmit("search"));
+    public void itemIsNotPostedByTheUser() {
+        SearchedItemList search = new SearchedItemList();
+        String expected = "test@dal.ca";
+        String actual = "hello@dal.ca";
+        assertFalse(search.checkItemIsPostedByTheReceiver(expected,actual));
     }
 
 }

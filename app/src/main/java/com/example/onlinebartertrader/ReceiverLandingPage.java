@@ -36,6 +36,7 @@ import java.util.Locale;
 
 public class ReceiverLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
+
     //Firebase
     FirebaseDatabase database;
     DatabaseReference receiverDBRefAvailable;

@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.*;
 
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
@@ -31,6 +32,9 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     ListView receiverItemList;
     String emailAddress;
     String query = "null";
+    //Logging
+    Logger logger = Logger.getLogger(SearchActivity.class.getName());
+
     protected ArrayAdapter<String> receiverArrAdapter;
     protected ArrayList<String> receiverItems = new ArrayList<>();
 
@@ -52,9 +56,9 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         DatabaseReference preferenceRef = userRefForEmail.child("preference");
 
         receiverItemList = (ListView) findViewById(R.id.receiverListSearch);
-        System.out.println(receiverItemList);
         SearchedItemList receiverList = new SearchedItemList(emailAddress, receiverItemList, this, query);
         receiverList.startListening();
+
         // Attach a ValueEventListener to preferenceRef
         preferenceRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -72,26 +76,24 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                     aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spin.setAdapter(aa);
                 } else {
-                    System.out.println("Preference does not exist");
+                    logger.info("Preference does not exist");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Error retrieving preference: " + error.getMessage());
+                logger.info("Error retrieving preference: " + error.getMessage());
             }
         });
 
         SearchView searchView = findViewById(R.id.searchViewSearch);
 
         searchView.setVisibility(View.VISIBLE);
-        System.out.println(searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String searchedText) {
                 query = searchedText;
                 receiverItemList = (ListView) findViewById(R.id.receiverListSearch);
-                System.out.println(receiverItemList);
                 SearchedItemList receiverList = new SearchedItemList(emailAddress, receiverItemList, SearchActivity.this, query);
                 receiverList.startListening();
                 return true;
@@ -99,7 +101,6 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //receiverArrAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -113,7 +114,6 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         preferenceRef.setValue(selectedValue);
         query = "null";
         receiverItemList = (ListView) findViewById(R.id.receiverListSearch);
-        System.out.println(receiverItemList);
         SearchedItemList receiverList = new SearchedItemList(emailAddress, receiverItemList, this, query);
         receiverList.startListening();
         System.out.println("Selected value: " + selectedValue);
@@ -121,5 +121,6 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+        //unused method, but left for possible future implementation
     }
 }

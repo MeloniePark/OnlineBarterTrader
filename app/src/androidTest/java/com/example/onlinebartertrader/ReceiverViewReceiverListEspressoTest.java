@@ -1,10 +1,17 @@
 package com.example.onlinebartertrader;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.pressBack;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
@@ -29,7 +36,7 @@ import org.junit.runner.RunWith;
 public class ReceiverViewReceiverListEspressoTest<IntentsTestRule> {
 
     @Rule
-    public ActivityScenarioRule<ReceiverLandingPage> myRuleReceiver = new ActivityScenarioRule<>(ReceiverLandingPage.class);
+    public ActivityScenarioRule<LoginActivity> myRuleReceiver = new ActivityScenarioRule<>(LoginActivity.class);
     // We copy and pasted the template from assignment, but Intents rule is not used so far.
     // Commented it out since it sometimes gives an error for now.
     //public IntentsTestRule<SignUpActivity> myIntentRule = new IntentsTestRule<>(SignUpActivity.class);
@@ -55,6 +62,11 @@ public class ReceiverViewReceiverListEspressoTest<IntentsTestRule> {
     //*** Iteration 2 User story 3, AT1 **/
     @Test
     public void receiverCanSeeReceiverList() throws InterruptedException {
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("notinterested@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
+        onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
         onView(withId(R.id.receiverListReceiver)).check(matches(isDisplayed()));
     }
 

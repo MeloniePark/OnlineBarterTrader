@@ -36,6 +36,7 @@ import java.util.Locale;
 
 public class ReceiverLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
+
     //Firebase
     FirebaseDatabase database;
     DatabaseReference receiverDBRefAvailable;
@@ -47,7 +48,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     ListView receiverLists;
     ListView receiverTradeList;
 
-    LocationManager locationManager;
+//    LocationManager locationManager;
     Button receiverTradedBtn;
     Button receiverAvailableBtn;
     String userEmailAddress;
@@ -55,7 +56,13 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     //arraylists for listviews
     ArrayList<String> receiverItems = new ArrayList<>();
 
+//    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
+
+    //Location
+    private LocationManager locationManager;
+    private String provider;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,69 +95,42 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        initLocation();
+//        initLocation();
         // US6 new functionality: alert the receiver when there is a new item added
         // and is interested by the user
         Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
         itemAlert.startListening();
+//        Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
+//        itemAlert.startListening();
+        initLocation();
     }
-
     @Override
     public void onClick(View view) {
-
-        //array Adapter for the listview to list all the items of the provider.
-        final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<>
-                (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
-
-        database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
 
         //if availableProduct button is clicked -> show available products in that area.
         if (view.getId() == R.id.availableProductsReceiver){
             //register the views, buttons and other components for the receiver landing page.
             receiverLists = (ListView) findViewById(R.id.receiverListReceiver);
-            receiverLists.setAdapter(receiverArrAdapter);
+            System.out.println(receiverLists);
 
-            //creating reference variable inside the databased called "User"
-            receiverDBRefAvailable = database.getReference("Users/Receiver").child(userEmailAddress);
-
-            //Firebase data addition, modification, deletion, reading performed through this section.
-            receiverDBRefAvailable.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    String valueRead = snapshot.getValue(String.class);
-                    receiverItems.add(valueRead);
-                    receiverArrAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    receiverArrAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                    //don't need this method
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    //don't need this method
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    //don't need this method
-                }
-            });
+            ReceiverItemList myList = new ReceiverItemList(userEmailAddress, receiverLists, ReceiverLandingPage.this);
+            myList.startListening();
         }
 
         //if traded items button is clicked -> show traded items history of receiver
         if (view.getId() == R.id.tradedHistoryReceiver){
+
+            //array Adapter for the listview to list all the items of the provider.
+            final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
+                    (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
+
+            database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+
             //register the views, buttons and other components for the receiver landing page.
             receiverTradeList = (ListView) findViewById(R.id.receiverTraded);
             receiverTradeList.setAdapter(receiverArrAdapter);
 
-            receiverDBRefHistory = database.getReference("Users").child("Receiver").child(userEmailAddress);
+            receiverDBRefHistory = database.getReference("templateUser").child("receiver").child("receivedItem");
 
             //Firebase data addition, modification, deletion, reading performed through this section.
             receiverDBRefHistory.addChildEventListener(new ChildEventListener() {
@@ -168,17 +148,17 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                    //don't need this method
+
                 }
 
                 @Override
                 public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    //don't need this method
+
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    //don't need this method
+
                 }
             });
         }
@@ -187,10 +167,10 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     private void initLocation(){
 
         //Location
-        String provider = LocationManager.GPS_PROVIDER;
+        String receiver = LocationManager.GPS_PROVIDER;
 
         // check if GPS is enabled
-        if (!locationManager.isProviderEnabled(provider)) {
+        if (!locationManager.isProviderEnabled(receiver)) {
             // show an alert dialog to prompt the user to enable GPS
         }
 
@@ -203,7 +183,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         }
 
         // request location updates
-        locationManager.requestLocationUpdates(provider,0,0,this);
+        locationManager.requestLocationUpdates(receiver,0,0,this);
 
     }
 
@@ -216,7 +196,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         //set geocoder to default
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         //find the field to add text
-        TextView textView = findViewById(R.id.locationStringReiceiver);
+        TextView textView = findViewById(R.id.locationStringReceiver);
 
         try {
             String city = "";
@@ -251,5 +231,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     public void onProviderDisabled(String provider) {
         //don't need this method
     }
+
 
 }

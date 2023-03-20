@@ -39,6 +39,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //logger - logging is better exercise than system printing out.
     private static final Logger logger = Logger.getLogger(LoginActivity.class.getName());
 
+    boolean retrievedEmail = false, retrievedPassword=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     emailsFound.add(userEmail);
                     passwordFound.add(userSnapshot.child("password").getValue(String.class));
                     dataRetrieved = true;
+
+                    if (emailsFound.size()!=0){
+                        retrievedEmail = true;
+                    }
                 }
             }
 
@@ -190,6 +196,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         while (!dataRetrieved);
 
         // Getting the email and password entered by the user
+        while (retrievedEmail ==false);
         emailAddressEntered = getRidOfDot(getEmailAddressEntered());
         passwordEntered = getPasswordEntered();
         String errorMessage;

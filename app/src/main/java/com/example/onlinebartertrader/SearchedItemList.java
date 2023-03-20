@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.logging.*;
 
 public class SearchedItemList {
     protected FirebaseDatabase database;
@@ -25,6 +26,10 @@ public class SearchedItemList {
     protected ListView receiverLists;
     protected Context myContext;
     protected String query;
+
+    //Logging
+    Logger logger = Logger.getLogger(SearchedItemList.class.getName());
+
     DatabaseReference receiverDBRefAvailable;
     ArrayAdapter<String> receiverArrAdapter;
     ArrayList<String> receiverItems = new ArrayList<>();
@@ -34,8 +39,6 @@ public class SearchedItemList {
     }
 
     public SearchedItemList(String userEmail, ListView receiverLists, Context myContext, String query) {
-        System.out.println(query);
-        System.out.println("******************************");
         this.receiverLists = receiverLists;
         this.userEmailAddress = userEmail.toLowerCase(Locale.ROOT);
         this.myContext = myContext;
@@ -50,10 +53,6 @@ public class SearchedItemList {
     public void startListening() {
 
         //array Adapter for the listview to list all the items of the provider.
-        System.out.println(myContext);
-        System.out.println(receiverLists);
-        System.out.println(android.R.layout.simple_list_item_1);
-        System.out.println(receiverItems);
         ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
                 (myContext, android.R.layout.simple_list_item_1, receiverItems);
 
@@ -89,8 +88,6 @@ public class SearchedItemList {
                                     String itemType = snapshot.child("productType").getValue(String.class);
                                     String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
                                     receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Preferred Exchange: " + exchangeWith);
-                                    System.out.println(receiverArrAdapter);
-                                    System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
                                     receiverArrAdapter.notifyDataSetChanged();
                                 } else {
                                     String itemType = snapshot.child("productType").getValue(String.class);
@@ -98,8 +95,6 @@ public class SearchedItemList {
                                         String itemName = snapshot.child("productName").getValue(String.class);
                                         String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
                                         receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Preferred Exchange: " + exchangeWith);
-                                        System.out.println(receiverArrAdapter);
-                                        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
                                         receiverArrAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -123,14 +118,17 @@ public class SearchedItemList {
 
                         @Override
                         public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                            //unused method, but left for possible future implementation
                         }
 
                         @Override
                         public void onChildMoved(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
+                            //unused method, but left for possible future implementation
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError snapshot) {
+                            //unused method, but left for possible future implementation
                         }
 
                     });
@@ -138,16 +136,24 @@ public class SearchedItemList {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {}
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
+                //unused method, but left for possible future implementation
+            }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {}
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                //unused method, but left for possible future implementation
+            }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {}
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
+                //unused method, but left for possible future implementation
+            }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //unused method, but left for possible future implementation
+            }
 
         });
     }

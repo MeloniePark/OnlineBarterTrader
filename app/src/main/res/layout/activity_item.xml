@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/chatWithProviderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="49dp"
+        android:layout_marginEnd="116dp"
+        android:text="Chat with Seller"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productInformation" />
+
+    <Button
+        android:id="@+id/buyNowButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="96dp"
+        android:text="Buy Now!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chatWithProviderButton" />
+
+    <TextView
+        android:id="@+id/productInformation"
+        android:layout_width="301dp"
+        android:layout_height="361dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="55dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemInformation" />
+
+    <TextView
+        android:id="@+id/itemInformation"
+        android:layout_width="70dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="171dp"
+        android:text="Item Info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

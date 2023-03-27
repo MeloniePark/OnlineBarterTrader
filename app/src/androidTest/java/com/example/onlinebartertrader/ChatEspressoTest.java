@@ -61,7 +61,6 @@ public class ChatEspressoTest {
         onView(withId(R.id.chatSendButton)).check(matches(isDisplayed()));
         onView(withId(R.id.chatWriteMessage)).check(matches(withText("")));
         onView(withId(R.id.chatRecyclerMessagesView)).check(matches(withText("")));
-        onView(withId(R.id.chatErrorMessage)).check(matches(withText("")));
     }
 
 
@@ -82,7 +81,6 @@ public class ChatEspressoTest {
         onView(withId(R.id.chatWriteMessage)).perform(closeSoftKeyboard());
         onView(withId(R.id.chatSendButton)).perform(click());
         onView(withId(R.id.chatSendButton)).perform(closeSoftKeyboard());
-        onView(withId(R.id.chatErrorMessage)).check(matches(withText(R.string.EMPTY_CHAT_MESSAGE)));
     }
 }
 

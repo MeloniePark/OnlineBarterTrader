@@ -66,7 +66,8 @@ public class ReceiverItemList {
                     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
                         String item1 = receiverArrAdapter.getItem(index);
                         long itemId = receiverArrAdapter.getItemId(index);
-                        Intent myIntent = new Intent(view.getContext(), ChatActivity.class);
+                        System.out.println(providerEmail);
+                        Intent myIntent = new Intent(view.getContext(), ItemActivity.class);
                         myIntent.putExtra("providerID", providerEmail);
                         myIntent.putExtra("receiverID", userEmailAddress);
                         view.getContext().startActivity(myIntent);

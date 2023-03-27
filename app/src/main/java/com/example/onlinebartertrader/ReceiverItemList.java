@@ -56,6 +56,7 @@ public class ReceiverItemList {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
                 String providerEmail = dataSnapshot.getKey();
+
                 boolean sameUser = checkItemIsPostedByTheReceiver(providerEmail, userEmailAddress);
                 DatabaseReference providerItemsRef = database.getReference("Users/Provider/" + providerEmail + "/items");
 
@@ -63,8 +64,11 @@ public class ReceiverItemList {
                 receiverLists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+                        String item1 = receiverArrAdapter.getItem(index);
+                        long itemId = receiverArrAdapter.getItemId(index);
                         Intent myIntent = new Intent(view.getContext(), ChatActivity.class);
                         myIntent.putExtra("providerID", providerEmail);
+                        myIntent.putExtra("receiverID", userEmailAddress);
                         view.getContext().startActivity(myIntent);
                     }
                 });

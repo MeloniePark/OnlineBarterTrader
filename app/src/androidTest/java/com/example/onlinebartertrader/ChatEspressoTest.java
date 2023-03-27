@@ -83,8 +83,6 @@ public class ChatEspressoTest {
         onView(withId(R.id.chatSendButton)).perform(click());
         onView(withId(R.id.chatSendButton)).perform(closeSoftKeyboard());
         onView(withId(R.id.chatErrorMessage)).check(matches(withText(R.string.EMPTY_CHAT_MESSAGE)));
-
     }
-
 }
 

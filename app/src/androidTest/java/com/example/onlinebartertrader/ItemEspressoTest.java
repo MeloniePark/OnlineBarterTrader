@@ -53,6 +53,7 @@ public class ItemEspressoTest {
     public void checkIfChatPageIsVisible() {
         onView(withId(R.id.chatWithProviderButton)).check(matches(isDisplayed()));
         onView(withId(R.id.buyNowButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.itemInformation)).check(matches(isDisplayed()));
         onView(withId(R.id.productInformation)).check(matches(isDisplayed()));
     }
 

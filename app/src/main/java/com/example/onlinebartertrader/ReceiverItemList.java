@@ -1,6 +1,9 @@
 package com.example.onlinebartertrader;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
@@ -55,6 +58,18 @@ public class ReceiverItemList {
                 String providerEmail = dataSnapshot.getKey();
                 boolean sameUser = checkItemIsPostedByTheReceiver(providerEmail, userEmailAddress);
                 DatabaseReference providerItemsRef = database.getReference("Users/Provider/" + providerEmail + "/items");
+
+                //set item click listener
+                receiverLists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+                        Intent myIntent = new Intent(view.getContext(), ChatActivity.class);
+                        myIntent.putExtra("providerID", providerEmail);
+                        view.getContext().startActivity(myIntent);
+                    }
+                });
+
+
                 if (!sameUser) {
                     providerItemsRef.addChildEventListener(new ChildEventListener() {
                         @Override

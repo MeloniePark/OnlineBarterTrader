@@ -43,11 +43,12 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     //firebase
     FirebaseDatabase database;
     DatabaseReference providerDBRef;
+    DatabaseReference receiverIdDBRef;
     DatabaseReference providerDBRefLoc;
 
     //view for the lists
     ListView providerItemLists;
-
+    ListView receiverIdList;
     Button providerPostBtn;
     String userEmailAddress;
 
@@ -57,7 +58,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
     //arraylists for listview
     ArrayList<String> providerItems = new ArrayList<>();
-
+    ArrayList<String> receiverId = new ArrayList<>();
     //Location
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
 
@@ -71,11 +72,19 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         //array Adapter for the listview to list all the items of the provider.
         final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<>
                 (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
+        final ArrayAdapter<String> receiverIdArrAdapter = new ArrayAdapter<>
+                (ProviderLandingPage.this, android.R.layout.simple_list_item_1, receiverId);
 
         //register the views, buttons and other components for the provider landing page.
         providerItemLists = (ListView) findViewById(R.id.providerListProvider);
         //setting array Adapter for the ListView providerItemLists.
         providerItemLists.setAdapter(providerArrAdapter);
+
+        //register the views, buttons and other components for the provider landing page.
+        receiverIdList = (ListView) findViewById(R.id.receiverIdList);
+        //setting array Adapter for the ListView receiverIdList.
+        receiverIdList.setAdapter(receiverIdArrAdapter);
+
         providerPostBtn = findViewById(R.id.providerPostProvider);
 
         //listens for click of the post button
@@ -131,9 +140,43 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             }
         });
 
+        receiverIdDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("receiverId");
+        receiverIdDBRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String receiverEmail = snapshot.getValue(String.class);
+                receiverId.add("Email: "+receiverEmail);
+                receiverIdArrAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                receiverIdArrAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
+            }
+        });
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
         }
+
 
         initLocation();
     }

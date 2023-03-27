@@ -44,6 +44,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".ItemActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

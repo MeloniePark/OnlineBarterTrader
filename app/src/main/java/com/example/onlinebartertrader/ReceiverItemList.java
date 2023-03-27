@@ -60,6 +60,7 @@ public class ReceiverItemList {
                 boolean sameUser = checkItemIsPostedByTheReceiver(providerEmail, userEmailAddress);
                 DatabaseReference providerItemsRef = database.getReference("Users/Provider/" + providerEmail + "/items");
 
+
                 //set item click listener
                 receiverLists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

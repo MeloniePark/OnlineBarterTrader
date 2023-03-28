@@ -1,6 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--This layouts are taken from the tutorial: Gitlab csci3130_chat_application-item_chat.xml
+    Some parts are modified to fit the need of the Online Barter Trader project-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/anyUserLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="48dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <!--layout gravity start -> to the start of the view -->
+        <!--text alignment view end -> to - left hand side of the view -->
+        <TextView
+            android:id="@+id/anyUserNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            tools:text="Melonie" />
+
+        <TextView
+            android:id="@+id/anyUserMessageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            tools:text="Hello, I am magical CS Student." />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/currentUserLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical">
+        <!--        android:visibility="gone">-->
+        <!--layout gravity end -> to the end of the view -->
+        <!--text alignment view end -> to - right hand side -->
+        <TextView
+            android:id="@+id/currentUserNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            tools:text="Dan" />
+
+        <TextView
+            android:id="@+id/currentUserMessageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            tools:text="Hello Melonie. I am also a powerful magical CS student." />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/chatSpaceView"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:visibility="visible" />
+
+</LinearLayout>

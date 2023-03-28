@@ -7,38 +7,43 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
+    <!--The Most parts of the layouts are taken from the tutorial: Gitlab csci3130_chat_application-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="413dp"
-        android:layout_height="657dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/chatLL"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="10"
-        tools:layout_editor_absoluteY="-1dp"
         tools:listitem="@layout/chat_layout" />
 
     <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="4dp"
+        android:id="@id/chatLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView">
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="347dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:id="@+id/chatWriteMessage"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:hint="@string/type_your_message"
+            android:inputType="text"
+            tools:ignore="Autofill"
+            android:ems="10" />
+
+        <Button
+            android:id="@+id/chatSendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

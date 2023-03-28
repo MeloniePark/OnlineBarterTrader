@@ -1,5 +1,6 @@
 package com.example.onlinebartertrader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.*;
 
-public class SearchedItemList {
+public class SearchedItemList extends Activity {
     protected FirebaseDatabase database;
     protected DatabaseReference receiverDBRef;
     DatabaseReference providerDBRef;

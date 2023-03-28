@@ -70,14 +70,6 @@ public class ReceiverItemList {
                 receiverLists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
-//                        String item1 = receiverArrAdapter.getItem(index);
-//                        long itemId = receiverArrAdapter.getItemId(index);
-//                        System.out.println(providerEmail);
-//                        Intent myIntent = new Intent(view.getContext(), ItemActivity.class);
-//                        myIntent.putExtra("providerID", providerEmail);
-//                        myIntent.putExtra("receiverID", userEmailAddress);
-//                        view.getContext().startActivity(myIntent);
-
                         String clickedItem = (String) adapterView.getItemAtPosition(index);
                         // NOTE: I changed the string to add the item id and other stuffs here as well.
                         String[] itemParts = clickedItem.split(", ");
@@ -96,14 +88,19 @@ public class ReceiverItemList {
                                             // The item was found in the database. can also get other item if nessesary
                                             String itemType = itemSnapshot.child("productType").getValue(String.class);
                                             String itemName = itemSnapshot.child("productName").getValue(String.class);
-                                            String itemPoviderEmail = providerSnapshot.getKey();
-                                            System.out.println(itemPoviderEmail);
+                                            String description = itemSnapshot.child("description").getValue(String.class);
+                                            String preferredExchange = itemSnapshot.child("preferredExchange").getValue(String.class);
+                                            String itemProviderEmail = providerSnapshot.getKey();
+                                            System.out.println(itemProviderEmail);
+                                            System.out.println(itemID);
 
                                             Intent myIntent = new Intent(view.getContext(), ItemActivity.class);
                                             myIntent.putExtra("itemID", itemID);
                                             myIntent.putExtra("itemName", itemName);
                                             myIntent.putExtra("itemType", itemType);
-                                            myIntent.putExtra("providerEmail", itemPoviderEmail);
+                                            myIntent.putExtra("description", description);
+                                            myIntent.putExtra("preferredExchange", preferredExchange);
+                                            myIntent.putExtra("providerEmail", itemProviderEmail);
                                             myIntent.putExtra("receiverEmail", userEmailAddress);
                                             view.getContext().startActivity(myIntent);
                                         }

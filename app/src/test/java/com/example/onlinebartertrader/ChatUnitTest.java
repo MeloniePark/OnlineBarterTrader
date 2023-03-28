@@ -29,18 +29,22 @@ public class ChatUnitTest {
     @Test
     public void checkRightProvider(){
         //Please click magic mouse for this story.
-        assertTrue(chatActivity.checkProvider("mel@dalca"));
-        assertFalse(chatActivity.checkProvider(""));
-        assertFalse(chatActivity.checkProvider("test@dalca"));
+        String rightProvider = "mel@dalca";
+        String expectedProvider = "mel@dalca";
+        assertTrue(chatActivity.checkProvider(rightProvider, expectedProvider));
+        assertFalse(chatActivity.checkProvider(rightProvider, ""));
+        assertFalse(chatActivity.checkProvider(rightProvider, "test@dalca"));
     }
 
     /** Iteration 3 User story 1, AT?? **/
     @Test
     public void checkRightReceiver(){
         //please log in using test@dal.ca for this unit test
-        assertTrue(chatActivity.checkReceiver("test@dalca"));
-        assertFalse(chatActivity.checkReceiver("mel@dalca"));
-        assertFalse(chatActivity.checkReceiver(""));
+        String rightReceiver = "test@dalca";
+        String expectedReceiver = "test@dalca";
+        assertTrue(chatActivity.checkReceiver(rightReceiver, expectedReceiver));
+        assertFalse(chatActivity.checkReceiver(rightReceiver, "mel@dalca"));
+        assertFalse(chatActivity.checkReceiver(rightReceiver, ""));
     }
 
     /** Iteration 3 User story 1, AT?? **/

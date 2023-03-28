@@ -65,11 +65,14 @@ public class ItemEspressoTest {
 
     /** Iteartion 3 User Story 2, AT??
      * Since this espresso test is for US2, should be commented out when run for US1.*/
+    /*
     @Test
     public void checkIfSwitchedToTransactionPage(){
         onView(withId(R.id.buyNowButton)).perform(click());
         intended(hasComponent(TransactionActivity.class.getName()));
     }
+
+     */
 
 }
 

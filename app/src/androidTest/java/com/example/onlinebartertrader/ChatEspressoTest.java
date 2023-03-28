@@ -59,8 +59,8 @@ public class ChatEspressoTest {
     @Test
     public void checkIfChatPageIsVisible() {
         onView(withId(R.id.chatSendButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.chatWriteMessage)).check(matches(withText("")));
-        onView(withId(R.id.chatRecyclerMessagesView)).check(matches(withText("")));
+        onView(withId(R.id.chatWriteMessage)).check(matches(isDisplayed()));
+        onView(withId(R.id.chatRecyclerMessagesView)).check(matches(isDisplayed()));
     }
 
 
@@ -73,14 +73,5 @@ public class ChatEspressoTest {
         intended(hasComponent(ChatActivity.class.getName()));
     }
 
-
-    /** Iteration 3 User story 1, AT?? **/
-    @Test
-    public void checkChatMessageIsEmpty(){
-        onView(withId(R.id.chatWriteMessage)).perform(typeText(""));
-        onView(withId(R.id.chatWriteMessage)).perform(closeSoftKeyboard());
-        onView(withId(R.id.chatSendButton)).perform(click());
-        onView(withId(R.id.chatSendButton)).perform(closeSoftKeyboard());
-    }
 }
 

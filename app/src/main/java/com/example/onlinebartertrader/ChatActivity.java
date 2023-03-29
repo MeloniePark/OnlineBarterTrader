@@ -1,6 +1,7 @@
 package com.example.onlinebartertrader;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,11 +31,64 @@ public class ChatActivity extends AppCompatActivity{
         System.out.println("I am in Chat Activity");
     }
 
+    String itemID;
+    String itemName;
+    String itemType;
+    String itemDescription;
+    String preferredExchange;
+    String providerEmail;
+    String receiverEmail;
+
+    RecyclerView recyclerView;
+    EditText chatWriteMessage;
+    Button chatSendButton;
+
+
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        getLayoutComponents();
+        getIntentInfo();
+
+        //Now get the
+
+
+    }
+
+    public void getLayoutComponents(){
+        recyclerView = findViewById(R.id.recyclerChatView);
+        chatWriteMessage = findViewById(R.id.chatWriteMessage);
+        chatSendButton = findViewById(R.id.chatSendButton);
+    }
+
+    public void getIntentInfo(){
+        Intent intent = getIntent();
+        itemID = intent.getStringExtra("itemID");
+        itemName = intent.getStringExtra("itemName");
+        itemType = intent.getStringExtra("itemType");
+        itemDescription = intent.getStringExtra("description");
+        preferredExchange = intent.getStringExtra("preferredExchange");
+        providerEmail = intent.getStringExtra("providerEmail");
+        receiverEmail = intent.getStringExtra("receiverEmail");
+    }
+
+
+    public boolean checkProvider(String provider, String user){
+        return provider.equalsIgnoreCase(user);
+    }
+
+    public boolean checkReceiver(String receiver, String user){
+        return receiver.equalsIgnoreCase(user);
+    }
+
+    public boolean isMessageEmpty(String message){
+        return message.equals("");
     }
 
 

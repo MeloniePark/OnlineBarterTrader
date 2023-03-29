@@ -7,7 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ExchangeHistoryActivityTest {
+public class ExchangeHistoryUnitTest {
 
     static ExchangeHistoryActivity exchangeHistoryActivity;
 

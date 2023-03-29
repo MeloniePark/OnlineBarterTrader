@@ -54,7 +54,7 @@ public class ReceiverPageEspressoTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("notinterested@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
@@ -65,7 +65,7 @@ public class ReceiverPageEspressoTest {
     //*** User story 3, AT3 **/
     @Test
     public void checkIfAvailProductButtonExist() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("notinterested@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
@@ -77,7 +77,7 @@ public class ReceiverPageEspressoTest {
     //*** User story 3, AT3 **/
     @Test
     public void checkIfTradeHistButtonExist() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("notinterested@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
@@ -88,7 +88,7 @@ public class ReceiverPageEspressoTest {
     //*** User story 3, AT3 **/
     @Test
     public void checkIfReceiverItemsListed() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("notinterested@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
@@ -99,12 +99,12 @@ public class ReceiverPageEspressoTest {
     //*** Iteration 2 User story 1**/
     @Test
     public void checkIfLocationVisible() throws InterruptedException {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("test@dal.ca"));
+        onView(withId(R.id.emailAddressLogIn)).perform(typeText("notinterested@dal.ca"));
         onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
         onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
         onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
         Thread.sleep(5000);
-        onView(withId(R.id.locationStringReiceiver)).check(matches(isDisplayed()));
+        onView(withId(R.id.locationStringReceiver)).check(matches(isDisplayed()));
     }
 }

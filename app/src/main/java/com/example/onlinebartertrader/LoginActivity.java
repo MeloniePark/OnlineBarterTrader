@@ -39,6 +39,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //logger - logging is better exercise than system printing out.
     private static final Logger logger = Logger.getLogger(LoginActivity.class.getName());
 
+    boolean retrievedEmail = false, retrievedPassword=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     emailsFound.add(userEmail);
                     passwordFound.add(userSnapshot.child("password").getValue(String.class));
                     dataRetrieved = true;
+
+                    if (emailsFound.size()!=0){
+                        retrievedEmail = true;
+                    }
                 }
             }
 
@@ -132,14 +138,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // This method starts the ProviderLandingPage activity with the email address entered by the user as an extra
     protected void switch2ProviderLandingPage() {
         Intent intent = new Intent(this, ProviderLandingPage.class);
-        intent.putExtra("emailAddress", emailAddressEntered);
+        intent.putExtra("emailAddress", emailAddressEntered.toLowerCase());
+        intent.putExtra("emailAddress", emailAddressEntered.toLowerCase());
         startActivity(intent);
     }
 
     // This method starts the ReceiverLandingPage activity with the email address entered by the user as an extra
     protected void switch2ReceiverLandingPage() {
         Intent intent = new Intent(this, ReceiverLandingPage.class);
-        intent.putExtra("emailAddress", emailAddressEntered);
+        intent.putExtra("emailAddress", emailAddressEntered.toLowerCase());
         startActivity(intent);
     }
 
@@ -190,6 +197,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         while (!dataRetrieved);
 
         // Getting the email and password entered by the user
+        while (retrievedEmail ==false);
         emailAddressEntered = getRidOfDot(getEmailAddressEntered());
         passwordEntered = getPasswordEntered();
         String errorMessage;

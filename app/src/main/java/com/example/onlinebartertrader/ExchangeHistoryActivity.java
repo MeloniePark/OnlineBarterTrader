@@ -1,12 +1,14 @@
 package com.example.onlinebartertrader;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,65 +16,81 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExchangeHistoryActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private ExchangeHistoryAdapter mAdapter;
-    private DatabaseReference mDatabase;
+
+    private ListView exchangeHistoryList;
+    private DatabaseReference exchangeHistoryRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exchangehistory);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mRecyclerView = findViewById(R.id.exchange_history_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
 
-        // Get the user role (Provider or Receiver) and user ID from the intent
-        String userRole = getIntent().getStringExtra("userRole");
-        String userId = getIntent().getStringExtra("userId");
+        // Get the intent that started this activity
+        Intent intent = getIntent();
 
-        loadExchangeHistory(userRole, userId);
-    }
+        // Retrieve the user type from the intent extra
+        String userType = intent.getStringExtra("userType");
 
-    private void loadExchangeHistory(String userRole, String userId) {
-        DatabaseReference userRef = mDatabase.child("Users").child(userRole).child(userId);
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        // Get a reference to the exchange history database node based on the user type
+        if (userType.equals("Provider")) {
+            exchangeHistoryRef = database.getInstance().getReference("User/Provider");
+        } else {
+            exchangeHistoryRef = database.getInstance().getReference("User/Receiver");
+        }
+
+        //items?
+
+        // Set up the exchange history list view
+        exchangeHistoryList = findViewById(R.id.exchange_history_recycler_view);
+
+        // Attach a value event listener to the exchange history reference
+        exchangeHistoryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<ExchangeItem> exchangeItems = new ArrayList<>();
-                DataSnapshot itemsSnapshot = dataSnapshot.child("items");
-                for (DataSnapshot itemSnapshot : itemsSnapshot.getChildren()) {
-                    ExchangeItem exchangeItem = itemSnapshot.getValue(ExchangeItem.class);
-                    exchangeItems.add(exchangeItem);
+                // Create an array list to hold the exchange history items
+                ArrayList<String> exchangeHistoryItems = new ArrayList<>();
+
+                // Iterate through the exchange history items and add their details to the array list
+                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
+                    String productName = itemSnapshot.child("productName").getValue(String.class);
+                    String purchaseDate = itemSnapshot.child("dateOfAvailability").getValue(String.class);
+                    String cost = itemSnapshot.child("approxMarketValue").getValue(String.class);
+                    String exchangeItem = itemSnapshot.child("preferredExchange").getValue(String.class);
+                    String location = itemSnapshot.child("placeOfExchange").getValue(String.class);
+
+                    String itemDetails = "Product Name: " + productName +
+                            "\nPurchase Date: " + purchaseDate +
+                            "\nCost: " + cost +
+                            "\nExchange Item: " + exchangeItem +
+                            "\nLocation: " + location;
+
+                    exchangeHistoryItems.add(itemDetails);
                 }
 
-                mAdapter = new ExchangeHistoryAdapter(ExchangeHistoryActivity.this, exchangeItems);
-                mRecyclerView.setAdapter(mAdapter);
+                // Set up the exchange history list view adapter
+                ArrayAdapter<String> exchangeHistoryAdapter = new ArrayAdapter<>(ExchangeHistoryActivity.this, android.R.layout.simple_list_item_1, exchangeHistoryItems);
+                exchangeHistoryList.setAdapter(exchangeHistoryAdapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("ExchangeHistoryActivity", "Error loading exchange history", databaseError.toException());
+                // Handle the database error
             }
         });
     }
 
-    public class ExchangeItem {
-        private String approxMarketValue;
-        private String currentStatus;
-        private String dateOfAvailability;
-        private String description;
-        private String placeOfExchange;
-        private String preferredExchange;
-        private String productName;
-        private String productType;
-
-        public ExchangeItem() {
-        }
-
-
+    public void setUserRoleAndId(String userRole, String userId) {
     }
+
+    public boolean isExchangeHistoryDisplayed(String userRole, String userId, String productName, String dateOfPurchase, String cost, String exchangeItem, String location, String providerId) {
+        return false;
+    }
+}
+
+
+
 

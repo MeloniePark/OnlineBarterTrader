@@ -36,7 +36,7 @@ public class ExchangeHistorEspressoTest {
     @Test
     public void providerExchangeHistoryVisibility() {
         onView(withId(R.id.exchangeHistoryButton)).perform(click());
-        onView(withId(R.id.providerTraded)).check(matches(isDisplayed()));
+        onView(withId(R.id.providerListProvider)).check(matches(isDisplayed()));
     }
 
 //    String userRole = "Receiver";

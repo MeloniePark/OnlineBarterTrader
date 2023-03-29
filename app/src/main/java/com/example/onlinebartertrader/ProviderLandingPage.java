@@ -179,6 +179,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String receiverEmail = parent.getItemAtPosition(position).toString();
+                String [] receiverEmailArr = receiverEmail.split(": ");
+                receiverEmail = receiverEmailArr[1];
                 System.out.println(receiverEmail);
                 Intent intent = new Intent(ProviderLandingPage.this, ReceiverRating.class);
                 startActivity(intent);

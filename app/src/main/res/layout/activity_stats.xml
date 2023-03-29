@@ -10,7 +10,7 @@
         android:layout_height="94dp"
         android:text="Rating"
         tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="15dp" />
+        tools:layout_editor_absoluteY="36dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -18,13 +18,14 @@
         android:layout_height="95dp"
         android:text="Valuation"
         tools:layout_editor_absoluteX="33dp"
-        tools:layout_editor_absoluteY="128dp" />
+        tools:layout_editor_absoluteY="172dp" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="352dp"
-        android:layout_height="454dp"
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Exchange History"
-        tools:layout_editor_absoluteX="34dp"
-        tools:layout_editor_absoluteY="256dp" />
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="358dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="358dp"
+        android:layout_height="94dp"
+        android:text="Rating"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="15dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="355dp"
+        android:layout_height="95dp"
+        android:text="Valuation"
+        tools:layout_editor_absoluteX="33dp"
+        tools:layout_editor_absoluteY="128dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="352dp"
+        android:layout_height="454dp"
+        android:text="Exchange History"
+        tools:layout_editor_absoluteX="34dp"
+        tools:layout_editor_absoluteY="256dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

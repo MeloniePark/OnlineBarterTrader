@@ -130,4 +130,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productTypeMenuProviderPostItem" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="45dp"
+        android:layout_height="57dp"
+        app:srcCompat="@android:drawable/ic_dialog_dialer"
+        tools:layout_editor_absoluteX="364dp"
+        tools:layout_editor_absoluteY="5dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

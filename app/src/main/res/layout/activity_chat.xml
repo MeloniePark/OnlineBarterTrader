@@ -9,7 +9,7 @@
 
     <!--The Most parts of the layouts are taken from the tutorial: Gitlab csci3130_chat_application-->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerChatView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/chatLL"
@@ -27,23 +27,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView">
+        app:layout_constraintTop_toBottomOf="@id/recyclerChatView">
 
         <EditText
             android:id="@+id/chatWriteMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ems="10"
             android:hint="@string/type_your_message"
             android:inputType="text"
-            tools:ignore="Autofill"
-            android:ems="10" />
+            android:minHeight="48dp"
+            tools:ignore="Autofill" />
 
         <Button
             android:id="@+id/chatSendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send" />
+            android:text="@string/send" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -88,14 +88,16 @@ public class SearchedItemList extends Activity {
                                     String itemName = snapshot.child("productName").getValue(String.class);
                                     String itemType = snapshot.child("productType").getValue(String.class);
                                     String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                    receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Preferred Exchange: " + exchangeWith);
+                                    String location = snapshot.child("placeOfExchange").getValue(String.class);
+                                    receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                     receiverArrAdapter.notifyDataSetChanged();
                                 } else {
                                     String itemType = snapshot.child("productType").getValue(String.class);
                                     if (itemType.equals(userPreference)) {
                                         String itemName = snapshot.child("productName").getValue(String.class);
                                         String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                        receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Preferred Exchange: " + exchangeWith);
+                                        String location = snapshot.child("placeOfExchange").getValue(String.class);
+                                        receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                         receiverArrAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -104,9 +106,10 @@ public class SearchedItemList extends Activity {
                                 String pattern = "(?i).*" + query + ".*";
                                 String itemType = snapshot.child("productType").getValue(String.class);
                                 String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                if (itemType.matches(pattern) || exchangeWith.matches(pattern)) {
+                                String location = snapshot.child("placeOfExchange").exists() ? snapshot.child("placeOfExchange").getValue(String.class) : "";
+                                if (itemType.matches(pattern) || exchangeWith.matches(pattern) || location.matches(pattern)) {
                                     String itemName = snapshot.child("productName").getValue(String.class);
-                                    receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Preferred Exchange: " + exchangeWith);
+                                    receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                     receiverArrAdapter.notifyDataSetChanged();
                                 }
                             }

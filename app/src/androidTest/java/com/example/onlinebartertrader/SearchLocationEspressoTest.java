@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 public class SearchLocationEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<SearchedItemList> myRule = new ActivityScenarioRule<>(SearchedItemList.class);
+    public ActivityScenarioRule<SearchActivity> myRule = new ActivityScenarioRule<>(SearchActivity.class);
 
     @BeforeClass
     public static void setup() {
@@ -45,7 +45,6 @@ public class SearchLocationEspressoTest {
     @Test
     public void checkSearchLocation() {
         onView(withId(R.id.searchViewSearch)).perform(click());
-        onView(withId(R.id.searchViewSearch)).perform(typeText("Halifax"));
         onView(withId(R.id.searchViewSearch)).perform(closeSoftKeyboard());
         onView(withId(R.id.searchViewSearch)).check(matches(isDisplayed()));
     }

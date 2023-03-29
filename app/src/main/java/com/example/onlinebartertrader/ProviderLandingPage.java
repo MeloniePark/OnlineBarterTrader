@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -170,6 +171,17 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             public void onCancelled(@NonNull DatabaseError error) {
                 //unused for now but possible to be used in future iteration
                 throw new UnsupportedOperationException();
+            }
+        });
+
+        receiverIdList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String receiverEmail = parent.getItemAtPosition(position).toString();
+                System.out.println(receiverEmail);
+                Intent intent = new Intent(ProviderLandingPage.this, ReceiverRating.class);
+                startActivity(intent);
             }
         });
 

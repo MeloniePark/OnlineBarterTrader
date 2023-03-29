@@ -17,8 +17,11 @@ public class StatsPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
+
+        //User roles need to be identified
         userRole = getIntent().getStringExtra("userRole");
 
+        //Exchange history button
         Button exchangeHistoryButton = findViewById(R.id.exchangeHistoryButton);
         exchangeHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,6 +40,7 @@ public class ChatActivity extends AppCompatActivity{
     String preferredExchange;
     String providerEmail;
     String receiverEmail;
+    int userType; //1 for receiver, 2 for provider
 
     RecyclerView recyclerView;
     EditText chatWriteMessage;
@@ -88,8 +89,14 @@ public class ChatActivity extends AppCompatActivity{
         preferredExchange = intent.getStringExtra("preferredExchange");
         providerEmail = intent.getStringExtra("providerEmail");
         receiverEmail = intent.getStringExtra("receiverEmail");
+        userType = Integer.parseInt(intent.getStringExtra("userType"));
 
-        UserSession.getInstance().setUser(receiverEmail);
+        if (userType == 1) {
+            UserSession.getInstance().setUser(receiverEmail);
+        }
+        else {
+            UserSession.getInstance().setUser(providerEmail);
+        }
     }
 
 // mostly adapted from CSCI 3130 tutorial
@@ -129,7 +136,13 @@ public class ChatActivity extends AppCompatActivity{
 
     private void sendMessage() {
         final String chatMessage = chatWriteMessage.getText().toString();
-        final Chat chatMessageObj = new Chat(receiverEmail, chatMessage);
+        final Chat chatMessageObj;
+        if (userType == 1){
+            chatMessageObj = new Chat(receiverEmail, chatMessage);
+        }
+        else {
+            chatMessageObj = new Chat(providerEmail, chatMessage);
+        }
 //storing the message and the username in the chat collection in database
         FirebaseDatabase.getInstance(FirebaseConstants.FIREBASE_URL)
                 .getReference().child("chat")

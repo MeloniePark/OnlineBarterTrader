@@ -29,6 +29,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="send">Send</string>
     <string name="type_your_message">Type Your Message</string>
+    <string name="failed_to_send_message">Failed to send message</string>
     <string-array name="product_types">
         <item>All</item>
         <item>Furniture </item>

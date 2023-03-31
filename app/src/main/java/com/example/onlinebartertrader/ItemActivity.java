@@ -44,6 +44,8 @@ public class ItemActivity extends AppCompatActivity {
                 Intent intent = new Intent(v.getContext(), ChatActivity.class);
                 intent.putExtra("providerEmail", providerEmail);
                 intent.putExtra("receiverEmail", receiverEmail);
+                System.out.println();
+                intent.putExtra("CHAT_COLLECTION", receiverEmail+providerEmail);
                 startActivity(intent);
             }
         });

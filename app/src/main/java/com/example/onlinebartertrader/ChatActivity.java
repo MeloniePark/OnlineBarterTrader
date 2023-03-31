@@ -1,6 +1,7 @@
 package com.example.onlinebartertrader;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,8 +44,15 @@ public class ChatActivity extends AppCompatActivity{
     RecyclerView recyclerView;
     EditText chatWriteMessage;
     Button chatSendButton;
+//    UserSession myUserSession;
 
 
+    public static final String CHAT_COLLECTION = "CHAT_COLLECTION";
+//    private RecyclerView chatRecyclerView;
+    ChatAdapter chatAdapter;
+//    private EditText chatMessageET;
+//    private Button chatSendBtn;
+    private String chatCollection;
 
 
 
@@ -57,7 +66,10 @@ public class ChatActivity extends AppCompatActivity{
         getIntentInfo();
 
         //Now get the
-
+        getChatCollection();
+        setListeners();
+        System.out.println(chatCollection);
+        getChatMessages();
 
     }
 
@@ -76,9 +88,11 @@ public class ChatActivity extends AppCompatActivity{
         preferredExchange = intent.getStringExtra("preferredExchange");
         providerEmail = intent.getStringExtra("providerEmail");
         receiverEmail = intent.getStringExtra("receiverEmail");
+
+        UserSession.getInstance().setUser(receiverEmail);
     }
 
-
+// mostly adapted from CSCI 3130 tutorial
     public boolean checkProvider(String provider, String user){
         return provider.equalsIgnoreCase(user);
     }
@@ -91,6 +105,56 @@ public class ChatActivity extends AppCompatActivity{
         return message.equals("");
     }
 
+    private void getChatCollection() {
+        chatCollection = getIntent().getStringExtra(CHAT_COLLECTION);
+    }
+
+    private void setListeners() {
+        chatSendButton.setOnClickListener(view -> sendMessage());
+    }
+
+    private void getChatMessages() {
+//        getting the chat messages
+        final FirebaseRecyclerOptions<Chat> options = new FirebaseRecyclerOptions.Builder<Chat>()
+                .setQuery(FirebaseDatabase.getInstance(FirebaseConstants.FIREBASE_URL)
+                        .getReference().child("chat")
+                        .child(chatCollection), Chat.class)
+                .build();
+//        getting chat adapter object and then bind the recycler view to the adapter
+        chatAdapter = new ChatAdapter(options);
+        recyclerView.setAdapter(chatAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+    private void sendMessage() {
+        final String chatMessage = chatWriteMessage.getText().toString();
+        final Chat chatMessageObj = new Chat(receiverEmail, chatMessage);
+//storing the message and the username in the chat collection in database
+        FirebaseDatabase.getInstance(FirebaseConstants.FIREBASE_URL)
+                .getReference().child("chat")
+                .child(chatCollection)
+                .push()
+                .setValue(chatMessageObj)
+                .addOnSuccessListener(unused -> chatWriteMessage.setText(""))
+                .addOnFailureListener(e ->
+                        Toast.makeText(ChatActivity.this,
+                                        getString(R.string.failed_to_send_message),
+                                        Toast.LENGTH_SHORT)
+                                .show());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        chatAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        chatAdapter.stopListening();
+    }
 
 
 

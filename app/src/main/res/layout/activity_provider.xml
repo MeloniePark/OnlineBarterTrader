@@ -48,8 +48,15 @@
         android:id="@+id/imageButton2"
         android:layout_width="51dp"
         android:layout_height="48dp"
-        app:srcCompat="@drawable/stats"
-        tools:layout_editor_absoluteX="356dp"
-        tools:layout_editor_absoluteY="4dp" />
+        android:layout_marginStart="104dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="112dp"
+        app:layout_constraintBottom_toTopOf="@+id/providerListProvider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/providerPostProvider"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/stats" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

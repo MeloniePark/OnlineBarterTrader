@@ -30,7 +30,7 @@ import java.util.logging.*;
 public class ChatActivity extends AppCompatActivity{
 
     public ChatActivity() {
-        System.out.println("I am in Chat Activity");
+        //This method is used to check by printing message if the system is in ChatActivity.
     }
 
     String itemID;
@@ -45,14 +45,10 @@ public class ChatActivity extends AppCompatActivity{
     RecyclerView recyclerView;
     EditText chatWriteMessage;
     Button chatSendButton;
-//    UserSession myUserSession;
 
 
     public static final String CHAT_COLLECTION = "CHAT_COLLECTION";
-//    private RecyclerView chatRecyclerView;
     ChatAdapter chatAdapter;
-//    private EditText chatMessageET;
-//    private Button chatSendBtn;
     private String chatCollection;
 
 
@@ -69,7 +65,6 @@ public class ChatActivity extends AppCompatActivity{
         //Now get the
         getChatCollection();
         setListeners();
-        System.out.println(chatCollection);
         getChatMessages();
 
     }

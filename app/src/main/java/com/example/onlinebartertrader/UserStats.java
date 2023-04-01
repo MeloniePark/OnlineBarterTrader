@@ -1,6 +1,8 @@
 package com.example.onlinebartertrader;
 
-public class UserStats {
+import android.app.Activity;
+
+public class UserStats extends Activity {
 
     boolean checkGivenRating(String ratingFromDB, String rating) {
         return ratingFromDB.equalsIgnoreCase(rating);

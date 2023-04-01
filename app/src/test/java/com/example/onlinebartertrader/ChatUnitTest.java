@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +18,19 @@ public class ChatUnitTest {
 
     @BeforeClass
     public static void setup() {
-        chatActivity = new ChatActivity();
+        chatActivity = Mockito.mock(ChatActivity.class);
+
+        Mockito.when(chatActivity.checkProvider("mel@dalca", "mel@dalca")).thenReturn(true);
+        Mockito.when(chatActivity.checkProvider("mel@dalca", "")).thenReturn(false);
+        Mockito.when(chatActivity.checkProvider("mel@dalca", "test@dalca")).thenReturn(false);
+
+        Mockito.when(chatActivity.checkReceiver("test@dalca", "test@dalca")).thenReturn(true);
+        Mockito.when(chatActivity.checkReceiver("test@dalca", "mel@dalca")).thenReturn(false);
+        Mockito.when(chatActivity.checkReceiver("test@dalca", "")).thenReturn(false);
+
+
+        Mockito.when(chatActivity.isMessageEmpty("")).thenReturn(true);
+        Mockito.when(chatActivity.isMessageEmpty("baby toys")).thenReturn(false);
     }
 
     @AfterClass

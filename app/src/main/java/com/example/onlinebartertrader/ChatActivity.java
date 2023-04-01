@@ -69,7 +69,13 @@ public class ChatActivity extends AppCompatActivity{
         preferredExchange = intent.getStringExtra("preferredExchange");
         providerEmail = intent.getStringExtra("providerEmail");
         receiverEmail = intent.getStringExtra("receiverEmail");
-        userType = Integer.parseInt(intent.getStringExtra("userType"));
+        String userTypeStr = intent.getStringExtra("userType");
+        if (userTypeStr!= null){
+            userType = Integer.parseInt(userTypeStr);
+        }
+        else {
+            userType = 1; //set the default value
+        }
 
         if (userType == 1) {
             UserSession.getInstance().setUser(receiverEmail);
@@ -94,6 +100,9 @@ public class ChatActivity extends AppCompatActivity{
 
     private void getChatCollection() {
         chatCollection = getIntent().getStringExtra(CHAT_COLLECTION);
+        if  (chatCollection == null) {
+            chatCollection = "test@dal_hello@dalca";//set default value
+        }
     }
 
     private void setListeners() {

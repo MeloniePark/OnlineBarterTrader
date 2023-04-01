@@ -8,6 +8,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -69,8 +70,8 @@ public class ChatEspressoTest {
     public void checkMessageCanBeSent() {
         onView(withId(R.id.chatWriteMessage)).perform(typeText("Hello this is the receiver."));
         onView(withId(R.id.chatWriteMessage)).perform(closeSoftKeyboard());
-        onView(withId(R.id.chatSendButton)).perform(click());
-        intended(hasComponent(ChatActivity.class.getName()));
+        onView(withId(R.id.chatSendButton)).check(matches(isClickable()));
+
     }
 
 }

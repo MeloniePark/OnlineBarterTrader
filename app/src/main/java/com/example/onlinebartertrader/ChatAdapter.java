@@ -38,18 +38,21 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
 //        if the user is logged into the app, the session username is equal to the chat message username,
         System.out.println(UserSession.getInstance().getUser());
         System.out.println(chat.getUsername());
-        if (UserSession.getInstance().getUser().equals(chat.getUsername())) {
+        if (UserSession.getInstance().getUser() != null ) {
+            if (UserSession.getInstance().getUser().equals(chat.getUsername())) {
+
 //            hiding the any user layout and displaying current user layout
-            holder.anyUserLL.setVisibility(View.GONE);
-            holder.currentUserLL.setVisibility(View.VISIBLE);
-            holder.currentUserNameTV.setText(chat.getUsername());
-            holder.currentUserMessageTV.setText(chat.getChatMessage());
-        } else {
+                holder.anyUserLL.setVisibility(View.GONE);
+                holder.currentUserLL.setVisibility(View.VISIBLE);
+                holder.currentUserNameTV.setText(chat.getUsername());
+                holder.currentUserMessageTV.setText(chat.getChatMessage());
+            } else {
 //            hiding the current user layout and displaying the any user layout
-            holder.currentUserLL.setVisibility(View.GONE);
-            holder.anyUserLL.setVisibility(View.VISIBLE);
-            holder.anyUserNameTV.setText(chat.getUsername());
-            holder.anyUserMessageTV.setText(chat.getChatMessage());
+                holder.currentUserLL.setVisibility(View.GONE);
+                holder.anyUserLL.setVisibility(View.VISIBLE);
+                holder.anyUserNameTV.setText(chat.getUsername());
+                holder.anyUserMessageTV.setText(chat.getChatMessage());
+            }
         }
     }
     //contains all the ids of all of the layouts and ui elements from the recycler view

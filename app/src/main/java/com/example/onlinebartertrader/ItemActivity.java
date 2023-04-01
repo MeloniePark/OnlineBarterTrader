@@ -49,6 +49,15 @@ public class ItemActivity extends AppCompatActivity {
         });
 
         //On Buy now Button Click, switch to buy now.. - this will be implemented in US2
+        transaction.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(v.getContext(), TransactionActivity.class);
+                intent.putExtra("providerEmail", providerEmail);
+                intent.putExtra("receiverEmail", receiverEmail);
+                startActivity(intent);
+            }
+        });
 
 
     }

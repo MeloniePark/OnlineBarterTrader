@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
 import java.util.logging.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -141,11 +142,15 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             }
         });
 
-        receiverIdDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("receiverId");
+        receiverIdDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
         receiverIdDBRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String receiverEmail = snapshot.getValue(String.class);
+                String receiverEmail = snapshot.child("productReceiver").getValue(String.class);
+                int receiverAvgRating = Integer.parseInt(Objects.requireNonNull(snapshot.child("productReceiverAvgRating").getValue(String.class)));
+                int receiverTotalRating = Integer.parseInt(Objects.requireNonNull(snapshot.child("productReceiverTotalRating").getValue(String.class)));
+                int receiverNumRating = Integer.parseInt(Objects.requireNonNull(snapshot.child("productReceiverTotalRatingNum").getValue(String.class)));
+
                 receiverId.add("Email: "+receiverEmail);
                 receiverIdArrAdapter.notifyDataSetChanged();
             }

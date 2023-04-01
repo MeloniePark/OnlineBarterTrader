@@ -2,8 +2,6 @@ package com.example.onlinebartertrader;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 
@@ -59,7 +57,7 @@ public class ProviderViewReceiverRatingEspressoTest<IntentsTestRule> {
         onView(withId(R.id.ReceiverRatingAvgV)).check(doesNotExist());
         onView(withId(R.id.CurrRatingInputV)).check(doesNotExist());
         onView(withId(R.id.SubmitRatingV)).check(doesNotExist());
-        onView(withId(R.id.CancleRatingV)).check(doesNotExist());
+        onView(withId(R.id.CancelRatingV)).check(doesNotExist());
     }
 
 }

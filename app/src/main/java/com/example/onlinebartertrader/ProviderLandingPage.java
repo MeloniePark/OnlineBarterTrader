@@ -39,6 +39,8 @@ import java.util.Locale;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
@@ -147,17 +149,44 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String receiverEmail = snapshot.child("productReceiver").getValue(String.class);
-                int receiverAvgRating = Integer.parseInt(Objects.requireNonNull(snapshot.child("productReceiverAvgRating").getValue(String.class)));
-                int receiverTotalRating = Integer.parseInt(Objects.requireNonNull(snapshot.child("productReceiverTotalRating").getValue(String.class)));
-                int receiverNumRating = Integer.parseInt(Objects.requireNonNull(snapshot.child("productReceiverTotalRatingNum").getValue(String.class)));
+                String receiverAvgRating = snapshot.child("productReceiverAvgRating").getValue(String.class);
+                String receiverTotalRating = snapshot.child("productReceiverTotalRating").getValue(String.class);
+                String receiverNumRating = snapshot.child("productReceiverTotalRatingNum").getValue(String.class);
+                String itemKey = snapshot.getKey();
 
-                receiverId.add("Email: "+receiverEmail);
+                receiverId.add("Email: "+receiverEmail + "\nItem Key: "+itemKey+"\nAvg Rating: "+receiverAvgRating+"\nTotal Rating: "+receiverTotalRating+"\nTotal Rating Num: "+receiverNumRating);
                 receiverIdArrAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                receiverIdArrAdapter.notifyDataSetChanged();
+                String itemKey = snapshot.getKey();
+                // Find the item in the list using its key
+                int position = -1;
+                for (int i = 0; i < receiverId.size(); i++) {
+                    String receiverString = receiverId.get(i);
+                    Pattern pattern = Pattern.compile("Email: (.+)\nItem Key: ([-\\d.]+)\nAvg Rating: ([-\\d.]+)\nTotal Rating: ([-\\d.]+)\nTotal Rating Num: ([-\\d.]+)", Pattern.DOTALL);
+                    Matcher matcher = pattern.matcher(receiverString);
+                    if (matcher.find()) {
+                        String key = matcher.group(2);
+                        if (itemKey.equals(key)) {
+                            position = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (position != -1) {
+                    // Update the item in the list
+                    String receiverEmail = snapshot.child("productReceiver").getValue(String.class);
+                    String receiverAvgRating = snapshot.child("productReceiverAvgRating").getValue(String.class);
+                    String receiverTotalRating = snapshot.child("productReceiverTotalRating").getValue(String.class);
+                    String receiverNumRating = snapshot.child("productReceiverTotalRatingNum").getValue(String.class);
+
+                    String updatedReceiverString = "Email: "+receiverEmail + "\nItem Key: "+itemKey+"\nAvg Rating: "+receiverAvgRating+"\nTotal Rating: "+receiverTotalRating+"\nTotal Rating Num: "+receiverNumRating;
+                    receiverId.set(position, updatedReceiverString);
+                    receiverIdArrAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -183,11 +212,31 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String receiverEmail = parent.getItemAtPosition(position).toString();
-                String [] receiverEmailArr = receiverEmail.split(": ");
-                receiverEmail = receiverEmailArr[1];
-                System.out.println(receiverEmail);
+                String receiverString = parent.getItemAtPosition(position).toString();
+                String email = "";
+                String itemKey = "";
+                String avgRating = "";
+                String totalRating = "";
+                String totalRatingNum = "";
+                Pattern pattern = Pattern.compile("Email: (.+)\nItem Key: ([-\\d.]+)\nAvg Rating: ([-\\d.]+)\nTotal Rating: ([-\\d.]+)\nTotal Rating Num: ([-\\d.]+)", Pattern.DOTALL);
+                Matcher matcher = pattern.matcher(receiverString);
+                if (matcher.find()) {
+                    email = matcher.group(1);
+                    itemKey = matcher.group(2);
+                    avgRating = matcher.group(3);
+                    totalRating = matcher.group(4);
+                    totalRatingNum = matcher.group(5);
+                }
+
                 Intent intent = new Intent(ProviderLandingPage.this, ReceiverRating.class);
+
+                intent.putExtra("receiverEmail",email);
+                intent.putExtra("receiverAvgRating",avgRating);
+                intent.putExtra("receiverTotalRating",totalRating);
+                intent.putExtra("receiverTotalRatingNum",totalRatingNum);
+                intent.putExtra("userEmailAddress",userEmailAddress.toLowerCase());
+                intent.putExtra("itemKey",itemKey);
+
                 startActivity(intent);
             }
         });

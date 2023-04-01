@@ -36,8 +36,7 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
     @Override
     protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull Chat chat) {
 //        if the user is logged into the app, the session username is equal to the chat message username,
-        System.out.println(UserSession.getInstance().getUser());
-        System.out.println(chat.getUsername());
+
         if (UserSession.getInstance().getUser() != null ) {
             if (UserSession.getInstance().getUser().equals(chat.getUsername())) {
 

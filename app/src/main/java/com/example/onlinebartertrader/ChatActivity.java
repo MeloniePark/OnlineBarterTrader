@@ -69,12 +69,15 @@ public class ChatActivity extends AppCompatActivity{
         preferredExchange = intent.getStringExtra("preferredExchange");
         providerEmail = intent.getStringExtra("providerEmail");
         receiverEmail = intent.getStringExtra("receiverEmail");
-        String userTypeStr = intent.getStringExtra("userType");
-        if (userTypeStr!= null){
-            userType = Integer.parseInt(userTypeStr);
-        }
-        else {
-            userType = 1; //set the default value
+        //userType = Integer.parseInt(intent.getStringExtra("userType"));
+
+        if (intent.getStringExtra("userType") != null){
+            try{
+                userType = Integer.parseInt(intent.getStringExtra("userType"));
+            } catch (NumberFormatException e){
+                //deal with the userType being null
+                userType = 0;
+            }
         }
 
         if (userType == 1) {

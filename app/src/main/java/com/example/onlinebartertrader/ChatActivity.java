@@ -69,7 +69,16 @@ public class ChatActivity extends AppCompatActivity{
         preferredExchange = intent.getStringExtra("preferredExchange");
         providerEmail = intent.getStringExtra("providerEmail");
         receiverEmail = intent.getStringExtra("receiverEmail");
-        userType = Integer.parseInt(intent.getStringExtra("userType"));
+        //userType = Integer.parseInt(intent.getStringExtra("userType"));
+
+        if (intent.getStringExtra("userType") != null){
+            try{
+                userType = Integer.parseInt(intent.getStringExtra("userType"));
+            } catch (NumberFormatException e){
+                //deal with the userType being null
+                userType = 0;
+            }
+        }
 
         if (userType == 1) {
             UserSession.getInstance().setUser(receiverEmail);

@@ -45,7 +45,6 @@ public class ItemActivity extends AppCompatActivity {
                 intent.putExtra("providerEmail", providerEmail);
                 intent.putExtra("receiverEmail", receiverEmail);
                 intent.putExtra("userType", "1"); //1 means chat opened from receiver side
-                System.out.println();
                 intent.putExtra("CHAT_COLLECTION", receiverEmail+"_"+providerEmail);
                 startActivity(intent);
             }

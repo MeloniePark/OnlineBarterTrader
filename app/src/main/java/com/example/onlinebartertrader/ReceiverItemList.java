@@ -1,14 +1,22 @@
 package com.example.onlinebartertrader;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.*;
@@ -53,16 +61,71 @@ public class ReceiverItemList {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
                 String providerEmail = dataSnapshot.getKey();
+
                 boolean sameUser = checkItemIsPostedByTheReceiver(providerEmail, userEmailAddress);
                 DatabaseReference providerItemsRef = database.getReference("Users/Provider/" + providerEmail + "/items");
+
+
+                //set item click listener
+                receiverLists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+                        String clickedItem = (String) adapterView.getItemAtPosition(index);
+                        // NOTE: I changed the string to add the item id and other stuffs here as well.
+                        String[] itemParts = clickedItem.split(", ");
+                        String itemID = itemParts[0].substring(9);
+
+                        DatabaseReference itemsRef = database.getReference("Users/Provider");
+                        itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot providerSnapshot : dataSnapshot.getChildren()) {
+                                    DataSnapshot itemsSnapshot = providerSnapshot.child("items");
+                                    for (DataSnapshot itemSnapshot : itemsSnapshot.getChildren()) {
+                                        String currentItemID = itemSnapshot.getKey();
+                                        assert currentItemID != null;
+                                        if (currentItemID.equalsIgnoreCase(itemID)) {
+                                            // The item was found in the database. can also get other item if nessesary
+                                            String itemType = itemSnapshot.child("productType").getValue(String.class);
+                                            String itemName = itemSnapshot.child("productName").getValue(String.class);
+                                            String description = itemSnapshot.child("description").getValue(String.class);
+                                            String preferredExchange = itemSnapshot.child("preferredExchange").getValue(String.class);
+                                            String itemProviderEmail = providerSnapshot.getKey();
+                                            System.out.println(itemProviderEmail);
+                                            System.out.println(itemID);
+
+                                            Intent myIntent = new Intent(view.getContext(), ItemActivity.class);
+                                            myIntent.putExtra("itemID", itemID);
+                                            myIntent.putExtra("itemName", itemName);
+                                            myIntent.putExtra("itemType", itemType);
+                                            myIntent.putExtra("description", description);
+                                            myIntent.putExtra("preferredExchange", preferredExchange);
+                                            myIntent.putExtra("providerEmail", itemProviderEmail);
+                                            myIntent.putExtra("receiverEmail", userEmailAddress);
+                                            view.getContext().startActivity(myIntent);
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        });
+                    }
+                });
+
+
                 if (!sameUser) {
                     providerItemsRef.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
                             String itemType = snapshot.child("productType").getValue(String.class);
                             String itemName = snapshot.child("productName").getValue(String.class);
+                            String itemPlace = snapshot.child("placeOfExchange").getValue(String.class);
+                            String itemID = snapshot.getKey();
 
-                            receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType);
+                            receiverItems.add("Item ID: " + itemID +", Item Name: " + itemName + ", Item Type: " + itemType + ", Provider: "+ providerEmail +
+                                    ", Place: " + itemPlace);
                             receiverArrAdapter.notifyDataSetChanged();
 
                         }

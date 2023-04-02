@@ -17,6 +17,10 @@ public class SoldItemActivity extends AppCompatActivity {
     String preferredExchange;
     String providerEmail;
     String receiverEmail;
+    String approxMarketValue;
+    String receiverEnteredPrice;
+    String productReceived;
+    String transactionDate;
 
     TextView itemInformationView;
     Button rateButton;
@@ -32,18 +36,18 @@ public class SoldItemActivity extends AppCompatActivity {
         getIntentItemInfo();
         setItemInformation();
 
-
+        rateButton = findViewById(R.id.rateTheReceiverButtonProviderItem);
         rateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // Switch to the page for rating the receiver
+                // TODO:Switch to the page for rating the receiver
             }
         });
 
     }
 
     public void getLayoutComponents(){
-        itemInformationView = (TextView)findViewById(R.id.productInformation);
+        itemInformationView = (TextView)findViewById(R.id.productInformationProviderItem);
         rateButton = (Button)findViewById(R.id.buyNowButton);
     }
 
@@ -56,17 +60,25 @@ public class SoldItemActivity extends AppCompatActivity {
         itemDescription = intent.getStringExtra("description");
         preferredExchange = intent.getStringExtra("preferredExchange");
         providerEmail = intent.getStringExtra("providerEmail");
-        receiverEmail = intent.getStringExtra("receiverEmail");
-        String a = "receiver id who purchased the product";
-        String b = "the product received in exchange";
-        String c = "the estimated price entered by the receiver";
-        String d = "sold date";
+        receiverEmail = intent.getStringExtra("receiverID");
+        approxMarketValue = intent.getStringExtra("approxMarketValue");
+        receiverEnteredPrice = intent.getStringExtra("receiverEnteredPrice");
+        productReceived = intent.getStringExtra("productReceived");
+        transactionDate = intent.getStringExtra("transactionDate");
     }
 
     public void setItemInformation(){
         //Put the item information to the itemInformationView
-        String itemInfoString = "Item: " + itemName + "\nItem Type: " + itemType+ "\n\nDescription: "
-                + itemDescription + "\n\nPreferred Exchange Item: " + preferredExchange;
+        String itemInfoString =
+                "Item ID: " + itemID
+                + "\nItem Name: " + itemName
+                + "\nItem Type: " + itemType
+                + "\n\nPreferred Exchange Item: " + preferredExchange
+                + "\nExchange Actually Got: " + productReceived
+                + "\nApproximate Market Value: " + approxMarketValue
+                + "\nValue of Item Reveied: " + receiverEnteredPrice
+                + "\nReceiver ID: " + receiverEmail
+                + "\nTransaction Date: " + transactionDate;
         itemInformationView.setText(itemInfoString);
     }
 }

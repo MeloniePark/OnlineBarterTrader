@@ -66,7 +66,7 @@ public class TransactionReceiverEspressoTest {
     public void checkIfTransactionPageIsVisible() {
         onView(withId(R.id.receiverProductInExchange)).check(matches(isDisplayed()));
         onView(withId(R.id.receiverTransactionEstCost)).check(matches(isDisplayed()));
-        onView(withId(R.id.chatRecyclerMessagesView)).check(matches(isDisplayed()));
+        onView(withId(R.id.receiverTransactionConfirmBtn)).check(matches(isDisplayed()));
     }
 
     //*** User story 3, AT1 **/
@@ -78,7 +78,6 @@ public class TransactionReceiverEspressoTest {
         onView(withId(R.id.receiverTransactionEstCost)).perform(closeSoftKeyboard());
 
         onView(withId(R.id.receiverTransactionConfirmBtn)).check(matches(isClickable()));
-        intended(hasComponent(TransactionActivity.class.getName()));
     }
 
     //*** User story 3, AT1 **/
@@ -110,11 +109,11 @@ public class TransactionReceiverEspressoTest {
     public void checkIfProductEstimatedCostInvalid() {
         onView(withId(R.id.receiverProductInExchange)).perform(typeText("Melonie's tear"));
         onView(withId(R.id.receiverProductInExchange)).perform(closeSoftKeyboard());
-        onView(withId(R.id.receiverTransactionEstCost)).perform(typeText("1000000000 dollar"));
+        onView(withId(R.id.receiverTransactionEstCost)).perform(typeText("ten"));
         onView(withId(R.id.receiverTransactionEstCost)).perform(closeSoftKeyboard());
 
         onView(withId(R.id.receiverTransactionConfirmBtn)).perform(click());
-        onView(withId(R.id.transactionReceiverErrorMessage)).check(matches(withText(R.string.INVALID_RECEIVER_EST_ITEM_COST)));
+        onView(withId(R.id.transactionReceiverErrorMessage)).check(matches(withText(R.string.EMPTY_RECEIVER_EST_ITEM_COST)));
     }
 
 

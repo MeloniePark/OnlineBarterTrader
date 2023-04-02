@@ -94,7 +94,7 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         return (pattern.matcher(emailAddress).matches());
     }
 
-    // This method starts the ReceiverLandingPage activity with the email address entered by the user as an extra
+    // TODO: change this to switch2RatingPage
     protected void switch2ReceiverLandingPage() {
         Intent intent = new Intent(this, ReceiverLandingPage.class);
         intent.putExtra("emailAddress", receiverEmail);
@@ -111,6 +111,7 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         String formattedDate = dateFormat.format(currentTime);
 
         itemRef.child("currentStatus").setValue("Sold Out");
+        itemRef.child("receiverID").setValue(receiverEmail);
         itemRef.child("transactionDate").setValue(formattedDate);
         itemRef.child("productReceived").setValue(itemExchangeEntered);
         itemRef.child("receiverEnteredPrice").setValue(estValueEntered);
@@ -132,8 +133,14 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         String errorMessage;
 
         // Check if either the item or value is empty
-        if (isEmptyValue(estValueEntered) || isEmptyExchangeItem(itemExchangeEntered)) {
-            errorMessage = getResources().getString(R.string.EMPTY_VALUE_OR_ITEM).trim();
+        if (isEmptyValue(estValueEntered)) {
+            errorMessage = getResources().getString(R.string.EMPTY_RECEIVER_EST_ITEM_COST).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        else
+        if (isEmptyExchangeItem(itemExchangeEntered)) {
+            errorMessage = getResources().getString(R.string.EMPTY_RECEIVER_EXCHANGE_PRODUCT).trim();
             setStatusMessage(errorMessage);
             Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
         }
@@ -144,7 +151,7 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         }
         // If the value is not numeric, display an error message
         else {
-            errorMessage = getResources().getString(R.string.NOT_NUMERIC_VALUE).trim();
+            errorMessage = getResources().getString(R.string.INVALID_RECEIVER_EST_ITEM_COST).trim();
             setStatusMessage(errorMessage);
             Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
         }

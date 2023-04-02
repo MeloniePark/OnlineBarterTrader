@@ -122,11 +122,13 @@ public class ReceiverItemList {
                             String itemType = snapshot.child("productType").getValue(String.class);
                             String itemName = snapshot.child("productName").getValue(String.class);
                             String itemPlace = snapshot.child("placeOfExchange").getValue(String.class);
+                            String itemAvailability = snapshot.child("currentStatus").getValue(String.class);
                             String itemID = snapshot.getKey();
-
-                            receiverItems.add("Item ID: " + itemID +", Item Name: " + itemName + ", Item Type: " + itemType + ", Provider: "+ providerEmail +
-                                    ", Place: " + itemPlace);
-                            receiverArrAdapter.notifyDataSetChanged();
+                            if (itemAvailability.equalsIgnoreCase("Available")){
+                                receiverItems.add("Item ID: " + itemID +", Item Name: " + itemName + ", Item Type: " + itemType + ", Provider: "+ providerEmail +
+                                        ", Place: " + itemPlace);
+                                receiverArrAdapter.notifyDataSetChanged();
+                            }
 
                         }
 

@@ -48,6 +48,14 @@
             android:exported="false" />
 
         <activity
+            android:name=".SoldItemActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TransactionActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

@@ -15,7 +15,12 @@ public class TransactionActivityUnitTest {
     public static void setup() {
         TransactionActivity = Mockito.mock(TransactionActivity.class);
 
-        Mockito.when(TransactionActivity.isEmptyExchangeItem("baby toys")).thenReturn(false);
+        Mockito.when(TransactionActivity.isEmptyExchangeItem("Happiness")).thenReturn(false);
+        Mockito.when(TransactionActivity.isEmptyExchangeItem("")).thenReturn(true);
+        Mockito.when(TransactionActivity.isEmptyValue("")).thenReturn(true);
+        Mockito.when(TransactionActivity.isEmptyValue("10")).thenReturn(false);
+        Mockito.when(TransactionActivity.isValidValue("10")).thenReturn(true);
+        Mockito.when(TransactionActivity.isValidValue("ten")).thenReturn(false);
     }
 
     @AfterClass

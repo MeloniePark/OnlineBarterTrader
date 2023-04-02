@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/rateTheReceiverButtonProviderItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="152dp"
+        android:text="Rate Receiver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productInformationProviderItem" />
+
+    <TextView
+        android:id="@+id/productInformationProviderItem"
+        android:layout_width="259dp"
+        android:layout_height="471dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="112dp"
+        android:scrollbars="vertical"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/rateTheReceiverButtonProviderItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemInformationProviderItem" />
+
+    <TextView
+        android:id="@+id/itemInformationProviderItem"
+        android:layout_width="125dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="143dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="143dp"
+        android:layout_marginBottom="6dp"
+        android:text="Transaction Info"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/productInformationProviderItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

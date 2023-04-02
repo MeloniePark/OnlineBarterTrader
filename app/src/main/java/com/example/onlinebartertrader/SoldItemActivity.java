@@ -8,10 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * This ItemActivity class is in charge of the item's page
- * Item's page has a information of the product & option to chat with provider or buy item.**/
-public class ItemActivity extends AppCompatActivity {
+public class SoldItemActivity extends AppCompatActivity {
 
     String itemID;
     String itemName;
@@ -22,14 +19,13 @@ public class ItemActivity extends AppCompatActivity {
     String receiverEmail;
 
     TextView itemInformationView;
-    Button transaction;
-    Button chatWithProvider;
+    Button rateButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item);
+        setContentView(R.layout.activity_sold_item);
 
 
         getLayoutComponents();
@@ -37,36 +33,18 @@ public class ItemActivity extends AppCompatActivity {
         setItemInformation();
 
 
-        //On Chat Button Click, switch to chat.
-        chatWithProvider.setOnClickListener(new View.OnClickListener(){
+        rateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), ChatActivity.class);
-                intent.putExtra("providerEmail", providerEmail);
-                intent.putExtra("receiverEmail", receiverEmail);
-                startActivity(intent);
+                // Switch to the page for rating the receiver
             }
         });
-
-        //On Buy now Button Click, switch to buy now.. - this will be implemented in US2
-        transaction.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), TransactionActivity.class);
-                intent.putExtra("providerEmail", providerEmail);
-                intent.putExtra("receiverEmail", receiverEmail);
-                intent.putExtra("itemID", itemID);
-                startActivity(intent);
-            }
-        });
-
 
     }
 
     public void getLayoutComponents(){
         itemInformationView = (TextView)findViewById(R.id.productInformation);
-        transaction = (Button)findViewById(R.id.buyNowButton);
-        chatWithProvider = (Button)findViewById(R.id.chatWithProviderButton);
+        rateButton = (Button)findViewById(R.id.buyNowButton);
     }
 
     public void getIntentItemInfo(){
@@ -79,6 +57,10 @@ public class ItemActivity extends AppCompatActivity {
         preferredExchange = intent.getStringExtra("preferredExchange");
         providerEmail = intent.getStringExtra("providerEmail");
         receiverEmail = intent.getStringExtra("receiverEmail");
+        String a = "receiver id who purchased the product";
+        String b = "the product received in exchange";
+        String c = "the estimated price entered by the receiver";
+        String d = "sold date";
     }
 
     public void setItemInformation(){

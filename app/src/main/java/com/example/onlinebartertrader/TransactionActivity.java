@@ -16,130 +16,137 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 public class TransactionActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Declaring class-level variables to be used in different methods
     FirebaseDatabase database = null;
-    DatabaseReference userRefForCheckEmail;
-    DatabaseReference userRefForCheckPassword;
-    String emailAddressEntered;
+    DatabaseReference itemRef;
     String passwordEntered;
-    Button providerLoginButton;
-    Button receiverLoginButton;
+    Button confirmButtun;
     ArrayList<String> emailsFound = new ArrayList<>();
     ArrayList<String> passwordFound =new ArrayList<>();
     volatile boolean dataRetrieved = false;
     boolean retrievedEmail = false, retrievedPassword=false;
 
+    String itemID;
+    String itemExchangeEntered;
+    String estValueEntered;
+    String providerEmail;
+    String receiverEmail;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_log_in);
+        setContentView(R.layout.activity_transaction);
 
+        getIntentInfo();
+
+        database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        itemRef = database.getReference("Users/Provider/"+providerEmail+"/items/"+itemID);
+
+        confirmButtun = findViewById(R.id.receiverTransactionConfirmBtn);
+
+        confirmButtun.setOnClickListener(this);
+    }
+
+    public void getIntentInfo(){
+        Intent intent = getIntent();
+        itemID = intent.getStringExtra("itemID");
+        providerEmail = intent.getStringExtra("providerEmail");
+        receiverEmail = intent.getStringExtra("receiverEmail");
     }
 
     // This method gets the value of the password entered by the user
     protected String getExchangeItemEntered() {
-        EditText password = findViewById(R.id.passwordLogIn);
-        return password.getText().toString().trim();
+        EditText exchangeItem = findViewById(R.id.receiverProductInExchange);
+        return exchangeItem.getText().toString().trim();
     }
 
     // This method gets the value of the email entered by the user
     protected String getValueEntered() {
-        EditText emailAddress = findViewById(R.id.emailAddressLogIn);
-        return emailAddress.getText().toString().trim();
+        EditText estValue = findViewById(R.id.receiverTransactionEstCost);
+        return estValue.getText().toString().trim();
     }
 
-    // This method checks if the email address entered by the user is empty
+    // This method checks if the item in exchange entered by the user is empty
     protected boolean isEmptyExchangeItem(String emailAddress) {
         return emailAddress.isEmpty();
     }
 
-    // This method checks if the password entered by the user is empty
+    // This method checks if the value entered by the user is empty
     protected boolean isEmptyValue(String password) {
         return password.isEmpty();
     }
 
-    // This method checks if the email address entered by the user is valid using a regular expression
+    // This method checks if the value address entered by the user is valid using a regular expression
     protected boolean isValidValue(String emailAddress) {
-        return emailAddress.matches("^[A-Za-z0-9.+_-]+@[A-Za-z0-9-]+.[a-zA-Z0-9.-]+$");
+        Pattern pattern = Pattern.compile("[1-9][0-9]*");
+        return (pattern.matcher(emailAddress).matches());
     }
-
 
     // This method starts the ReceiverLandingPage activity with the email address entered by the user as an extra
     protected void switch2ReceiverLandingPage() {
         Intent intent = new Intent(this, ReceiverLandingPage.class);
-        intent.putExtra("emailAddress", emailAddressEntered.toLowerCase());
+        intent.putExtra("emailAddress", receiverEmail);
         startActivity(intent);
     }
 
+    // This method change the values for the given item
+    protected void confirmTransaction() {
+
+        Calendar currentCalendar = Calendar.getInstance();
+        Date currentTime = currentCalendar.getTime();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(currentTime);
+
+        itemRef.child("currentStatus").setValue("Sold Out");
+        itemRef.child("transactionDate").setValue(formattedDate);
+        itemRef.child("productReceived").setValue(itemExchangeEntered);
+        itemRef.child("receiverEnteredPrice").setValue(estValueEntered);
+//        transactionDate, receiverID, productReceived, and receiverEnteredPrice
+    }
 
     // This method sets the error message that will be displayed to the user
-    // when an error occurs during login
+    // when an error occurs during confirming
     protected void setStatusMessage(String message) {
-        TextView statusLabel = findViewById(R.id.errorMessageLogIn);
+        TextView statusLabel = findViewById(R.id.transactionReceiverErrorMessage);
         statusLabel.setText(message.trim());
     }
 
-    protected String getRidOfDot(String rawEmail) {
-        return rawEmail.replace(".", "");
-    }
-    // This method is called when the user clicks the login button
     @Override
     public void onClick(View view) {
-//        while (!dataRetrieved);
-//
-//        // Getting the email and password entered by the user
-//        while (retrievedEmail ==false);
-//        emailAddressEntered = getRidOfDot(getEmailAddressEntered());
-//        passwordEntered = getPasswordEntered();
-//        String errorMessage;
-//
-//        // Check if either the email or password is empty
-//        if (isEmptyEmail(emailAddressEntered) || isEmptyPassword(passwordEntered)) {
-//            errorMessage = getResources().getString(R.string.EMPTY_EMAIL_OR_PASSWORD).trim();
-//            setStatusMessage(errorMessage);
-//            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-//        }
-//        // Checking if the entered email is a valid email format
-//        else if (isValidEmailAddress(emailAddressEntered)) {
-//            // Checking if the email is in the database
-//            if (emailInDatabase()) {
-//                // Check if the entered password matches the password in the database
-//                if (checkPassword()) {
-//                    // If the user is a provider, go to the provider landing page
-//                    if (view.getId() == R.id.providerLoginButtonLogIn) {
-//                        switch2ProviderLandingPage();
-//                    }
-//                    // If the user is a receiver, go to the receiver landing page
-//                    else if (view.getId() == R.id.receiverLoginButtonLogIn) {
-//                        switch2ReceiverLandingPage();
-//                    }
-//                }
-//                // If the entered password is incorrect, display an error message
-//                else {
-//                    errorMessage = getResources().getString(R.string.INCORRECT_PASSWORD).trim();
-//                    setStatusMessage(errorMessage);
-//                    Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-//                }
-//            }
-//            // If the entered email is not in the database, display an error message
-//            else {
-//                errorMessage = getResources().getString(R.string.NOT_REGISTERED_EMAIL).trim();
-//                setStatusMessage(errorMessage);
-//                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-//            }
-//        }
-//        // If the entered email is not in the database, display an error message
-//        else {
-//            errorMessage = getResources().getString(R.string.NOT_REGISTERED_EMAIL).trim();
-//            setStatusMessage(errorMessage);
-//            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-//        }
+        // Getting the item in exchange and estimated cost entered by the user
+        itemExchangeEntered = getExchangeItemEntered();
+        estValueEntered = getValueEntered();
+        String errorMessage;
+
+        // Check if either the item or value is empty
+        if (isEmptyValue(estValueEntered) || isEmptyExchangeItem(itemExchangeEntered)) {
+            errorMessage = getResources().getString(R.string.EMPTY_VALUE_OR_ITEM).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
+        // Checking if the entered value is numeric
+        else if (isValidValue(estValueEntered)) {
+            confirmTransaction();
+            switch2ReceiverLandingPage();
+        }
+        // If the value is not numeric, display an error message
+        else {
+            errorMessage = getResources().getString(R.string.NOT_NUMERIC_VALUE).trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
     }
 }

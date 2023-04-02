@@ -5,6 +5,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
@@ -31,7 +33,7 @@ import org.junit.runner.RunWith;
 public class TransactionProviderEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<ProviderLandingPage> myRule = new ActivityScenarioRule<>(ProviderLandingPage.class);
+    public ActivityScenarioRule<SoldItemActivity> myRule = new ActivityScenarioRule<>(SoldItemActivity.class);
     // We copy and pasted the template from assignment, but Intents rule is not used so far.
     // Commented it out since it sometimes gives an error for now.
     //public IntentsTestRule<MainActivity> myIntentRule = new IntentsTestRule<>(MainActivity.class);
@@ -48,9 +50,12 @@ public class TransactionProviderEspressoTest {
     }
 
 
-    //*** User story 3, AT1 **/
+    //*** User story 3, AT2 **/
     @Test
-    public void checkSomething() {
+    public void soldItemVisible() {
+
+        onView(withId(R.id.productInformationProviderItem)).check(matches(isDisplayed()));
+        onView(withId(R.id.rateTheReceiverButtonProviderItem)).check(matches(isClickable()));
     }
 
 }

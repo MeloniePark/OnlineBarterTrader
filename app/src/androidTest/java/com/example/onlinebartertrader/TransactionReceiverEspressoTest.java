@@ -61,6 +61,7 @@ public class TransactionReceiverEspressoTest {
         assertEquals("com.example.onlinebartertrader", appContext.getPackageName());
     }
 
+    //*** User story 3, AT1 **/
     @Test
     public void checkIfTransactionPageIsVisible() {
         onView(withId(R.id.receiverProductInExchange)).check(matches(isDisplayed()));
@@ -68,6 +69,7 @@ public class TransactionReceiverEspressoTest {
         onView(withId(R.id.chatRecyclerMessagesView)).check(matches(isDisplayed()));
     }
 
+    //*** User story 3, AT1 **/
     @Test
     public void checkIfTransactionCanBeConfirmed() {
         onView(withId(R.id.receiverProductInExchange)).perform(typeText("exchange product"));
@@ -75,11 +77,11 @@ public class TransactionReceiverEspressoTest {
         onView(withId(R.id.receiverTransactionEstCost)).perform(typeText("77"));
         onView(withId(R.id.receiverTransactionEstCost)).perform(closeSoftKeyboard());
 
-        onView(withId(R.id.receiverTransactionConfirmBtn)).perform(click());
-        intended(hasComponent(TransactionActivity.class.getName()));
         onView(withId(R.id.receiverTransactionConfirmBtn)).check(matches(isClickable()));
+        intended(hasComponent(TransactionActivity.class.getName()));
     }
 
+    //*** User story 3, AT1 **/
     @Test
     public void checkIfReceiverExchangeProductEmpty() {
         onView(withId(R.id.receiverProductInExchange)).perform(typeText(""));
@@ -91,6 +93,7 @@ public class TransactionReceiverEspressoTest {
         onView(withId(R.id.transactionReceiverErrorMessage)).check(matches(withText(R.string.EMPTY_RECEIVER_EXCHANGE_PRODUCT)));
     }
 
+    //*** User story 3, AT1 **/
     @Test
     public void checkIfProductEstimatedCostEmpty() {
         onView(withId(R.id.receiverProductInExchange)).perform(typeText("Melonie's tear"));
@@ -102,6 +105,7 @@ public class TransactionReceiverEspressoTest {
         onView(withId(R.id.transactionReceiverErrorMessage)).check(matches(withText(R.string.EMPTY_RECEIVER_EST_ITEM_COST)));
     }
 
+    //*** User story 3, AT1 **/
     @Test
     public void checkIfProductEstimatedCostInvalid() {
         onView(withId(R.id.receiverProductInExchange)).perform(typeText("Melonie's tear"));

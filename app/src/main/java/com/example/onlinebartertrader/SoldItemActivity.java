@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SoldItemActivity extends AppCompatActivity {
 
+    // Intent data declaration
     String itemID;
     String itemName;
     String itemType;
@@ -22,6 +23,7 @@ public class SoldItemActivity extends AppCompatActivity {
     String productReceived;
     String transactionDate;
 
+    // Layouts declaration
     TextView itemInformationView;
     Button rateButton;
 
@@ -46,6 +48,7 @@ public class SoldItemActivity extends AppCompatActivity {
 
     }
 
+    // layout components
     public void getLayoutComponents(){
         itemInformationView = (TextView)findViewById(R.id.productInformationProviderItem);
         rateButton = (Button)findViewById(R.id.buyNowButton);

@@ -35,7 +35,8 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
     ArrayList<String> emailsFound = new ArrayList<>();
     ArrayList<String> passwordFound =new ArrayList<>();
     volatile boolean dataRetrieved = false;
-    boolean retrievedEmail = false, retrievedPassword=false;
+    boolean retrievedEmail = false;
+    boolean retrievedPassword = false;
 
     String itemID;
     String itemExchangeEntered;
@@ -90,11 +91,12 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
 
     // This method checks if the value address entered by the user is valid using a regular expression
     protected boolean isValidValue(String emailAddress) {
-        Pattern pattern = Pattern.compile("[1-9][0-9]*");
+        Pattern pattern = Pattern.compile("[1-9]\\d*");
         return (pattern.matcher(emailAddress).matches());
     }
 
-    // TODO: change this to switch2RatingPage
+    // For Ahmed's US!! Change this to switch2RatingPage
+    // Change this function to connect and switch to the rating page for receiver!
     protected void switch2ReceiverLandingPage() {
         Intent intent = new Intent(this, ReceiverLandingPage.class);
         intent.putExtra("emailAddress", receiverEmail);

@@ -1,10 +1,13 @@
 package com.example.onlinebartertrader;
 
+import static androidx.test.InstrumentationRegistry.getContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,11 +51,12 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
         //Attach a value event listener to the exchange history reference
         exchangeHistoryRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //Create a list to hold the formatted exchange history strings
+                @Override
+                public void onDataChange (@NonNull DataSnapshot dataSnapshot){
+                        //Create a list to hold the formatted exchange history strings
                 List<String> exchangeHistoryStrings = new ArrayList<>();
 
+                try{
                 //Iterate through the exchange history items and create formatted strings
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
                     String itemStatus = itemSnapshot.child("item").child("currentStatus").getValue(String.class);
@@ -82,7 +86,19 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                         exchangeHistoryStrings.add(itemDetails);
                     }
                 }
+                // Create an ArrayAdapter to display the formatted exchange history strings in the ListView
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(ExchangeHistoryActivity.this,
+                        android.R.layout.simple_list_item_1, exchangeHistoryStrings);
+
+                // Set the adapter for the ListView
+                exchangeHistoryList.setAdapter(adapter);
             }
+            catch (NullPointerException e) {
+                // Handle the null exception by displaying an error message to the user
+                Toast.makeText(getContext(), "Exchange history is null", Toast.LENGTH_SHORT).show();
+            }
+        }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -103,5 +119,4 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
             exchangeHistoryRef = database.getReference("User/Receiver/items");
         }
     }
-
 }

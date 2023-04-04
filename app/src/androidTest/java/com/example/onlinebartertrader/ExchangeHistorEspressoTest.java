@@ -5,8 +5,11 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import static org.junit.Assert.assertTrue;
+
 import android.content.Intent;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -22,16 +25,17 @@ public class ExchangeHistorEspressoTest {
             new Intent(ApplicationProvider.getApplicationContext(), StatsPageActivity.class).putExtra("userRole", "receiver")
     );
 
-    @Rule
-    public ActivityScenarioRule<StatsPageActivity> providerStatsPage = new ActivityScenarioRule<>(
-            new Intent(ApplicationProvider.getApplicationContext(), StatsPageActivity.class).putExtra("userRole", "provider")
-    );
-
     @Test
     public void receiverExchangeHistoryVisibility() {
         onView(withId(R.id.exchangeHistoryButton)).perform(click());
         onView(withId(R.id.receiverTraded)).check(matches(isDisplayed()));
     }
+
+
+    @Rule
+    public ActivityScenarioRule<StatsPageActivity> providerStatsPage = new ActivityScenarioRule<>(
+            new Intent(ApplicationProvider.getApplicationContext(), StatsPageActivity.class).putExtra("userRole", "provider")
+    );
 
     @Test
     public void providerExchangeHistoryVisibility() {
@@ -39,18 +43,18 @@ public class ExchangeHistorEspressoTest {
         onView(withId(R.id.providerListProvider)).check(matches(isDisplayed()));
     }
 
-//    String userRole = "Receiver";
-//    String userId = "test@dalca";
-//    String productName = "Test Product";
-//    String dateOfPurchase = "2023-03-28";
-//    String cost = "50";
-//    String exchangeItem = "Test Exchange Item";
-//    String location = "Test Location";
-//    String providerId = "test@provider";
-//
-//    // Assuming you have a method in ExchangeHistoryActivity that sets the userRole and userId
-//        exchangeHistoryActivity.setUserRoleAndId(userRole, userId);
-//
-//    // Assuming you have a method in ExchangeHistoryActivity to check if the correct data is displayed
-//    assertTrue(exchangeHistoryActivity.isExchangeHistoryDisplayed(userRole, userId, productName, dateOfPurchase, cost, exchangeItem, location, providerId));
+    @Rule
+    public ActivityScenarioRule<ExchangeHistoryActivity> activityScenarioRule =
+            new ActivityScenarioRule<>(ExchangeHistoryActivity.class);
+    @Test
+    public void testClickBackButton() {
+        //Launch the activity
+        ActivityScenario<ExchangeHistoryActivity> activityScenario = activityScenarioRule.getScenario();
+
+        //Click the back button
+        onView(withId(android.R.id.home)).perform(click());
+
+        //Verify that the activity is finished and the previous activity is resumed
+        activityScenario.onActivity(activity -> assertTrue(activity.isFinishing()));
+    }
 }

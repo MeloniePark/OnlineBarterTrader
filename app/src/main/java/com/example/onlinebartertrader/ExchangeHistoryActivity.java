@@ -20,8 +20,9 @@ import java.util.List;
 
 public class ExchangeHistoryActivity extends AppCompatActivity {
 
-    private ListView exchangeHistoryList;
-    private DatabaseReference exchangeHistoryRef;
+    ListView exchangeHistoryList;
+    DatabaseReference exchangeHistoryRef;
+    private String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +37,11 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         // Retrieve the user type from the intent extra
         String userType = intent.getStringExtra("userType");
 
-        // Get a reference to the exchange history database node based on the user type
-        if (userType.equals("Provider")) {
-            exchangeHistoryRef = database.getInstance().getReference("User/Provider");
-        } else {
-            exchangeHistoryRef = database.getInstance().getReference("User/Receiver");
-        }
+        // Set the user type
+        setUserType(userType);
 
-        //items?
+        // Get a reference to the exchange history database node based on the user type
+        setExchangeHistoryRef(userType, database);
 
         // Set up the exchange history list view
         exchangeHistoryList = findViewById(R.id.exchange_history_recycler_view);
@@ -57,17 +55,17 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
                 //Iterate through the exchange history items and create formatted strings
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-                    String itemStatus = itemSnapshot.child("itemStatus").getValue(String.class);
+                    String itemStatus = itemSnapshot.child("item").child("currentStatus").getValue(String.class);
 
-                    // Check if the itemStatus is "Sold"
-                    if (itemStatus != null && itemStatus.equals("Sold")) {
-                        String productName = itemSnapshot.child("productName").getValue(String.class);
-                        String transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
-                        String cost = itemSnapshot.child("approxMarketValue").getValue(String.class);
-                        String exchangeItem = itemSnapshot.child("preferredExchange").getValue(String.class);
-                        String location = itemSnapshot.child("placeOfExchange").getValue(String.class);
-                        String providerId = itemSnapshot.child("providerID").getValue(String.class);
-                        String receiverId = itemSnapshot.child("receiverID").getValue(String.class);
+                    //Check if the itemStatus is Sold
+                    if (itemStatus != null && itemStatus.equals("Sold Out")) {
+                        String productName = itemSnapshot.child("item").child("productName").getValue(String.class);
+                        String transactionDate = itemSnapshot.child("item").child("transactionDate").getValue(String.class);
+                        String cost = itemSnapshot.child("item").child("approxMarketValue").getValue(String.class);
+                        String exchangeItem = itemSnapshot.child("item").child("preferredExchange").getValue(String.class);
+                        String location = itemSnapshot.child("item").child("placeOfExchange").getValue(String.class);
+                        String providerId = itemSnapshot.child("item").child("providerID").getValue(String.class);
+                        String receiverId = itemSnapshot.child("item").child("receiverID").getValue(String.class);
 
                         String itemDetails = "Product Name: " + productName +
                                 "\nTransaction Date: " + transactionDate +
@@ -93,14 +91,17 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         });
     }
 
-    public void setUserRoleAndId(String userRole, String userId) {
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
-    public boolean isExchangeHistoryDisplayed(String userRole, String userId, String productName, String dateOfPurchase, String cost, String exchangeItem, String location, String providerId) {
-        return false;
+    public void setExchangeHistoryRef(String userRule, FirebaseDatabase database) {
+        if (userRule.equals("Provider")) {
+            exchangeHistoryRef = database.getReference("User/Provider/items");
+        } else {
+            exchangeHistoryRef = database.getReference("User/Receiver/items");
+        }
     }
+
 }
-
-
-
-

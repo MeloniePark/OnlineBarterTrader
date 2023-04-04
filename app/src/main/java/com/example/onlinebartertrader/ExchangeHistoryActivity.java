@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExchangeHistoryActivity extends AppCompatActivity {
 
@@ -47,33 +48,42 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         // Set up the exchange history list view
         exchangeHistoryList = findViewById(R.id.exchange_history_recycler_view);
 
-        // Attach a value event listener to the exchange history reference
+        //Attach a value event listener to the exchange history reference
         exchangeHistoryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Create an array list to hold the exchange history items
-                ArrayList<String> exchangeHistoryItems = new ArrayList<>();
+                //Create a list to hold the formatted exchange history strings
+                List<String> exchangeHistoryStrings = new ArrayList<>();
 
-                // Iterate through the exchange history items and add their details to the array list
+                //Iterate through the exchange history items and create formatted strings
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-                    String productName = itemSnapshot.child("productName").getValue(String.class);
-                    String purchaseDate = itemSnapshot.child("dateOfAvailability").getValue(String.class);
-                    String cost = itemSnapshot.child("approxMarketValue").getValue(String.class);
-                    String exchangeItem = itemSnapshot.child("preferredExchange").getValue(String.class);
-                    String location = itemSnapshot.child("placeOfExchange").getValue(String.class);
+                    String itemStatus = itemSnapshot.child("itemStatus").getValue(String.class);
 
-                    String itemDetails = "Product Name: " + productName +
-                            "\nPurchase Date: " + purchaseDate +
-                            "\nCost: " + cost +
-                            "\nExchange Item: " + exchangeItem +
-                            "\nLocation: " + location;
+                    // Check if the itemStatus is "Sold"
+                    if (itemStatus != null && itemStatus.equals("Sold")) {
+                        String productName = itemSnapshot.child("productName").getValue(String.class);
+                        String transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
+                        String cost = itemSnapshot.child("approxMarketValue").getValue(String.class);
+                        String exchangeItem = itemSnapshot.child("preferredExchange").getValue(String.class);
+                        String location = itemSnapshot.child("placeOfExchange").getValue(String.class);
+                        String providerId = itemSnapshot.child("providerID").getValue(String.class);
+                        String receiverId = itemSnapshot.child("receiverID").getValue(String.class);
 
-                    exchangeHistoryItems.add(itemDetails);
+                        String itemDetails = "Product Name: " + productName +
+                                "\nTransaction Date: " + transactionDate +
+                                "\nCost: " + cost +
+                                "\nExchange Item: " + exchangeItem +
+                                "\nLocation: " + location;
+
+                        if (userType.equals("Provider")) {
+                            itemDetails += "\nReceiver ID/Username: " + receiverId;
+                        } else {
+                            itemDetails += "\nProvider ID/Username: " + providerId;
+                        }
+
+                        exchangeHistoryStrings.add(itemDetails);
+                    }
                 }
-
-                // Set up the exchange history list view adapter
-                ArrayAdapter<String> exchangeHistoryAdapter = new ArrayAdapter<>(ExchangeHistoryActivity.this, android.R.layout.simple_list_item_1, exchangeHistoryItems);
-                exchangeHistoryList.setAdapter(exchangeHistoryAdapter);
             }
 
             @Override

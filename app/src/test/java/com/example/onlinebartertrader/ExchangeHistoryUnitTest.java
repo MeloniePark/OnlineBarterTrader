@@ -35,12 +35,12 @@ public class ExchangeHistoryUnitTest {
     @Test
     public void exchangeHistoryRefIsProviderForProviderUserType() {
         exchangeHistoryActivity.setUserType("Provider");
-        assertEquals("User/Provider", exchangeHistoryActivity.exchangeHistoryRef.getKey());
+        assertEquals("User/Provider/items", exchangeHistoryActivity.exchangeHistoryRef.toString());
     }
 
     @Test
     public void exchangeHistoryRefIsReceiverForReceiverUserType() {
         exchangeHistoryActivity.setUserType("Receiver");
-        assertEquals("User/Receiver", exchangeHistoryActivity.exchangeHistoryRef.getKey());
+        assertEquals("User/Receiver/items", exchangeHistoryActivity.exchangeHistoryRef.toString());
     }
 }

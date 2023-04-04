@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.logging.*;
 import java.io.IOException;
@@ -100,11 +102,75 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                     String itemName = snapshot.child("productName").getValue(String.class);
                     String status = snapshot.child("currentStatus").getValue(String.class);
 
-                    providerItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Status: " + status);
+                    String itemID = snapshot.getKey();
+
+                    providerItems.add("Item ID: " + itemID + ", Item Name: " + itemName + ", Item Type: " + itemType + ", Status: " + status);
                     providerArrAdapter.notifyDataSetChanged();
                 }catch (Exception e){
                     logger.info("It can not convert to string");
                 }
+
+                //set item click listener
+                providerItemLists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+                        String clickedItem = (String) adapterView.getItemAtPosition(index);
+                        // NOTE: I changed the string to add the item id and other stuffs here as well.
+                        String[] itemParts = clickedItem.split(", ");
+                        String itemID = itemParts[0].substring(9);
+
+                        DatabaseReference itemsRef = database.getReference("Users/Provider/"+userEmailAddress);
+                        itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                for (DataSnapshot providerSnapshot : dataSnapshot.getChildren()) {
+                                    DataSnapshot itemsSnapshot = dataSnapshot.child("items");
+                                    for (DataSnapshot itemSnapshot : itemsSnapshot.getChildren()) {
+                                        String currentItemID = itemSnapshot.getKey();
+                                        assert currentItemID != null;
+                                        if (currentItemID.equalsIgnoreCase(itemID)) {
+                                            // The item was found in the database. can also get other item if nessesary
+
+                                            String itemType = itemSnapshot.child("productType").getValue(String.class);
+                                            String itemName = itemSnapshot.child("productName").getValue(String.class);
+                                            String approxMarketValue = itemSnapshot.child("approxMarketValue").getValue(String.class);
+                                            String currentStatus = itemSnapshot.child("currentStatus").getValue(String.class);
+                                            String preferredExchange = itemSnapshot.child("preferredExchange").getValue(String.class);
+                                            String productReceived = itemSnapshot.child("productReceived").getValue(String.class);
+                                            String receiverEnteredPrice = itemSnapshot.child("receiverEnteredPrice").getValue(String.class);
+                                            String description = itemSnapshot.child("description").getValue(String.class);
+                                            String transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
+                                            String receiverID = itemSnapshot.child("receiverID").getValue(String.class);
+                                            assert currentStatus != null;
+                                            if (currentStatus.equalsIgnoreCase("Sold Out")){
+                                                Intent myIntent = new Intent(view.getContext(), SoldItemActivity.class);
+                                                myIntent.putExtra("itemID", itemID);
+                                                myIntent.putExtra("itemName", itemName);
+                                                myIntent.putExtra("itemType", itemType);
+                                                myIntent.putExtra("description", description);
+                                                myIntent.putExtra("approxMarketValue", approxMarketValue);
+                                                myIntent.putExtra("receiverEnteredPrice", receiverEnteredPrice);
+                                                myIntent.putExtra("preferredExchange", preferredExchange);
+                                                myIntent.putExtra("productReceived", productReceived);
+                                                myIntent.putExtra("transactionDate", transactionDate);
+                                                myIntent.putExtra("receiverID", receiverID);
+                                                myIntent.putExtra("providerEmail", userEmailAddress);
+                                                view.getContext().startActivity(myIntent);
+                                            }
+                                        }
+                                    }
+//                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        });
+                    }
+                });
+
+
+
+
             }
 
             @Override

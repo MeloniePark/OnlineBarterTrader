@@ -51,6 +51,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     ListView providerItemLists;
 
     Button providerPostBtn;
+    Button providerChatBtn;
     String userEmailAddress;
 
     //Logging
@@ -79,9 +80,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         //setting array Adapter for the ListView providerItemLists.
         providerItemLists.setAdapter(providerArrAdapter);
         providerPostBtn = findViewById(R.id.providerPostProvider);
+        providerChatBtn = findViewById(R.id.chatProvider);
 
         //listens for click of the post button
         providerPostBtn.setOnClickListener(this);
+        providerChatBtn.setOnClickListener(this);
 
         //Firebase Connection
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
@@ -208,9 +211,16 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         //where we move on to posting provider's goods page.
         //Functionality will be added in future iteration
-        Intent intent = new Intent(this, ProviderPostItemActivity.class);
-        intent.putExtra("emailAddress", userEmailAddress);
-        startActivity(intent);
+        if (view.getId() == R.id.providerPostProvider) {
+            Intent intent = new Intent(this, ProviderPostItemActivity.class);
+            intent.putExtra("emailAddress", userEmailAddress);
+            startActivity(intent);
+        }
+        else if (view.getId() == R.id.chatProvider) {
+            Intent intent = new Intent(this, ProviderChatActivity.class);
+            intent.putExtra("providerEmail", userEmailAddress);
+            startActivity(intent);
+        }
     }
 
 

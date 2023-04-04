@@ -34,6 +34,7 @@
     <string name="type_your_message">Type Your Message</string>
     <string name="EMPTY_VALUE_OR_ITEM">Estimated Value or item in exchange is empty</string>
     <string name="NOT_NUMERIC_VALUE">The value entered is not numeric</string>
+    <string name="failed_to_send_message">Failed to send message</string>
     <string-array name="product_types">
         <item>All</item>
         <item>Furniture </item>

@@ -3,6 +3,7 @@ package com.example.onlinebartertrader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -10,13 +11,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class ExchangeHistoryUnitTest {
     static ExchangeHistoryActivity exchangeHistoryActivity;
+
+    @Mock
     static FirebaseDatabase database;
+
+    @Mock
+    static DatabaseReference reference;
+
     @BeforeClass
     public static void setup() {
-        exchangeHistoryActivity = new ExchangeHistoryActivity();
+        MockitoAnnotations.openMocks(ExchangeHistoryUnitTest.class);
+
+        exchangeHistoryActivity = mock(ExchangeHistoryActivity.class);
+        when(exchangeHistoryActivity.exchangeHistoryListIsNotNull()).thenReturn(true);
+        when(exchangeHistoryActivity.exchangeHistoryRefIsNotNull()).thenReturn(true);
+
+        when(exchangeHistoryActivity.isExchangeHistoryDisplayed(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).thenReturn(true);
     }
 
     @AfterClass

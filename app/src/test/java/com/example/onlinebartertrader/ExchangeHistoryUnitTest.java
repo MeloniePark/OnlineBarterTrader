@@ -2,7 +2,9 @@ package com.example.onlinebartertrader;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.junit.AfterClass;
@@ -24,23 +26,47 @@ public class ExchangeHistoryUnitTest {
 
     @Test
     public void exchangeHistoryListIsNotNull() {
-        assertNotNull(exchangeHistoryActivity.exchangeHistoryList);
+        assertTrue(exchangeHistoryActivity.exchangeHistoryListIsNotNull());
     }
 
     @Test
     public void exchangeHistoryRefIsNotNull() {
-        assertNotNull(exchangeHistoryActivity.exchangeHistoryRef);
+        assertNotNull(exchangeHistoryActivity.exchangeHistoryRefIsNotNull());
+    }
+    
+    @Test
+    public void receiverExchangeHistory_isDisplayed() {
+        String userRole = "Receiver";
+        String userId = "test@dalca";
+        String productName = "Test Product";
+        String dateOfPurchase = "2023-03-28";
+        String cost = "50";
+        String exchangeItem = "Test Exchange Item";
+        String location = "Test Location";
+        String providerId = "test@provider";
+
+        //Sets the userRole and userId
+        exchangeHistoryActivity.setUserRoleAndId(userRole, userId);
+
+        //Check if the correct data is displayed
+        assertTrue(exchangeHistoryActivity.isExchangeHistoryDisplayed(userRole, userId, productName, dateOfPurchase, cost, exchangeItem, location, providerId));
     }
 
     @Test
-    public void exchangeHistoryRefIsProviderForProviderUserType() {
-        exchangeHistoryActivity.setUserType("Provider");
-        assertEquals("User/Provider/items", exchangeHistoryActivity.exchangeHistoryRef.toString());
-    }
+    public void providerExchangeHistory_isDisplayed() {
+        String userRole = "Provider";
+        String userId = "test@dalca";
+        String productName = "Test Product";
+        String dateOfPurchase = "2023-03-28";
+        String cost = "50";
+        String exchangeItem = "Test Exchange Item";
+        String location = "Test Location";
+        String receiverId = "test@receiver";
 
-    @Test
-    public void exchangeHistoryRefIsReceiverForReceiverUserType() {
-        exchangeHistoryActivity.setUserType("Receiver");
-        assertEquals("User/Receiver/items", exchangeHistoryActivity.exchangeHistoryRef.toString());
+        //Sets the userRole and userId
+        exchangeHistoryActivity.setUserRoleAndId(userRole, userId);
+
+        //Check if the correct data is displayed
+        assertTrue(exchangeHistoryActivity.isExchangeHistoryDisplayed(userRole, userId, productName, dateOfPurchase, cost, exchangeItem, location, receiverId));
     }
 }

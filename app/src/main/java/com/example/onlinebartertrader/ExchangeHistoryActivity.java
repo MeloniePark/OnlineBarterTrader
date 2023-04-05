@@ -1,12 +1,13 @@
 package com.example.onlinebartertrader;
 
-import static androidx.test.InstrumentationRegistry.getContext;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,9 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     ListView exchangeHistoryList;
     DatabaseReference exchangeHistoryRef;
     private String userType;
+    private String userEmailAddress;
+    private Button backButton;
+    private String errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +38,15 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
 
-        // Get the intent that started this activity
-        Intent intent = getIntent();
-
-        // Retrieve the user type from the intent extra
-        String userType = intent.getStringExtra("userType");
+        // Retrieve the user type and the user Email Address from the intent extra
+        userType = getIntent().getStringExtra("userType");
+        userEmailAddress = getIntent().getStringExtra("emailAddress");
 
         // Set the user type
-        setUserType(userType);
+        setUserRoleAndId(userType,userEmailAddress);
 
         // Get a reference to the exchange history database node based on the user type
-        setExchangeHistoryRef(userType, database);
+        setExchangeHistoryRef(userType,userEmailAddress,database);
 
         // Set up the exchange history list view
         exchangeHistoryList = findViewById(R.id.exchange_history_recycler_view);
@@ -56,20 +58,19 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                         //Create a list to hold the formatted exchange history strings
                 List<String> exchangeHistoryStrings = new ArrayList<>();
 
-                try{
                 //Iterate through the exchange history items and create formatted strings
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-                    String itemStatus = itemSnapshot.child("item").child("currentStatus").getValue(String.class);
+                    String itemStatus = itemSnapshot.child("currentStatus").getValue(String.class);
 
                     //Check if the itemStatus is Sold
                     if (itemStatus != null && itemStatus.equals("Sold Out")) {
-                        String productName = itemSnapshot.child("item").child("productName").getValue(String.class);
-                        String transactionDate = itemSnapshot.child("item").child("transactionDate").getValue(String.class);
-                        String cost = itemSnapshot.child("item").child("approxMarketValue").getValue(String.class);
-                        String exchangeItem = itemSnapshot.child("item").child("preferredExchange").getValue(String.class);
-                        String location = itemSnapshot.child("item").child("placeOfExchange").getValue(String.class);
-                        String providerId = itemSnapshot.child("item").child("providerID").getValue(String.class);
-                        String receiverId = itemSnapshot.child("item").child("receiverID").getValue(String.class);
+                        String productName = itemSnapshot.child("productName").getValue(String.class);
+                        String transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
+                        String cost = itemSnapshot.child("approxMarketValue").getValue(String.class);
+                        String exchangeItem = itemSnapshot.child("preferredExchange").getValue(String.class);
+                        String location = itemSnapshot.child("placeOfExchange").getValue(String.class);
+                        String providerId = itemSnapshot.child("providerID").getValue(String.class);
+                        String receiverId = itemSnapshot.child("receiverID").getValue(String.class);
 
                         String itemDetails = "Product Name: " + productName +
                                 "\nTransaction Date: " + transactionDate +
@@ -86,37 +87,96 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                         exchangeHistoryStrings.add(itemDetails);
                     }
                 }
-                // Create an ArrayAdapter to display the formatted exchange history strings in the ListView
+                //Create an ArrayAdapter to display the exchange history in the ListView
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(ExchangeHistoryActivity.this,
                         android.R.layout.simple_list_item_1, exchangeHistoryStrings);
 
-                // Set the adapter for the ListView
-                exchangeHistoryList.setAdapter(adapter);
-            }
-            catch (NullPointerException e) {
-                // Handle the null exception by displaying an error message to the user
-                Toast.makeText(getContext(), "Exchange history is null", Toast.LENGTH_SHORT).show();
-            }
-        }
-
+                //Set the adapter for the ListView
+                    if (exchangeHistoryList != null) {
+                        exchangeHistoryList.setAdapter(adapter);
+                    } else {
+                        Log.e("ExchangeHistoryActivity", "exchangeHistoryList is null");
+                    }
+                }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle the database error
             }
         });
+
+        // Get a reference to the back button
+        backButton = findViewById(R.id.backToStat);
+
+        // Set a click listener for the back button
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the switch2StatPage() method to return to the User status page
+                switch2StatPage();
+            }
+        });
     }
 
 
-    public void setUserType(String userType) {
+    public void setUserRoleAndId(String userType,String userEmailAddress) {
         this.userType = userType;
+        this.userEmailAddress = userEmailAddress;
     }
 
-    public void setExchangeHistoryRef(String userRule, FirebaseDatabase database) {
-        if (userRule.equals("Provider")) {
-            exchangeHistoryRef = database.getReference("User/Provider/items");
-        } else {
-            exchangeHistoryRef = database.getReference("User/Receiver/items");
+    public boolean exchangeHistoryListIsNotNull() {
+        if (exchangeHistoryList == null) {
+            errorMessage = "Exchange history list is null".trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+            return false;
         }
+        return true;
+    }
+
+    public boolean exchangeHistoryRefIsNotNull() {
+        if (exchangeHistoryRef == null) {
+            errorMessage = "Exchange history reference is null".trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+
+    public boolean exchangeHistoryRefIsProviderForProviderUserType() {
+        if (!userType.equals("Provider")) {
+            return false;
+        }
+        setUserRoleAndId("Provider",userEmailAddress);
+        DatabaseReference expectedRef = FirebaseDatabase.getInstance().getReference("Users").child("Provider").child(userEmailAddress).child("items");
+        return true;
+    }
+
+    public DatabaseReference exchangeHistoryRefIsReceiverForReceiverUserType() {
+        if (!userType.equals("Receiver")) {
+            return null;
+        }
+        setUserRoleAndId("Provider",userEmailAddress);
+        DatabaseReference expectedRef = FirebaseDatabase.getInstance().getReference("Users").child("Receiver").child(userEmailAddress).child("items");
+    }
+
+    protected void setStatusMessage(String message) {
+        TextView statusLabel = findViewById(R.id.errorMessage);
+        statusLabel.setText(message.trim());
+    }
+
+    public void setExchangeHistoryRef(String userType, String userEmailAddress, FirebaseDatabase database) {
+        if (userType.equals("Provider")) {
+            exchangeHistoryRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
+        } else {
+            exchangeHistoryRef = database.getReference("Users").child("Receiver").child(userEmailAddress).child("items");
+        }
+    }
+
+    protected void switch2StatPage() {
+        Intent intent = new Intent(this, StatsPageActivity.class);
+        startActivity(intent);
     }
 }

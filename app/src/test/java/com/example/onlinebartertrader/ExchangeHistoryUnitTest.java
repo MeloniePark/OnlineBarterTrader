@@ -33,7 +33,7 @@ public class ExchangeHistoryUnitTest {
     public void exchangeHistoryRefIsNotNull() {
         assertNotNull(exchangeHistoryActivity.exchangeHistoryRefIsNotNull());
     }
-    
+
     @Test
     public void receiverExchangeHistory_isDisplayed() {
         String userRole = "Receiver";

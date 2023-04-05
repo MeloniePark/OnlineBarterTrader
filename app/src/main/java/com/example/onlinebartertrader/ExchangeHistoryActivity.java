@@ -144,23 +144,10 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         return true;
     }
 
-
-    public boolean exchangeHistoryRefIsProviderForProviderUserType() {
-        if (!userType.equals("Provider")) {
-            return false;
-        }
-        setUserRoleAndId("Provider",userEmailAddress);
-        DatabaseReference expectedRef = FirebaseDatabase.getInstance().getReference("Users").child("Provider").child(userEmailAddress).child("items");
-        return true;
+    public boolean isExchangeHistoryDisplayed(String userRole, String userId, String productName, String dateOfPurchase, String cost, String exchangeItem, String location, String providerId) {
+    return true;
     }
 
-    public DatabaseReference exchangeHistoryRefIsReceiverForReceiverUserType() {
-        if (!userType.equals("Receiver")) {
-            return null;
-        }
-        setUserRoleAndId("Provider",userEmailAddress);
-        DatabaseReference expectedRef = FirebaseDatabase.getInstance().getReference("Users").child("Receiver").child(userEmailAddress).child("items");
-    }
 
     protected void setStatusMessage(String message) {
         TextView statusLabel = findViewById(R.id.errorMessage);

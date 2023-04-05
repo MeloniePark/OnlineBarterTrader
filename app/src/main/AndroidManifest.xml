@@ -40,8 +40,29 @@
             android:exported="false" />
 
         <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ItemActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SoldItemActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TransactionActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProviderChatActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

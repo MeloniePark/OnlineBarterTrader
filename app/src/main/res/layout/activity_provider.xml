@@ -44,11 +44,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.615" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="49dp"
-        android:layout_height="51dp"
-        app:srcCompat="@android:drawable/ic_dialog_dialer"
-        tools:layout_editor_absoluteX="358dp"
-        tools:layout_editor_absoluteY="3dp" />
+    <Button
+        android:id="@+id/chatProvider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="23dp"
+        android:text="Chat"
+        app:layout_constraintBottom_toTopOf="@+id/providerListProvider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/providerPostProvider" />
 </androidx.constraintlayout.widget.ConstraintLayout>

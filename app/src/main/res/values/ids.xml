@@ -2,4 +2,5 @@
 <resources>
     <item name="productTypeMenuProviderPostItem" type="id" />
     <item name="productNameProviderPostItem" type="id" />
+    <item name="chatLL" type="id" />
 </resources>

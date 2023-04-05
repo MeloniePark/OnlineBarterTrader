@@ -31,6 +31,15 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     private Button backButton;
     private String errorMessage;
 
+    private String itemStatus;
+    private String productName;
+    private String transactionDate;
+    private String cost;
+    private String exchangeItem;
+    private String location;
+    private String providerId;
+    private String receiverId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +51,13 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         userType = getIntent().getStringExtra("userType");
         userEmailAddress = getIntent().getStringExtra("emailAddress");
 
-        // Set the user type
+        //Set the user type and id
         setUserRoleAndId(userType,userEmailAddress);
 
-        // Get a reference to the exchange history database node based on the user type
+        //Get a reference to the exchange history database node based on the user type
         setExchangeHistoryRef(userType,userEmailAddress,database);
 
-        // Set up the exchange history list view
+        //Set up the exchange history list view
         exchangeHistoryList = findViewById(R.id.exchange_history_recycler_view);
 
         //Attach a value event listener to the exchange history reference
@@ -60,17 +69,17 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
                 //Iterate through the exchange history items and create formatted strings
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-                    String itemStatus = itemSnapshot.child("currentStatus").getValue(String.class);
+                    itemStatus = itemSnapshot.child("currentStatus").getValue(String.class);
 
                     //Check if the itemStatus is Sold
                     if (itemStatus != null && itemStatus.equals("Sold Out")) {
-                        String productName = itemSnapshot.child("productName").getValue(String.class);
-                        String transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
-                        String cost = itemSnapshot.child("approxMarketValue").getValue(String.class);
-                        String exchangeItem = itemSnapshot.child("preferredExchange").getValue(String.class);
-                        String location = itemSnapshot.child("placeOfExchange").getValue(String.class);
-                        String providerId = itemSnapshot.child("providerID").getValue(String.class);
-                        String receiverId = itemSnapshot.child("receiverID").getValue(String.class);
+                        productName = itemSnapshot.child("productName").getValue(String.class);
+                        transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
+                        cost = itemSnapshot.child("approxMarketValue").getValue(String.class);
+                        exchangeItem = itemSnapshot.child("preferredExchange").getValue(String.class);
+                        location = itemSnapshot.child("placeOfExchange").getValue(String.class);
+                        providerId = itemSnapshot.child("providerID").getValue(String.class);
+                        receiverId = itemSnapshot.child("receiverID").getValue(String.class);
 
                         String itemDetails = "Product Name: " + productName +
                                 "\nTransaction Date: " + transactionDate +
@@ -101,18 +110,18 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle the database error
+                //Handle the database error
             }
         });
 
-        // Get a reference to the back button
+        //Get a reference to the back button
         backButton = findViewById(R.id.backToStat);
 
-        // Set a click listener for the back button
+        //Set a click listener for the back button
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call the switch2StatPage() method to return to the User status page
+                //Call the switch2StatPage() method to return to the User status page
                 switch2StatPage();
             }
         });
@@ -145,7 +154,30 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     }
 
     public boolean isExchangeHistoryDisplayed(String userRole, String userId, String productName, String dateOfPurchase, String cost, String exchangeItem, String location, String providerId) {
-    return true;
+        //Construct a string representing the exchange history item with the parameters
+        String itemDetails = "Product Name: " + productName +
+                "\nTransaction Date: " + dateOfPurchase +
+                "\nCost: " + cost +
+                "\nExchange Item: " + exchangeItem +
+                "\nLocation: " + location;
+
+        if (userRole.equals("Provider")) {
+            itemDetails += "\nReceiver ID/Username: " + userId;
+        } else {
+            itemDetails += "\nProvider ID/Username: " + providerId;
+        }
+
+        //Check if the exchange history list view contains the string representation of the exchange history item
+        if (exchangeHistoryListIsNotNull()) {
+            ArrayAdapter<String> adapter = (ArrayAdapter<String>) exchangeHistoryList.getAdapter();
+            for (int i = 0; i < adapter.getCount(); i++) {
+                String exchangeHistoryString = adapter.getItem(i);
+                if (exchangeHistoryString != null && exchangeHistoryString.equals(itemDetails)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 

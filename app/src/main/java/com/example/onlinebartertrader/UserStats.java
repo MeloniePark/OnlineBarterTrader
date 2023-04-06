@@ -78,7 +78,7 @@ public class UserStats extends AppCompatActivity implements View.OnClickListener
         if (view.getId() == R.id.exchangeHistoryBtn){
             Intent intent = new Intent(this, ExchangeHistoryActivity.class);
             intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
-            intent.putExtra("userLoggedIn", userLoggedIn);
+            intent.putExtra("userType", userLoggedIn);
             startActivity(intent);
         }
     }

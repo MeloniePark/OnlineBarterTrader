@@ -52,7 +52,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         userEmailAddress = getIntent().getStringExtra("emailAddress");
 
         //Set up the exchange history list view
-        exchangeHistoryList = findViewById(R.id.exchange_history_recycler_view);
+        exchangeHistoryList = findViewById(R.id.exchange_history_list_view);
 
         //Set the user type and id
         setUserRoleAndId(userType,userEmailAddress);

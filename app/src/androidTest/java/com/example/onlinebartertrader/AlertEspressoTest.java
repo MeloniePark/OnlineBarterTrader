@@ -36,7 +36,6 @@ import androidx.test.espresso.FailureHandler;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.Root;
 import androidx.test.espresso.ViewAssertion;
-import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;

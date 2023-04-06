@@ -12,10 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="161dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="162dp"
         android:text="Post"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.239">
+        app:layout_constraintVertical_bias="0.246">
 
     </ListView>
 
@@ -56,4 +57,17 @@
         app:layout_constraintTop_toBottomOf="@+id/providerPostProvider"
         app:layout_constraintVertical_bias="0.806" />
 
+    <Button
+        android:id="@+id/chatProvider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="23dp"
+        android:text="Chat"
+        app:layout_constraintBottom_toTopOf="@+id/providerListProvider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/providerPostProvider" />
 </androidx.constraintlayout.widget.ConstraintLayout>

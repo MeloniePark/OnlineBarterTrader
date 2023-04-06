@@ -27,6 +27,14 @@
     <string name="INVALID_DATE_OF_AVAILABILITY">"Date of availability is not a valid date"</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="send">Send</string>
+    <string name="EMPTY_RECEIVER_EXCHANGE_PRODUCT">"Item for exchange is empty"</string>
+    <string name="EMPTY_RECEIVER_EST_ITEM_COST">"Estimated item cost(value) is empty"</string>
+    <string name="INVALID_RECEIVER_EST_ITEM_COST">"Estimated item cost(value) is not a numeric value"</string>
+    <string name="type_your_message">Type Your Message</string>
+    <string name="EMPTY_VALUE_OR_ITEM">Estimated Value or item in exchange is empty</string>
+    <string name="NOT_NUMERIC_VALUE">The value entered is not numeric</string>
+    <string name="failed_to_send_message">Failed to send message</string>
     <string-array name="product_types">
         <item>All</item>
         <item>Furniture </item>

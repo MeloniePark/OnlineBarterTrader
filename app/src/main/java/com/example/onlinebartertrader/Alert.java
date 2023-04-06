@@ -104,16 +104,17 @@ public class Alert {
                         String itemType = dataSnapshot.child("productType").getValue(String.class);
                         String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
                         String itemName = dataSnapshot.child("productName").getValue(String.class);
+                        String currentStatus = dataSnapshot.child("currentStatus").getValue(String.class);
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
                         //If item type, item available date, item name is fetched from the database:
-                        if (itemType != null && itemAvailDateString != null && itemName != null){
+                        if (currentStatus != null && itemType != null && itemAvailDateString != null && itemName != null){
                             Date itemAvailDate = new Date();
                             //Sends the notification (+ logging) to the user about newly added item.
                             try {
                                 logger.info("date is "+itemAvailDateString);
                                 itemAvailDate = format.parse(itemAvailDateString);
-                                if (isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
+                                if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
                                     sendNotification(itemType, itemName);
                                 }
                             } catch (ParseException e) {
@@ -128,15 +129,15 @@ public class Alert {
                         String itemType = dataSnapshot.child("productType").getValue(String.class);
                         String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
                         String itemName = dataSnapshot.child("productName").getValue(String.class);
+                        String currentStatus = dataSnapshot.child("currentStatus").getValue(String.class);
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
                         //Sends the notification (+ logging) to the user about modified item.
-                        if (itemType != null && itemAvailDateString != null && itemName != null){
+                        if (currentStatus != null && itemType != null && itemAvailDateString != null && itemName != null){
                             Date itemAvailDate = new Date();
                             try {
                                 logger.info("date is "+itemAvailDateString);
                                 itemAvailDate = format.parse(itemAvailDateString);
-                                if (isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
+                                if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
                                     sendNotification(itemType, itemName);
                                 }
                             } catch (ParseException e) {

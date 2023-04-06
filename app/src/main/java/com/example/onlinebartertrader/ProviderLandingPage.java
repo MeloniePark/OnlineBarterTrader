@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,6 +55,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     Button providerChatBtn;
     String userEmailAddress;
 
+    ImageButton statBtn;
+
     //Logging
     Logger logger = Logger.getLogger(ProviderLandingPage.class.getName());
 
@@ -81,6 +84,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         providerItemLists.setAdapter(providerArrAdapter);
         providerPostBtn = findViewById(R.id.providerPostProvider);
         providerChatBtn = findViewById(R.id.chatProvider);
+        statBtn = findViewById(R.id.imageButton2);
+
 
         //listens for click of the post button
         providerPostBtn.setOnClickListener(this);

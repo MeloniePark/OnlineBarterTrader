@@ -134,6 +134,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     public void setExchangeHistoryRef(String userType, String userEmailAddress, FirebaseDatabase database) {
         //Check if the user is a Provider or Receiver and fetch the respective data
         if (userType.equals("Provider")) {
+            exchangeHistoryRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
             exchangeHistoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -244,5 +245,6 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         protected void switch2StatPage() {
         Intent intent = new Intent(this, UserStats.class);
         startActivity(intent);
-    }
+        finish();
+        }
 }

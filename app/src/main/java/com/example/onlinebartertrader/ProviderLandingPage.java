@@ -116,8 +116,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                     String itemType = snapshot.child("productType").getValue(String.class);
                     String itemName = snapshot.child("productName").getValue(String.class);
                     String status = snapshot.child("currentStatus").getValue(String.class);
-
                     String itemID = snapshot.getKey();
+                    /*String receiverAvgRating = snapshot.child("productReceiverAvgRating").getValue(String.class);
+                    String receiverTotalRating = snapshot.child("productReceiverTotalRating").getValue(String.class);
+                    String receiverNumRating = snapshot.child("productReceiverTotalRatingNum").getValue(String.class);*/
 
                     providerItems.add("Item ID: " + itemID + ", Item Name: " + itemName + ", Item Type: " + itemType + ", Status: " + status);
                     providerArrAdapter.notifyDataSetChanged();
@@ -155,7 +157,16 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                                             String receiverEnteredPrice = itemSnapshot.child("receiverEnteredPrice").getValue(String.class);
                                             String description = itemSnapshot.child("description").getValue(String.class);
                                             String transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
+
                                             String receiverID = itemSnapshot.child("receiverID").getValue(String.class);
+                                            String receiverAvgRating = itemSnapshot.child("productReceiverAvgRating").getValue(String.class);
+                                            String receiverTotalRating = itemSnapshot.child("productReceiverTotalRating").getValue(String.class);
+                                            String receiverTotalRatingNum = itemSnapshot.child("productReceiverTotalRatingNum").getValue(String.class);
+                                            if (receiverAvgRating == null || receiverTotalRating == null || receiverTotalRatingNum == null){
+                                                receiverAvgRating = "0";
+                                                receiverTotalRating = "0";
+                                                receiverTotalRatingNum = "0";
+                                            }
                                             assert currentStatus != null;
                                             if (currentStatus.equalsIgnoreCase("Sold Out")){
                                                 Intent myIntent = new Intent(view.getContext(), SoldItemActivity.class);
@@ -170,6 +181,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                                                 myIntent.putExtra("transactionDate", transactionDate);
                                                 myIntent.putExtra("receiverID", receiverID);
                                                 myIntent.putExtra("providerEmail", userEmailAddress);
+
+                                                myIntent.putExtra("receiverAvgRating",receiverAvgRating);
+                                                myIntent.putExtra("receiverTotalRating",receiverTotalRating);
+                                                myIntent.putExtra("receiverTotalRatingNum",receiverTotalRatingNum);
                                                 view.getContext().startActivity(myIntent);
                                             }
                                         }
@@ -216,11 +231,16 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         receiverIdDBRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String receiverEmail = snapshot.child("productReceiver").getValue(String.class);
+                String receiverEmail = snapshot.child("receiverID").getValue(String.class);
                 String receiverAvgRating = snapshot.child("productReceiverAvgRating").getValue(String.class);
                 String receiverTotalRating = snapshot.child("productReceiverTotalRating").getValue(String.class);
                 String receiverNumRating = snapshot.child("productReceiverTotalRatingNum").getValue(String.class);
                 String itemKey = snapshot.getKey();
+                if (receiverAvgRating == null || receiverTotalRating == null || receiverNumRating == null){
+                    receiverAvgRating = "0";
+                    receiverTotalRating = "0";
+                    receiverNumRating = "0";
+                }
 
                 receiverId.add("Email: "+receiverEmail + "\nItem Key: "+itemKey+"\nAvg Rating: "+receiverAvgRating+"\nTotal Rating: "+receiverTotalRating+"\nTotal Rating Num: "+receiverNumRating);
                 receiverIdArrAdapter.notifyDataSetChanged();
@@ -246,7 +266,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
                 if (position != -1) {
                     // Update the item in the list
-                    String receiverEmail = snapshot.child("productReceiver").getValue(String.class);
+                    String receiverEmail = snapshot.child("receiverID").getValue(String.class);
                     String receiverAvgRating = snapshot.child("productReceiverAvgRating").getValue(String.class);
                     String receiverTotalRating = snapshot.child("productReceiverTotalRating").getValue(String.class);
                     String receiverNumRating = snapshot.child("productReceiverTotalRatingNum").getValue(String.class);
@@ -298,6 +318,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
                 Intent intent = new Intent(ProviderLandingPage.this, ReceiverRating.class);
 
+                if (avgRating == null || totalRating == null || totalRatingNum == null){
+                    avgRating = "0";
+                    totalRating = "0";
+                    totalRatingNum = "0";
+                }
                 intent.putExtra("receiverEmail",email);
                 intent.putExtra("receiverAvgRating",avgRating);
                 intent.putExtra("receiverTotalRating",totalRating);

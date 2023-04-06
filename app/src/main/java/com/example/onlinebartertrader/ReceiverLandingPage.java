@@ -175,7 +175,8 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
             startActivity(intent);
         }
-       
+
+
     }
 
     private void initLocation(){

@@ -90,6 +90,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         //listens for click of the post button
         providerPostBtn.setOnClickListener(this);
         providerChatBtn.setOnClickListener(this);
+        statBtn.setOnClickListener(this);
 
         //Firebase Connection
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");

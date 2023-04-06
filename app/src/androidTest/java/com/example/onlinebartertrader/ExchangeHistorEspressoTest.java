@@ -21,25 +21,25 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ExchangeHistorEspressoTest {
     @Rule
-    public ActivityScenarioRule<StatsPageActivity> receiverStatsPage = new ActivityScenarioRule<>(
-            new Intent(ApplicationProvider.getApplicationContext(), StatsPageActivity.class).putExtra("userRole", "receiver")
+    public ActivityScenarioRule<UserStats> receiverStatsPage = new ActivityScenarioRule<>(
+            new Intent(ApplicationProvider.getApplicationContext(), UserStats.class).putExtra("userRole", "receiver")
     );
 
     @Test
     public void receiverExchangeHistoryVisibility() {
-        onView(withId(R.id.exchangeHistoryButton)).perform(click());
+        onView(withId(R.id.exchangeHistoryBtn)).perform(click());
         onView(withId(R.id.receiverTraded)).check(matches(isDisplayed()));
     }
 
 
     @Rule
-    public ActivityScenarioRule<StatsPageActivity> providerStatsPage = new ActivityScenarioRule<>(
-            new Intent(ApplicationProvider.getApplicationContext(), StatsPageActivity.class).putExtra("userRole", "provider")
+    public ActivityScenarioRule<UserStats> providerStatsPage = new ActivityScenarioRule<>(
+            new Intent(ApplicationProvider.getApplicationContext(), UserStats.class).putExtra("userRole", "provider")
     );
 
     @Test
     public void providerExchangeHistoryVisibility() {
-        onView(withId(R.id.exchangeHistoryButton)).perform(click());
+        onView(withId(R.id.exchangeHistoryBtn)).perform(click());
         onView(withId(R.id.providerListProvider)).check(matches(isDisplayed()));
     }
 

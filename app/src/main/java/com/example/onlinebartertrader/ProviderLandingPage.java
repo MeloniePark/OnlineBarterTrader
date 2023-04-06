@@ -221,6 +221,12 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             intent.putExtra("providerEmail", userEmailAddress);
             startActivity(intent);
         }
+        else if (view.getId() == R.id.imageButton2){
+            Intent intent = new Intent(this, UserStats.class);
+            intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
+            intent.putExtra("userLoggedIn", "Provider");
+            startActivity(intent);
+        }
     }
 
 

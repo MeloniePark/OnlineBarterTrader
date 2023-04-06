@@ -195,7 +195,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     }
 
     protected void switch2StatPage() {
-        Intent intent = new Intent(this, StatsPageActivity.class);
+        Intent intent = new Intent(this, UserStats.class);
         startActivity(intent);
     }
 }

@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         firebaseDBRef.setValue("Barter Trader!");
     }
 
-
     //reading from the database
     private void listenToDataChanges(){
         firebaseDBRef.addValueEventListener(new ValueEventListener() {

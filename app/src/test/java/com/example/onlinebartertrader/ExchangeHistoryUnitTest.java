@@ -60,9 +60,6 @@ public class ExchangeHistoryUnitTest {
         String location = "Test Location";
         String providerId = "test@provider";
 
-        //Sets the userRole and userId
-        exchangeHistoryActivity.setUserRoleAndId(userRole, userId);
-
         //Check if the correct data is displayed
         assertTrue(exchangeHistoryActivity.isExchangeHistoryDisplayed(userRole, userId, productName, dateOfPurchase, cost, exchangeItem, location, providerId));
     }
@@ -77,9 +74,6 @@ public class ExchangeHistoryUnitTest {
         String exchangeItem = "Test Exchange Item";
         String location = "Test Location";
         String receiverId = "test@receiver";
-
-        //Sets the userRole and userId
-        exchangeHistoryActivity.setUserRoleAndId(userRole, userId);
 
         //Check if the correct data is displayed
         assertTrue(exchangeHistoryActivity.isExchangeHistoryDisplayed(userRole, userId, productName, dateOfPurchase, cost, exchangeItem, location, receiverId));

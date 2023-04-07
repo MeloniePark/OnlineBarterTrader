@@ -22,7 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*
+*
  * The data fetching order is as follows:
  *
  * The app first checks if the user is a Provider or Receiver based on the userType.
@@ -34,7 +35,7 @@ import java.util.List;
  * It then checks if the receiverID of the item matches the userEmailAddress of the current Receiver user.
  * If there's a match, it fetches the item details such as productName, transactionDate, approxMarketValue, preferredExchange, placeOfExchange, and providerID.
  * It then adds these details to the exchangeHistoryStrings list and updates the adapter to display the exchange history in the exchangeHistoryList ListView.
- */
+*/
 
 
 public class ExchangeHistoryActivity extends AppCompatActivity {
@@ -97,7 +98,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     }*/
 
     public boolean exchangeHistoryListIsNotNull() {
-        if (exchangeHistoryList == null) {
+        if (exchangeHistoryList.getAdapter() == null) {
             errorMessage = "Exchange history list is null".trim();
             setStatusMessage(errorMessage);
             Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
@@ -150,33 +151,43 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
     public void setExchangeHistoryRef(String userType, String userEmailAddress, FirebaseDatabase database) {
         //Check if the user is a Provider or Receiver and fetch the respective data
-        if (userType.equals("Provider")) {
+        if (userType != null && userEmailAddress != null && userType.equals("Provider")) {
             exchangeHistoryRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
             exchangeHistoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    fetchProviderData(dataSnapshot);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    //Handle the database error
-                }
-            });
-        } else {
-            providerItemsRef = database.getReference("Users").child("Provider");
-            providerItemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot providerSnapshot : dataSnapshot.getChildren()) {
-                        DataSnapshot itemsSnapshot = providerSnapshot.child("items");
-                        fetchReceiverData(itemsSnapshot);
+                    if (dataSnapshot.getValue() != null) {
+                        fetchProviderData(dataSnapshot);
+                    } else {
+                        Log.e("ExchangeHistoryActivity", "Data snapshot is null");
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     //Handle the database error
+                    Log.e("ExchangeHistoryActivity", "Database error occurred", databaseError.toException());
+                }
+            });
+        } else if (userType != null && userEmailAddress != null && userType.equals("Receiver")){
+            providerItemsRef = database.getReference("Users").child("Provider");
+            providerItemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        for (DataSnapshot providerSnapshot : dataSnapshot.getChildren()) {
+                            DataSnapshot itemsSnapshot = providerSnapshot.child("items");
+                            fetchReceiverData(itemsSnapshot);
+                        }
+                    } else {
+                    Log.e("ExchangeHistoryActivity", "Data snapshot is null");
+                }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    //Handle the database error
+                    Log.e("ExchangeHistoryActivity", "Database error occurred", databaseError.toException());
                 }
             });
         }
@@ -201,7 +212,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                         "\nCost: " + cost +
                         "\nExchange Item: " + exchangeItem +
                         "\nLocation: " + location +
-                        "\nReceiver ID/Username: " + receiverId;
+                        "\nReceiver ID: " + receiverId;
 
                 exchangeHistoryStrings.add(itemDetails);
             }
@@ -221,22 +232,26 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                 receiverItemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot receiverItemsSnapshot) {
-                        productName = receiverItemsSnapshot.child("productName").getValue(String.class);
-                        transactionDate = receiverItemsSnapshot.child("transactionDate").getValue(String.class);
-                        cost = receiverItemsSnapshot.child("approxMarketValue").getValue(String.class);
-                        exchangeItem = receiverItemsSnapshot.child("preferredExchange").getValue(String.class);
-                        location = receiverItemsSnapshot.child("placeOfExchange").getValue(String.class);
-                        providerId = receiverItemsSnapshot.child("providerID").getValue(String.class);
+                        if (dataSnapshot.getValue() != null) {
+                            productName = receiverItemsSnapshot.child("productName").getValue(String.class);
+                            transactionDate = receiverItemsSnapshot.child("transactionDate").getValue(String.class);
+                            cost = receiverItemsSnapshot.child("approxMarketValue").getValue(String.class);
+                            exchangeItem = receiverItemsSnapshot.child("preferredExchange").getValue(String.class);
+                            location = receiverItemsSnapshot.child("placeOfExchange").getValue(String.class);
+                            providerId = receiverItemsSnapshot.child("providerID").getValue(String.class);
 
-                        String itemDetails = "Product Name: " + productName +
-                                "\nTransaction Date: " + transactionDate +
-                                "\nCost: " + cost +
-                                "\nExchange Item: " + exchangeItem +
-                                "\nLocation: " + location +
-                                "\nProvider ID/Username: " + providerId;
+                            String itemDetails = "Product Name: " + productName +
+                                    "\nTransaction Date: " + transactionDate +
+                                    "\nCost: " + cost +
+                                    "\nExchange Item: " + exchangeItem +
+                                    "\nLocation: " + location +
+                                    "\nProvider ID: " + providerId;
 
-                        exchangeHistoryStrings.add(itemDetails);
-                        updateAdapterWithData(exchangeHistoryStrings);
+                            exchangeHistoryStrings.add(itemDetails);
+                            updateAdapterWithData(exchangeHistoryStrings);
+                        } else {
+                            Log.e("ExchangeHistoryActivity", "Data snapshot is null");
+                        }
                     }
 
                     @Override

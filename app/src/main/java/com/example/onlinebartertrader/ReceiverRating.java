@@ -24,7 +24,7 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
     String itemKey;
 
     TextView email;
-    TextView avg;
+    TextView rating;
     TextView currRating;
     TextView submit;
     TextView cancel;
@@ -45,7 +45,7 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
         databaseReference = database.getReference("Users").child("Provider").child(userEmailAddress).child("items").child(itemKey);
 
         email = findViewById(R.id.ReceiverEmailV);
-        avg = findViewById(R.id.ReceiverRatingAvgV);
+        rating = findViewById(R.id.ReceiverRatingAvgV);
         currRating = findViewById(R.id.CurrRatingInputV);
         submit = findViewById(R.id.SubmitRatingV);
         cancel = findViewById(R.id.CancelRatingV);
@@ -54,7 +54,7 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
         String receiverRatingString = "Receiver Rating: " + receiverRating;
 
         email.setText(receiverEmailString);
-        avg.setText(receiverRatingString);
+        rating.setText(receiverRatingString);
 
         submit.setOnClickListener(this);
         cancel.setOnClickListener(this);

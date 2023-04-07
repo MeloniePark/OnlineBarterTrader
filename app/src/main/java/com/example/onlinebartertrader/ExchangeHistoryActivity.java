@@ -78,87 +78,17 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         //Get a reference to the exchange history database node based on the user type
         setExchangeHistoryRef(userType,userEmailAddress,database);
 
-// We do not have the return button for all pages, so I leave it here.
-//        //Get a reference to the back button
-//        backButton = findViewById(R.id.backToStat);
-//
-//        //Set a click listener for the back button
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Call the switch2StatPage() method to return to the User status page
-//                switch2StatPage();
-//            }
-//        });
-    }
+        //Get a reference to the back button
+        backButton = findViewById(R.id.backToStat);
 
-    /**
-     * This method checks if the exchange history list view is null.
-     * If it is null, an error message is displayed and false is returned.
-     * If it is not null, true is returned.
-     * @return true if the exchange history list view is not null; false otherwise.
-     */
-    public boolean exchangeHistoryListIsNotNull() {
-        if (exchangeHistoryList.getAdapter() == null) {
-            errorMessage = "Exchange history list is null".trim();
-            setStatusMessage(errorMessage);
-            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * This method checks if the exchange history reference is null.
-     * If it is null, an error message is displayed and false is returned.
-     * If it is not null, true is returned.
-     * @return true if the exchange history reference is not null; false otherwise.
-     */
-    public boolean exchangeHistoryRefIsNotNull() {
-        if (exchangeHistoryRef == null) {
-            errorMessage = "Exchange history reference is null".trim();
-            setStatusMessage(errorMessage);
-            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Checks if a specific exchange history item is displayed in the exchange history list view.*/
-    public boolean isExchangeHistoryDisplayed(String userRole, String userId, String productName, String dateOfPurchase, String cost, String exchangeItem, String location, String providerId) {
-        //Construct a string representing the exchange history item with the parameters
-        String itemDetails = "Product Name: " + productName +
-                "\nTransaction Date: " + dateOfPurchase +
-                "\nCost: " + cost +
-                "\nExchange Item: " + exchangeItem +
-                "\nLocation: " + location;
-        if (userRole.equals("Provider")) {
-            itemDetails += "\nReceiver ID/Username: " + userId;
-        } else {
-            itemDetails += "\nProvider ID/Username: " + providerId;
-        }
-
-        //Check if the exchange history list view contains the string representation of the exchange history item
-        if (exchangeHistoryListIsNotNull()) {
-            ArrayAdapter<String> adapter = (ArrayAdapter<String>) exchangeHistoryList.getAdapter();
-            for (int i = 0; i < adapter.getCount(); i++) {
-                String exchangeHistoryString = adapter.getItem(i);
-                if (exchangeHistoryString != null && exchangeHistoryString.equals(itemDetails)) {
-                    return true;
-                }
+        //Set a click listener for the back button
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Call the switch2StatPage() method to return to the User status page
+                switch2StatPage();
             }
-        }
-        return false;
-    }
-
-    /**
-     * Sets the status message in the error message label.
-     * @param message The message to be set as the status message.
-     */
-    protected void setStatusMessage(String message) {
-        TextView statusLabel = findViewById(R.id.errorMessage);
-        statusLabel.setText(message.trim());
+        });
     }
 
     /**
@@ -306,14 +236,84 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         }
     }
 
-/*   we do not have the return button for all pages, so I leave it here.
-
-     //Launches and switch the UserStats activity and finishes the current activity.
-
-        protected void switch2StatPage() {
+    /**
+     *   Launches and switch the UserStats activity and finishes the current activity.
+     */
+    protected void switch2StatPage() {
         Intent intent = new Intent(this, UserStats.class);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * This method checks if the exchange history list view is null.
+     * If it is null, an error message is displayed and false is returned.
+     * If it is not null, true is returned.
+     * @return true if the exchange history list view is not null; false otherwise.
+     */
+    public boolean exchangeHistoryListIsNotNull() {
+        if (exchangeHistoryList.getAdapter() == null) {
+            errorMessage = "Exchange history list is null".trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+            return false;
         }
-    */
+        return true;
+    }
+
+    /**
+     * This method checks if the exchange history reference is null.
+     * If it is null, an error message is displayed and false is returned.
+     * If it is not null, true is returned.
+     * @return true if the exchange history reference is not null; false otherwise.
+     */
+    public boolean exchangeHistoryRefIsNotNull() {
+        if (exchangeHistoryRef == null) {
+            errorMessage = "Exchange history reference is null".trim();
+            setStatusMessage(errorMessage);
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks if a specific exchange history item is displayed in the exchange history list view.*/
+    public boolean isExchangeHistoryDisplayed(String userRole, String userId, String productName, String dateOfPurchase, String cost, String exchangeItem, String location, String providerId) {
+        //Construct a string representing the exchange history item with the parameters
+        String itemDetails = "Product Name: " + productName +
+                "\nTransaction Date: " + dateOfPurchase +
+                "\nCost: " + cost +
+                "\nExchange Item: " + exchangeItem +
+                "\nLocation: " + location;
+        if (userRole.equals("Provider")) {
+            itemDetails += "\nReceiver ID/Username: " + userId;
+        } else {
+            itemDetails += "\nProvider ID/Username: " + providerId;
+        }
+
+        /**
+         *Check if the exchange history list view contains the string representation of the exchange history item
+        */
+        if (exchangeHistoryListIsNotNull()) {
+            ArrayAdapter<String> adapter = (ArrayAdapter<String>) exchangeHistoryList.getAdapter();
+            for (int i = 0; i < adapter.getCount(); i++) {
+                String exchangeHistoryString = adapter.getItem(i);
+                if (exchangeHistoryString != null && exchangeHistoryString.equals(itemDetails)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Sets the status message in the error message label.
+     * @param message The message to be set as the status message.
+     */
+    protected void setStatusMessage(String message) {
+        TextView statusLabel = findViewById(R.id.errorMessage);
+        statusLabel.setText(message.trim());
+    }
+
 }

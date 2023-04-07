@@ -107,7 +107,7 @@ public class SearchedItemList extends Activity {
                                 String itemType = snapshot.child("productType").getValue(String.class);
                                 String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
                                 String location = snapshot.child("placeOfExchange").exists() ? snapshot.child("placeOfExchange").getValue(String.class) : "";
-                                if (itemType.matches(pattern) || exchangeWith.matches(pattern) || location.matches(pattern)) {
+                                if ( (itemType !=null && itemType.matches(pattern)) || (exchangeWith !=null && exchangeWith.matches(pattern)) || (location !=null &&location.matches(pattern))) {
                                     String itemName = snapshot.child("productName").getValue(String.class);
                                     receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                     receiverArrAdapter.notifyDataSetChanged();

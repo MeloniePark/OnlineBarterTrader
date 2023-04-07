@@ -83,16 +83,13 @@ public class ReceiverItemList {
                                     DataSnapshot itemsSnapshot = providerSnapshot.child("items");
                                     for (DataSnapshot itemSnapshot : itemsSnapshot.getChildren()) {
                                         String currentItemID = itemSnapshot.getKey();
-                                        assert currentItemID != null;
-                                        if (currentItemID.equalsIgnoreCase(itemID)) {
+                                        if (currentItemID != null && currentItemID.equalsIgnoreCase(itemID)) {
                                             // The item was found in the database. can also get other item if nessesary
                                             String itemType = itemSnapshot.child("productType").getValue(String.class);
                                             String itemName = itemSnapshot.child("productName").getValue(String.class);
                                             String description = itemSnapshot.child("description").getValue(String.class);
                                             String preferredExchange = itemSnapshot.child("preferredExchange").getValue(String.class);
                                             String itemProviderEmail = providerSnapshot.getKey();
-                                            System.out.println(itemProviderEmail);
-                                            System.out.println(itemID);
 
                                             Intent myIntent = new Intent(view.getContext(), ItemActivity.class);
                                             myIntent.putExtra("itemID", itemID);
@@ -126,7 +123,7 @@ public class ReceiverItemList {
                             String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
                             String location = snapshot.child("placeOfExchange").getValue(String.class);
 
-                            if (itemAvailability.equalsIgnoreCase("Available")){
+                            if (itemAvailability != null && itemAvailability.equalsIgnoreCase("Available")){
                                 receiverItems.add("Item ID: " + itemID +"\nItem Name: " + itemName + "\nItem Type: " + itemType + "\nProvider: "+ providerEmail +
                                         "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                 receiverArrAdapter.notifyDataSetChanged();

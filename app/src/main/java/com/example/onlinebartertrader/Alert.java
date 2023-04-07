@@ -69,6 +69,7 @@ public class Alert {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 itemInterested = dataSnapshot.getValue(String.class);
+                logger.info("itemInterested"+itemInterested);
             }
 
             //log the database error code when fail to read from database
@@ -79,8 +80,8 @@ public class Alert {
         });
 
         // logging these info - better exercise than system printing them out.
-        logger.info(userEmail);
-        logger.info(itemInterested);
+//        logger.info(userEmail);
+//        logger.info("itemInterested"+itemInterested);
     }
 
     //The receiver side listens to the provider's item addition to notify receiver about item addition

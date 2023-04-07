@@ -110,7 +110,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         if (view.getId() == R.id.availableProductsReceiver){
             //register the views, buttons and other components for the receiver landing page.
             receiverLists = (ListView) findViewById(R.id.receiverListReceiver);
-            System.out.println("receiverLists is clicked");
+//            System.out.println("receiverLists is clicked");
 
             ReceiverItemList myList = new ReceiverItemList(userEmailAddress, receiverLists, ReceiverLandingPage.this);
             myList.startListening();

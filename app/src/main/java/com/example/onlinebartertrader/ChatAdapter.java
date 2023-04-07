@@ -12,7 +12,11 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+/**
+ * ChatAdapter.java
+ *
+ * Description:
+ */
 public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatViewHolder> {
 
     /**

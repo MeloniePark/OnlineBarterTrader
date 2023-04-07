@@ -78,17 +78,18 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         //Get a reference to the exchange history database node based on the user type
         setExchangeHistoryRef(userType,userEmailAddress,database);
 
-        //Get a reference to the back button
-        backButton = findViewById(R.id.backToStat);
-
-        //Set a click listener for the back button
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Call the switch2StatPage() method to return to the User status page
-                switch2StatPage();
-            }
-        });
+// We do not have the return button for all pages, so I leave it here.
+//        //Get a reference to the back button
+//        backButton = findViewById(R.id.backToStat);
+//
+//        //Set a click listener for the back button
+//        backButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Call the switch2StatPage() method to return to the User status page
+//                switch2StatPage();
+//            }
+//        });
     }
 
     /**

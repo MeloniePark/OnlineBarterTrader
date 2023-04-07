@@ -12,10 +12,26 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
+
+/**
+ * ChatActivity.java
+ *
+ * Description: ChatActivity class implements the instant chat functionality for the receiver
+ *      and provider.
+ *      Receiver and Provider can chat to each other in real time and the chat history is saved
+ *      in the database for users to go back to their chat and read their previous conversations
+ *
+ * Reference: Instant Chat Tutorial
+ */
 public class ChatActivity extends AppCompatActivity{
 
+    /**
+     * ChatActivity() :
+     *  Empty constructor used to check by printing message if the system is in ChatActivity.
+     *  Plus firebase requires constructor.
+     */
     public ChatActivity() {
-        //This method is used to check by printing message if the system is in ChatActivity.
+        //Checking purpose
     }
 
     String itemID;
@@ -37,29 +53,41 @@ public class ChatActivity extends AppCompatActivity{
     private String chatCollection;
 
 
-
+    /**
+     * onCreate(Bundle savedInstanceState) :
+     *      Runs when the page gets created.
+     *      In charge of calling other methods to get layout components, intents data and other
+     *      functionalities.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
         getLayoutComponents();
         getIntentInfo();
-
-        //Now get the
         getChatCollection();
         setListeners();
         getChatMessages();
 
     }
 
+    /**
+     * getLayoutComponents() : Getting layout components.
+     */
     public void getLayoutComponents(){
         recyclerView = findViewById(R.id.recyclerChatView);
         chatWriteMessage = findViewById(R.id.chatWriteMessage);
         chatSendButton = findViewById(R.id.chatSendButton);
     }
 
+    /**
+     * getIntentInfo() :
+     *      Getting intent data that got sent from the page linked previously.
+     *      Plus, it checks the userInfo (receiver or provider)
+     */
     public void getIntentInfo(){
         Intent intent = getIntent();
         itemID = intent.getStringExtra("itemID");
@@ -88,19 +116,45 @@ public class ChatActivity extends AppCompatActivity{
         }
     }
 
-// mostly adapted from CSCI 3130 tutorial
+    /**
+     * checkProvider(String provider, String user) :
+     *      Checks if the user is provider.
+     *
+     * @param provider
+     * @param user
+     * @return  returns boolean True if user is provider, if not False.
+     */
     public boolean checkProvider(String provider, String user){
         return provider.equalsIgnoreCase(user);
     }
 
+    /**
+     * checkReceiver(String receiver, String user) :
+     *      Checks if the user is receiver.
+     *
+     * @param receiver
+     * @param user
+     * @return  boolean True if user is receiver, if not False.
+     */
     public boolean checkReceiver(String receiver, String user){
         return receiver.equalsIgnoreCase(user);
     }
 
+    /**
+     * isMessageEmpty(String message) :
+     *      Checks if the message inputted is empty or not.
+     *
+     * @param message
+     * @return  boolean true if the messgae is empty, false if not.
+     */
     public boolean isMessageEmpty(String message){
         return message.equals("");
     }
 
+    /**
+     * getChatCollection():
+     *      Getter for the chat collection
+     */
     private void getChatCollection() {
         chatCollection = getIntent().getStringExtra(CHAT_COLLECTION);
         if  (chatCollection == null) {
@@ -108,10 +162,19 @@ public class ChatActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * setListeners():
+     *      Listens to the chat send button click.
+     */
     private void setListeners() {
         chatSendButton.setOnClickListener(view -> sendMessage());
     }
 
+    /**
+     * getChatMessages():
+     *      Getter for the chat message.
+     *      This getter gets the chats from the database and displays it on the recyclerView.
+     */
     private void getChatMessages() {
 //        getting the chat messages
         final FirebaseRecyclerOptions<Chat> options = new FirebaseRecyclerOptions.Builder<Chat>()
@@ -126,6 +189,10 @@ public class ChatActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * sendMessage()
+     *      Sends the message & stores the chat to database according to the user type.
+     */
     private void sendMessage() {
         final String chatMessage = chatWriteMessage.getText().toString();
         final Chat chatMessageObj;
@@ -149,19 +216,24 @@ public class ChatActivity extends AppCompatActivity{
                                 .show());
     }
 
+    /**
+     * onStart():
+     *      Start listening to the chat.
+     */
     @Override
     protected void onStart() {
         super.onStart();
         chatAdapter.startListening();
     }
 
+    /**
+     * onStop():
+     *      Stops listening to the chat.
+     */
     @Override
     protected void onStop() {
         super.onStop();
         chatAdapter.stopListening();
     }
-
-
-
 
 }

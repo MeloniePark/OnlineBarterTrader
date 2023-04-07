@@ -51,6 +51,7 @@ public class SoldItemActivity extends AppCompatActivity{
                 intent.putExtra("itemKey",itemID);
                 intent.putExtra("receiverRating",receiverRating);
                 startActivity(intent);
+                // For Ahmed working on Receiver Rating: Use this part to Switch to the page for rating the receiver
             }
         });
 

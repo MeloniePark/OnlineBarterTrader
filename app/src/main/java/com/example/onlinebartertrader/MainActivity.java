@@ -1,9 +1,13 @@
 package com.example.onlinebartertrader;
 
-/*
-Reference: Tutorial 3
-Will be updating this!!
-
+/**
+ * MainActivity.java
+ *
+ * MainActivity.java is in charge of the main launch page of the Online Barter Trader application.
+ * MainActivity has path to sign up or sign in button.
+ * MainActivity also checks the proper connection to the firebase
+ *
+ * Reference: Tutorial 3
  */
 
 import androidx.annotation.NonNull;
@@ -25,7 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //two firebase library that we will be using.
-
     private DatabaseReference firebaseDBRef;
     private TextView textView;  //for reading whatever is in this textelement.
     Button signUpButton;
@@ -51,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listenToDataChanges();
     }
 
+    /**
+     * Conecting to the designated firebase for Online Barter Trader Application.
+     * @param :  No parameter
+     */
     private void connectToFirebase(){
         FirebaseDatabase firebaseDB;
         //will get path or location of where the database is being hosted
@@ -59,7 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         firebaseDBRef = firebaseDB.getReference("message");
     }
 
-    //this will write "Hello CSCI3130" into the key "message" of the database
+    /**
+     * writeToFirebase checks if writing to firebase is working
+     *  Writes "Barter Trader!" to the set path (key "message")
+     * @param: no parameter
+     */
     private void writeToFirebase(){
         firebaseDBRef.setValue("Barter Trader!");
     }
@@ -85,20 +96,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    //swithcing to sign up page
+    /**
+     * Switches to the Sign Up Page
+     */
     protected void switch2SignUpPage() {
         Intent signUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
         startActivity(signUpIntent);
     }
 
-    //swithcing to sign in page.
+    /**
+     * Switches to Sign in page
+     */
     protected void switch2SignInPage() {
         Intent signInIntent = new Intent(MainActivity.this, LoginActivity.class);
-        //Intent signInIntent = new Intent(MainActivity.this, SearchFunctionality.class);
         startActivity(signInIntent);
     }
 
-    //OnClick function for catching button clicks.
+    /**
+     * Onclick function that react to the button clicks and switch to sign in or sign up
+     *  according to the which button is clicked.
+     * @param view  The view of the MainActivity landing page.
+     */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.signInButtonMainPage){

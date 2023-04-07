@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
 import java.util.logging.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,17 +40,20 @@ import java.util.Locale;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
     //firebase
     FirebaseDatabase database;
     DatabaseReference providerDBRef;
+    DatabaseReference receiverIdDBRef;
     DatabaseReference providerDBRefLoc;
 
     //view for the lists
     ListView providerItemLists;
-
+    ListView receiverIdList;
     Button providerPostBtn;
     Button providerChatBtn;
     String userEmailAddress;
@@ -60,7 +64,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
     //arraylists for listview
     ArrayList<String> providerItems = new ArrayList<>();
-
+    ArrayList<String> receiverId = new ArrayList<>();
     //Location
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
 
@@ -74,11 +78,19 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         //array Adapter for the listview to list all the items of the provider.
         final ArrayAdapter<String> providerArrAdapter = new ArrayAdapter<>
                 (ProviderLandingPage.this, android.R.layout.simple_list_item_1, providerItems);
+        final ArrayAdapter<String> receiverIdArrAdapter = new ArrayAdapter<>
+                (ProviderLandingPage.this, android.R.layout.simple_list_item_1, receiverId);
 
         //register the views, buttons and other components for the provider landing page.
         providerItemLists = (ListView) findViewById(R.id.providerListProvider);
         //setting array Adapter for the ListView providerItemLists.
         providerItemLists.setAdapter(providerArrAdapter);
+
+        //register the views, buttons and other components for the provider landing page.
+        receiverIdList = (ListView) findViewById(R.id.receiverIdList);
+        //setting array Adapter for the ListView receiverIdList.
+        receiverIdList.setAdapter(receiverIdArrAdapter);
+
         providerPostBtn = findViewById(R.id.providerPostProvider);
         providerChatBtn = findViewById(R.id.chatProvider);
 
@@ -104,7 +116,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                     String itemType = snapshot.child("productType").getValue(String.class);
                     String itemName = snapshot.child("productName").getValue(String.class);
                     String status = snapshot.child("currentStatus").getValue(String.class);
-
                     String itemID = snapshot.getKey();
 
                     providerItems.add("Item ID: " + itemID + ", Item Name: " + itemName + ", Item Type: " + itemType + ", Status: " + status);
@@ -143,7 +154,13 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                                             String receiverEnteredPrice = itemSnapshot.child("receiverEnteredPrice").getValue(String.class);
                                             String description = itemSnapshot.child("description").getValue(String.class);
                                             String transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
+
                                             String receiverID = itemSnapshot.child("receiverID").getValue(String.class);
+                                            String receiverRating = itemSnapshot.child("receiverRating").getValue(String.class);
+
+                                            if (receiverRating == null){
+                                                receiverRating = "0";
+                                            }
                                             assert currentStatus != null;
                                             if (currentStatus.equalsIgnoreCase("Sold Out")){
                                                 Intent myIntent = new Intent(view.getContext(), SoldItemActivity.class);
@@ -158,6 +175,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                                                 myIntent.putExtra("transactionDate", transactionDate);
                                                 myIntent.putExtra("receiverID", receiverID);
                                                 myIntent.putExtra("providerEmail", userEmailAddress);
+
+                                                myIntent.putExtra("receiverRating",receiverRating);
                                                 view.getContext().startActivity(myIntent);
                                             }
                                         }
@@ -200,9 +219,103 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             }
         });
 
+        receiverIdDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
+        receiverIdDBRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String receiverEmail = snapshot.child("receiverID").getValue(String.class);
+                String receiverRating = snapshot.child("receiverRating").getValue(String.class);
+                String itemKey = snapshot.getKey();
+                if (receiverRating == null){
+                    receiverRating = "0";
+                }
+
+                receiverId.add("Email: "+receiverEmail + "\nItem Key: "+itemKey+"\nReceiver Rating: "+receiverRating);
+                receiverIdArrAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String itemKey = snapshot.getKey();
+                // Find the item in the list using its key
+                int position = -1;
+                for (int i = 0; i < receiverId.size(); i++) {
+                    String receiverString = receiverId.get(i);
+                    Pattern pattern = Pattern.compile("Email: (.+)\nItem Key: ([-\\d.]+)\nReceiver Rating: ([-\\d.]+)", Pattern.DOTALL);
+                    Matcher matcher = pattern.matcher(receiverString);
+                    if (matcher.find()) {
+                        String key = matcher.group(2);
+                        if (itemKey.equals(key)) {
+                            position = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (position != -1) {
+                    // Update the item in the list
+                    String receiverEmail = snapshot.child("receiverID").getValue(String.class);
+                    String receiverRating = snapshot.child("receiverRating").getValue(String.class);
+
+                    String updatedReceiverString = "Email: "+receiverEmail + "\nItem Key: "+itemKey+"\nReceiver Rating: "+receiverRating;
+                    receiverId.set(position, updatedReceiverString);
+                    receiverIdArrAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //unused for now but possible to be used in future iteration
+                throw new UnsupportedOperationException();
+            }
+        });
+
+        receiverIdList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String receiverString = parent.getItemAtPosition(position).toString();
+                String email = "";
+                String itemKey = "";
+                String receiverRating = "";
+                Pattern pattern = Pattern.compile("Email: (.+)\nItem Key: ([-\\d.]+)\nReceiver Rating: ([-\\d.]+)", Pattern.DOTALL);
+                Matcher matcher = pattern.matcher(receiverString);
+                if (matcher.find()) {
+                    email = matcher.group(1);
+                    itemKey = matcher.group(2);
+                    receiverRating = matcher.group(3);
+                }
+
+                Intent intent = new Intent(ProviderLandingPage.this, ReceiverRating.class);
+
+                if (receiverRating == null){
+                    receiverRating = "0";
+                }
+                intent.putExtra("receiverEmail",email);
+                intent.putExtra("receiverRating",receiverRating);
+                intent.putExtra("userEmailAddress",userEmailAddress.toLowerCase());
+                intent.putExtra("itemKey",itemKey);
+
+                startActivity(intent);
+            }
+        });
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
         }
+
 
         initLocation();
     }

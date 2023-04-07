@@ -171,7 +171,7 @@ public class Alert {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //this method was left empty for possible future implementation requirements
-                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                //throw new UnsupportedOperationException("No support for this operation in iteration 2");
             }
 
             @Override

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SoldItemActivity extends AppCompatActivity {
+public class SoldItemActivity extends AppCompatActivity{
 
     // Intent data declaration
     String itemID;
@@ -22,6 +22,8 @@ public class SoldItemActivity extends AppCompatActivity {
     String receiverEnteredPrice;
     String productReceived;
     String transactionDate;
+
+    String receiverRating;
 
     // Layouts declaration
     TextView itemInformationView;
@@ -43,6 +45,12 @@ public class SoldItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // TODO:Switch to the page for rating the receiver
+                Intent intent = new Intent(SoldItemActivity.this,ReceiverRating.class);
+                intent.putExtra("receiverEmail",receiverEmail);
+                intent.putExtra("userEmailAddress",providerEmail.toLowerCase());
+                intent.putExtra("itemKey",itemID);
+                intent.putExtra("receiverRating",receiverRating);
+                startActivity(intent);
             }
         });
 
@@ -68,6 +76,8 @@ public class SoldItemActivity extends AppCompatActivity {
         receiverEnteredPrice = intent.getStringExtra("receiverEnteredPrice");
         productReceived = intent.getStringExtra("productReceived");
         transactionDate = intent.getStringExtra("transactionDate");
+
+        receiverRating  = intent.getStringExtra("receiverRating");;
     }
 
     public void setItemInformation(){

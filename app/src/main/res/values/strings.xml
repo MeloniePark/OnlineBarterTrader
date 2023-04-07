@@ -42,4 +42,5 @@
         <item>Electronics </item>
         <item>General Item </item>
     </string-array>
+    <string name="title_activity_receiver_rating">ReceiverRating</string>
 </resources>

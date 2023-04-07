@@ -56,7 +56,6 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         itemRef = database.getReference("Users/Provider/"+providerEmail+"/items/"+itemID);
 
         confirmButtun = findViewById(R.id.receiverTransactionConfirmBtn);
-
         confirmButtun.setOnClickListener(this);
     }
 

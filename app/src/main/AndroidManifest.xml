@@ -65,6 +65,13 @@
         <activity
             android:name=".SearchedItemList"
             android:exported="false" />
+        <activity
+            android:name=".ExchangeHistoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".UserStats"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"

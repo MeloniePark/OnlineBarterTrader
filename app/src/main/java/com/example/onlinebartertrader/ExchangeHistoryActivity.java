@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-*
+ *
  * The data fetching order is as follows:
  *
  * The app first checks if the user is a Provider or Receiver based on the userType.
@@ -35,7 +35,7 @@ import java.util.List;
  * It then checks if the receiverID of the item matches the userEmailAddress of the current Receiver user.
  * If there's a match, it fetches the item details such as productName, transactionDate, approxMarketValue, preferredExchange, placeOfExchange, and providerID.
  * It then adds these details to the exchangeHistoryStrings list and updates the adapter to display the exchange history in the exchangeHistoryList ListView.
-*/
+ */
 
 
 public class ExchangeHistoryActivity extends AppCompatActivity {
@@ -194,11 +194,12 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
                         for (DataSnapshot providerSnapshot : dataSnapshot.getChildren()) {
+                            providerId = providerSnapshot.getKey();
                             DataSnapshot itemsSnapshot = providerSnapshot.child("items");
-                            fetchReceiverData(itemsSnapshot);
+                            fetchReceiverData(itemsSnapshot, providerId);
                         }
                     } else {
-                    Log.e("ExchangeHistoryActivity", "Data snapshot is null");
+                        Log.e("ExchangeHistoryActivity", "Data snapshot is null");
                     }
                 }
 
@@ -248,7 +249,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
      * information to a list of strings to be displayed in the Exchange History activity.
      * @param dataSnapshot a DataSnapshot object containing the receiver's items data in the database
      */
-    private void fetchReceiverData(DataSnapshot dataSnapshot) {
+    private void fetchReceiverData(DataSnapshot dataSnapshot, String thisProviderId) {
         List<String> exchangeHistoryStrings = new ArrayList<>();
 
         for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
@@ -266,14 +267,14 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                             cost = receiverItemsSnapshot.child("approxMarketValue").getValue(String.class);
                             exchangeItem = receiverItemsSnapshot.child("preferredExchange").getValue(String.class);
                             location = receiverItemsSnapshot.child("placeOfExchange").getValue(String.class);
-                            providerId = receiverItemsSnapshot.child("providerID").getValue(String.class);
+//                            providerId = receiverItemsSnapshot.child("providerID").getValue(String.class);
 
                             String itemDetails = "Product Name: " + productName +
                                     "\nTransaction Date: " + transactionDate +
                                     "\nCost: " + cost +
                                     "\nExchange Item: " + exchangeItem +
                                     "\nLocation: " + location +
-                                    "\nProvider ID: " + providerId;
+                                    "\nProvider ID: " + thisProviderId;
 
                             exchangeHistoryStrings.add(itemDetails);
                             updateAdapterWithData(exchangeHistoryStrings);

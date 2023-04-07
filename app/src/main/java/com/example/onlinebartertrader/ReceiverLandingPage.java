@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,9 +47,11 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     ListView receiverLists;
     ListView receiverTradeList;
 
+
     Button receiverTradedBtn;
     Button receiverAvailableBtn;
     Button receiverSearchBtn;
+    ImageButton statBtn;
     String userEmailAddress;
 
     //arraylists for listviews
@@ -76,6 +79,10 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
         receiverSearchBtn = findViewById(R.id.searchButtonReceiver);
         receiverSearchBtn.setOnClickListener(this);
+
+        statBtn = findViewById(R.id.imageButton);
+        statBtn.setOnClickListener(this);
+
         //init database
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         userEmailAddress = getIntent().getStringExtra("emailAddress");
@@ -168,6 +175,15 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
             startActivity(intent);
         }
+
+        if (view.getId() == R.id.imageButton){
+            Intent intent = new Intent(this, UserStats.class);
+            intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
+            intent.putExtra("userLoggedIn", "Receiver");
+            startActivity(intent);
+        }
+
+
     }
 
     private void initLocation(){

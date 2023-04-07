@@ -1,9 +1,5 @@
 package com.example.onlinebartertrader;
 
-import static com.example.onlinebartertrader.R.id.ratingBar;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,12 +8,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 public class ReceiverRatings extends AppCompatActivity {
@@ -27,11 +26,9 @@ public class ReceiverRatings extends AppCompatActivity {
     private Button submitRatingButton;
     private FirebaseDatabase database;
     private DatabaseReference ratingsReference;
-    private String userEmailAddress;
     private String providerEmailAddress;
     private String itemID;
 
-    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,18 +37,16 @@ public class ReceiverRatings extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         textViewRating = findViewById(R.id.textViewRating);
         submitRatingButton = findViewById(R.id.submit_rating_button);
-//        fetchAndDisplayAverageRating();
-
 
         // Initialize the database and reference
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         ratingsReference = database.getReference("Users/Provider");
-        fetchAndDisplayAverageRating();
 
-        // Get user and provider email addresses from the intent
-        userEmailAddress = getIntent().getStringExtra("emailAddress");
+        // Get provider email address and itemID from the intent
         providerEmailAddress = getIntent().getStringExtra("providerEmailAddress");
         itemID = getIntent().getStringExtra("itemID");
+
+        fetchAndDisplayAverageRating();
 
         // Set the onRatingBarChangeListener
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -71,42 +66,63 @@ public class ReceiverRatings extends AppCompatActivity {
     }
 
     private void submitRating() {
-        float rating = ratingBar.getRating();
-        ratingsReference.child(providerEmailAddress).child("ratings").child(userEmailAddress).child(itemID).setValue(rating);
+        final int ratingValue = (int) ratingBar.getRating();
 
-        Toast.makeText(ReceiverRatings.this, "Rating submitted successfully!", Toast.LENGTH_SHORT).show();
+        ratingsReference.child(providerEmailAddress).child("items").child(itemID)
+                .runTransaction(new Transaction.Handler() {
+                    @NonNull
+                    @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                        float productReceiverTotalRating = mutableData.child("productReceiverTotalRating").getValue(float.class);
+                        int productReceiverTotalRatingNum = mutableData.child("productReceiverTotalRatingNum").getValue(int.class);
 
-        // Redirect to another activity after submitting the rating, e.g., ReceiverLandingPage
-        Intent intent = new Intent(ReceiverRatings.this, ReceiverLandingPage.class);
-        intent.putExtra("emailAddress", userEmailAddress);
-        startActivity(intent);
-        finish();
-    }
-    private void fetchAndDisplayAverageRating() {
-        ratingsReference.child(providerEmailAddress).child("ratings").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int count = 0;
-                float sum = 0;
-                for (DataSnapshot userRatingsSnapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot itemRatingSnapshot : userRatingsSnapshot.getChildren()) {
-                        float rating = itemRatingSnapshot.getValue(Float.class);
-                        sum += rating;
-                        count++;
+                        // Update the total rating and the number of ratings
+                        productReceiverTotalRating += ratingValue;
+                        productReceiverTotalRatingNum++;
+
+                        // Save the updated values back to the database
+                        mutableData.child("productReceiverTotalRating").setValue(productReceiverTotalRating);
+                        mutableData.child("productReceiverTotalRatingNum").setValue(productReceiverTotalRatingNum);
+
+                        return Transaction.success(mutableData);
                     }
-                }
-                if (count > 0) {
-                    float averageRating = sum / count;
-                    textViewRating.setText(String.format("Provider's average rating: %.2f", averageRating));
-                } else {
-                    textViewRating.setText("No ratings available for this provider.");
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle errors here
-            }
-        });
+                    @Override
+                    public void onComplete(@Nullable DatabaseError databaseError, boolean committed, @Nullable DataSnapshot dataSnapshot) {
+                        if (committed) {
+                            Toast.makeText(ReceiverRatings.this, "Rating submitted successfully.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ReceiverRatings.this, "Rating submission failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void fetchAndDisplayAverageRating() {
+        ratingsReference.child(providerEmailAddress).child("items").child(itemID)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            float productReceiverTotalRating = dataSnapshot.child("productReceiverTotalRating").getValue(float.class);
+                            int productReceiverTotalRatingNum = dataSnapshot.child("productReceiverTotalRatingNum").getValue(int.class);
+
+                            if (productReceiverTotalRatingNum != 0) {
+                                float averageRating = productReceiverTotalRating / productReceiverTotalRatingNum;
+                                textViewRating.setText("Current average rating: " + averageRating);
+                            } else {
+                                textViewRating.setText("No ratings yet.");
+                            }
+                        } else {
+                            textViewRating.setText("No ratings data found.");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(ReceiverRatings.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

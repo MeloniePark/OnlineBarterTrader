@@ -74,16 +74,16 @@ public class ReceiverPageEspressoTest {
 
     }
 
-    //*** User story 3, AT3 **/
-    @Test
-    public void checkIfTradeHistButtonExist() {
-        onView(withId(R.id.emailAddressLogIn)).perform(typeText("notinterested@dal.ca"));
-        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
-        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
-        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
-        onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
-        onView(withId(R.id.tradedHistoryReceiver)).check(matches(isClickable()));
-    }
+//    //*** User story 3, AT3 **/
+//    @Test
+//    public void checkIfTradeHistButtonExist() {
+//        onView(withId(R.id.emailAddressLogIn)).perform(typeText("notinterested@dal.ca"));
+//        onView(withId(R.id.emailAddressLogIn)).perform(closeSoftKeyboard());
+//        onView(withId(R.id.passwordLogIn)).perform(typeText("Test123"));
+//        onView(withId(R.id.passwordLogIn)).perform(closeSoftKeyboard());
+//        onView(withId(R.id.receiverLoginButtonLogIn)).perform(click());
+//        onView(withId(R.id.tradedHistoryReceiver)).check(matches(isClickable()));
+//    }
 
     //*** User story 3, AT3 **/
     @Test

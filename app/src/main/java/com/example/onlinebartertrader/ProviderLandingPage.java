@@ -232,8 +232,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                 if (receiverRating == null){
                     receiverRating = "0";
                 }
+                if (receiverEmail != null){
 
-                receiverId.add("Email: "+receiverEmail + "\nItem Key: "+itemKey+"\nReceiver Rating: "+receiverRating);
+                    receiverId.add("Receiver ID: "+receiverEmail + "\nItem Key: "+itemKey+"\nReceiver Rating: "+receiverRating);
+                }
+
                 receiverIdArrAdapter.notifyDataSetChanged();
             }
 
@@ -260,9 +263,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                     String receiverEmail = snapshot.child("receiverID").getValue(String.class);
                     String receiverRating = snapshot.child("receiverRating").getValue(String.class);
 
-                    String updatedReceiverString = "Email: "+receiverEmail + "\nItem Key: "+itemKey+"\nReceiver Rating: "+receiverRating;
+                    String updatedReceiverString = "Receiver ID: "+receiverEmail + "\nItem Key: "+itemKey+"\nReceiver Rating: "+receiverRating;
+
                     receiverId.set(position, updatedReceiverString);
                     receiverIdArrAdapter.notifyDataSetChanged();
+
                 }
             }
 

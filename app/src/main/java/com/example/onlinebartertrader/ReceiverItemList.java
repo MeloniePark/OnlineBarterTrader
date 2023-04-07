@@ -141,21 +141,21 @@ public class ReceiverItemList {
                         @Override
                         public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                           // throw new UnsupportedOperationException("No support for this operation in iteration 2");
 
                         }
 
                         @Override
                         public void onChildMoved(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                            //throw new UnsupportedOperationException("No support for this operation in iteration 2");
 
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError snapshot) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                            //throw new UnsupportedOperationException("No support for this operation in iteration 2");
 
                         }
 
@@ -166,26 +166,26 @@ public class ReceiverItemList {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
                 //this method was left empty for possible future implementation requirements
-                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+               // throw new UnsupportedOperationException("No support for this operation in iteration 2");
 
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 //this method was left empty for possible future implementation requirements
-                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+               // throw new UnsupportedOperationException("No support for this operation in iteration 2");
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
                 //this method was left empty for possible future implementation requirements
-                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                //throw new UnsupportedOperationException("No support for this operation in iteration 2");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 //this method was left empty for possible future implementation requirements
-                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+               // throw new UnsupportedOperationException("No support for this operation in iteration 2");
             }
 
         });

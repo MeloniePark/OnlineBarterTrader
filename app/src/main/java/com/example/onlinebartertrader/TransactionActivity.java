@@ -97,9 +97,12 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
 
     // For Ahmed's US!! Change this to switch2RatingPage
     // Change this function to connect and switch to the rating page for receiver!
-    protected void switch2ReceiverLandingPage() {
-        Intent intent = new Intent(this, ReceiverLandingPage.class);
+    protected void switch2ReceiverRatingsPage() {
+        Intent intent = new Intent(this, ReceiverRatings.class);
         intent.putExtra("emailAddress", receiverEmail);
+        intent.putExtra("providerEmailAddress", providerEmail);
+        intent.putExtra("itemID", itemID);
+
         startActivity(intent);
     }
 
@@ -149,7 +152,7 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         // Checking if the entered value is numeric
         else if (isValidValue(estValueEntered)) {
             confirmTransaction();
-            switch2ReceiverLandingPage();
+            switch2ReceiverRatingsPage(); // Replace this line
         }
         // If the value is not numeric, display an error message
         else {

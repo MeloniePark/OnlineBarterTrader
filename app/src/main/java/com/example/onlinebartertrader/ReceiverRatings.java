@@ -11,10 +11,14 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ReceiverRatings extends AppCompatActivity {
 
@@ -25,6 +29,7 @@ public class ReceiverRatings extends AppCompatActivity {
     private DatabaseReference ratingsReference;
     private String userEmailAddress;
     private String providerEmailAddress;
+    private String itemID;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -34,15 +39,19 @@ public class ReceiverRatings extends AppCompatActivity {
 
         ratingBar = findViewById(R.id.ratingBar);
         textViewRating = findViewById(R.id.textViewRating);
-        submitRatingButton = findViewById(R.id.ratingBar);
+        submitRatingButton = findViewById(R.id.submit_rating_button);
+//        fetchAndDisplayAverageRating();
+
 
         // Initialize the database and reference
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         ratingsReference = database.getReference("Users/Provider");
+        fetchAndDisplayAverageRating();
 
         // Get user and provider email addresses from the intent
         userEmailAddress = getIntent().getStringExtra("emailAddress");
         providerEmailAddress = getIntent().getStringExtra("providerEmailAddress");
+        itemID = getIntent().getStringExtra("itemID");
 
         // Set the onRatingBarChangeListener
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -63,7 +72,7 @@ public class ReceiverRatings extends AppCompatActivity {
 
     private void submitRating() {
         float rating = ratingBar.getRating();
-        ratingsReference.child(providerEmailAddress).child("ratings").child(userEmailAddress).setValue(rating);
+        ratingsReference.child(providerEmailAddress).child("ratings").child(userEmailAddress).child(itemID).setValue(rating);
 
         Toast.makeText(ReceiverRatings.this, "Rating submitted successfully!", Toast.LENGTH_SHORT).show();
 
@@ -72,5 +81,32 @@ public class ReceiverRatings extends AppCompatActivity {
         intent.putExtra("emailAddress", userEmailAddress);
         startActivity(intent);
         finish();
+    }
+    private void fetchAndDisplayAverageRating() {
+        ratingsReference.child(providerEmailAddress).child("ratings").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int count = 0;
+                float sum = 0;
+                for (DataSnapshot userRatingsSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot itemRatingSnapshot : userRatingsSnapshot.getChildren()) {
+                        float rating = itemRatingSnapshot.getValue(Float.class);
+                        sum += rating;
+                        count++;
+                    }
+                }
+                if (count > 0) {
+                    float averageRating = sum / count;
+                    textViewRating.setText(String.format("Provider's average rating: %.2f", averageRating));
+                } else {
+                    textViewRating.setText("No ratings available for this provider.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors here
+            }
+        });
     }
 }

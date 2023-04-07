@@ -16,6 +16,12 @@
         android:numStars="5"
         android:stepSize="1"
         tools:ignore="SpeakableTextPresentCheck" />
+    <Button
+        android:id="@+id/submit_rating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Rating"
+        android:textAllCaps="false" />
 
     <TextView
         android:id="@+id/textViewRating"

@@ -139,7 +139,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void switch2ProviderLandingPage() {
         Intent intent = new Intent(this, ProviderLandingPage.class);
         intent.putExtra("emailAddress", emailAddressEntered.toLowerCase());
-        intent.putExtra("emailAddress", emailAddressEntered.toLowerCase());
         startActivity(intent);
     }
 

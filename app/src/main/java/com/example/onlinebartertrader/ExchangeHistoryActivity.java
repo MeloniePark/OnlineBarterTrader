@@ -48,7 +48,6 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     private String userEmailAddress;
     private Button backButton;
     private String errorMessage;
-
     private String itemStatus;
     private String productName;
     private String transactionDate;
@@ -58,6 +57,10 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     private String providerId;
     private String receiverId;
 
+    /**
+     * This method is called when the Exchange History Activity screen is created.
+     * It sets up the exchange history list view and gets a reference to the exchange history database node.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +74,6 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
         //Set up the exchange history list view
         exchangeHistoryList = findViewById(R.id.exchange_history_list_view);
-
-/*        //Set the user type and id
-        setUserRoleAndId(userType,userEmailAddress);*/
 
         //Get a reference to the exchange history database node based on the user type
         setExchangeHistoryRef(userType,userEmailAddress,database);
@@ -91,12 +91,12 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         });
     }
 
-
-/*    public void setUserRoleAndId(String userType,String userEmailAddress) {
-        this.userType = userType;
-        this.userEmailAddress = userEmailAddress;
-    }*/
-
+    /**
+     * This method checks if the exchange history list view is null.
+     * If it is null, an error message is displayed and false is returned.
+     * If it is not null, true is returned.
+     * @return true if the exchange history list view is not null; false otherwise.
+     */
     public boolean exchangeHistoryListIsNotNull() {
         if (exchangeHistoryList.getAdapter() == null) {
             errorMessage = "Exchange history list is null".trim();
@@ -107,6 +107,12 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * This method checks if the exchange history reference is null.
+     * If it is null, an error message is displayed and false is returned.
+     * If it is not null, true is returned.
+     * @return true if the exchange history reference is not null; false otherwise.
+     */
     public boolean exchangeHistoryRefIsNotNull() {
         if (exchangeHistoryRef == null) {
             errorMessage = "Exchange history reference is null".trim();
@@ -117,6 +123,8 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Checks if a specific exchange history item is displayed in the exchange history list view.*/
     public boolean isExchangeHistoryDisplayed(String userRole, String userId, String productName, String dateOfPurchase, String cost, String exchangeItem, String location, String providerId) {
         //Construct a string representing the exchange history item with the parameters
         String itemDetails = "Product Name: " + productName +
@@ -124,7 +132,6 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                 "\nCost: " + cost +
                 "\nExchange Item: " + exchangeItem +
                 "\nLocation: " + location;
-
         if (userRole.equals("Provider")) {
             itemDetails += "\nReceiver ID/Username: " + userId;
         } else {
@@ -144,11 +151,21 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Sets the status message in the error message label.
+     * @param message The message to be set as the status message.
+     */
     protected void setStatusMessage(String message) {
         TextView statusLabel = findViewById(R.id.errorMessage);
         statusLabel.setText(message.trim());
     }
 
+    /**
+     * Sets the exchange history reference for a given user.
+     * @param userType The type of user ("Provider" or "Receiver").
+     * @param userEmailAddress The email address of the user.
+     * @param database The Firebase database.
+     */
     public void setExchangeHistoryRef(String userType, String userEmailAddress, FirebaseDatabase database) {
         //Check if the user is a Provider or Receiver and fetch the respective data
         if (userType != null && userEmailAddress != null && userType.equals("Provider")) {
@@ -181,7 +198,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                         }
                     } else {
                     Log.e("ExchangeHistoryActivity", "Data snapshot is null");
-                }
+                    }
                 }
 
                 @Override
@@ -193,6 +210,11 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Fetches data from Firebase Realtime Database for provider items that have been marked as "Sold Out"
+     * and adds the information to a list of strings to be displayed in the Exchange History activity.
+     * @param dataSnapshot a DataSnapshot object containing the provider's items data in the database
+     */
     private void fetchProviderData(DataSnapshot dataSnapshot) {
         List<String> exchangeHistoryStrings = new ArrayList<>();
 
@@ -220,6 +242,11 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         updateAdapterWithData(exchangeHistoryStrings);
     }
 
+    /**
+     * Fetches data from Firebase Realtime Database for items received by the user and adds the relevant
+     * information to a list of strings to be displayed in the Exchange History activity.
+     * @param dataSnapshot a DataSnapshot object containing the receiver's items data in the database
+     */
     private void fetchReceiverData(DataSnapshot dataSnapshot) {
         List<String> exchangeHistoryStrings = new ArrayList<>();
 
@@ -227,12 +254,12 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
             receiverId = itemSnapshot.child("receiverID").getValue(String.class);
 
             if (receiverId != null && receiverId.equals(userEmailAddress)) {
-                receiverItemsRef = itemSnapshot.getRef().getParent();
+                receiverItemsRef = itemSnapshot.getRef();
 
                 receiverItemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot receiverItemsSnapshot) {
-                        if (dataSnapshot.getValue() != null) {
+                        if (receiverItemsSnapshot.getValue() != null) {
                             productName = receiverItemsSnapshot.child("productName").getValue(String.class);
                             transactionDate = receiverItemsSnapshot.child("transactionDate").getValue(String.class);
                             cost = receiverItemsSnapshot.child("approxMarketValue").getValue(String.class);
@@ -263,6 +290,10 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the adapter of the Exchange History activity with the list of exchange history strings.
+     * @param exchangeHistoryStrings a List object containing strings of exchange history information
+     */
     private void updateAdapterWithData(List<String> exchangeHistoryStrings) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(ExchangeHistoryActivity.this,
                 android.R.layout.simple_list_item_1, exchangeHistoryStrings);
@@ -274,6 +305,9 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Launches and switch the UserStats activity and finishes the current activity.
+     */
         protected void switch2StatPage() {
         Intent intent = new Intent(this, UserStats.class);
         startActivity(intent);

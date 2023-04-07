@@ -23,9 +23,7 @@ public class SoldItemActivity extends AppCompatActivity{
     String productReceived;
     String transactionDate;
 
-    String receiverAvgRating;
-    String receiverTotalRating;
-    String receiverTotalRatingNum;
+    String receiverRating;
 
     // Layouts declaration
     TextView itemInformationView;
@@ -51,10 +49,7 @@ public class SoldItemActivity extends AppCompatActivity{
                 intent.putExtra("receiverEmail",receiverEmail);
                 intent.putExtra("userEmailAddress",providerEmail.toLowerCase());
                 intent.putExtra("itemKey",itemID);
-                intent.putExtra("receiverAvgRating",receiverAvgRating);
-                intent.putExtra("receiverTotalRating",receiverTotalRating);
-                intent.putExtra("receiverTotalRatingNum",receiverTotalRatingNum);
-                System.out.println(receiverTotalRatingNum);
+                intent.putExtra("receiverRating",receiverRating);
                 startActivity(intent);
             }
         });
@@ -82,9 +77,7 @@ public class SoldItemActivity extends AppCompatActivity{
         productReceived = intent.getStringExtra("productReceived");
         transactionDate = intent.getStringExtra("transactionDate");
 
-        receiverAvgRating  = intent.getStringExtra("receiverAvgRating");;
-        receiverTotalRating  = intent.getStringExtra("receiverTotalRating");;
-        receiverTotalRatingNum  = intent.getStringExtra("receiverTotalRatingNum");;
+        receiverRating  = intent.getStringExtra("receiverRating");;
     }
 
     public void setItemInformation(){

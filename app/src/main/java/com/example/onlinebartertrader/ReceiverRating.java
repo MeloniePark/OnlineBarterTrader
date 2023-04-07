@@ -19,9 +19,7 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
     DatabaseReference databaseReference;
 
     String receiverEmail;
-    String receiverAvgRating;
-    String receiverTotalRating;
-    String receiverTotalRatingNum;
+    String receiverRating;
     String userEmailAddress;
     String itemKey;
 
@@ -40,9 +38,7 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
 
         receiverEmail = getIntent().getStringExtra("receiverEmail");
-        receiverAvgRating = getIntent().getStringExtra("receiverAvgRating");
-        receiverTotalRating = getIntent().getStringExtra("receiverTotalRating");
-        receiverTotalRatingNum = getIntent().getStringExtra("receiverTotalRatingNum");
+        receiverRating = getIntent().getStringExtra("receiverRating");
         userEmailAddress = getIntent().getStringExtra("userEmailAddress");
         itemKey = getIntent().getStringExtra("itemKey");
 
@@ -55,10 +51,10 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
         cancel = findViewById(R.id.CancelRatingV);
 
         String receiverEmailString = "Receiver Email: " + receiverEmail;
-        String receiverAvgRatingString = "Receiver Average Rating: " + receiverAvgRating;
+        String receiverRatingString = "Receiver Rating: " + receiverRating;
 
         email.setText(receiverEmailString);
-        avg.setText(receiverAvgRatingString);
+        avg.setText(receiverRatingString);
 
         submit.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -83,16 +79,9 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, "Please enter a valid rating", Toast.LENGTH_SHORT).show();
                 return;
             }
-            double total = Double.parseDouble(receiverTotalRating) + currRatingValue;
-            int totalNum = Integer.parseInt(receiverTotalRatingNum) + 1;
-            double avgNum = Math.round((total/totalNum)*10)/10.0;
-            receiverAvgRating = Double.toString(avgNum);
-            receiverTotalRating = Double.toString(total);
-            receiverTotalRatingNum = Integer.toString(totalNum);
+            receiverRating = Double.toString(currRatingValue);
 
-            databaseReference.child("productReceiverAvgRating").setValue(receiverAvgRating);
-            databaseReference.child("productReceiverTotalRating").setValue(receiverTotalRating);
-            databaseReference.child("productReceiverTotalRatingNum").setValue(receiverTotalRatingNum);
+            databaseReference.child("receiverRating").setValue(receiverRating);
 
             finish();
         } else if (id == R.id.CancelRatingV) {

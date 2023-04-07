@@ -78,7 +78,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         //Get a reference to the exchange history database node based on the user type
         setExchangeHistoryRef(userType,userEmailAddress,database);
 
-// We do not have the return button for all pages, so I leave it here.
+// We do not have to use return button, but I leave it here for other page.
 //        //Get a reference to the back button
 //        backButton = findViewById(R.id.backToStat);
 //
@@ -306,7 +306,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         }
     }
 
-/*   we do not have the return button for all pages, so I leave it here.
+/*   we do not have to use the return button, but I leave it here for other pages.
 
      //Launches and switch the UserStats activity and finishes the current activity.
 

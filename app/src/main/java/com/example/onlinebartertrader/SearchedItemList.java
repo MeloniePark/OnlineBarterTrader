@@ -1,5 +1,6 @@
 package com.example.onlinebartertrader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.*;
 
-public class SearchedItemList {
+public class SearchedItemList extends Activity {
     protected FirebaseDatabase database;
     protected DatabaseReference receiverDBRef;
     DatabaseReference providerDBRef;
@@ -87,14 +88,16 @@ public class SearchedItemList {
                                     String itemName = snapshot.child("productName").getValue(String.class);
                                     String itemType = snapshot.child("productType").getValue(String.class);
                                     String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                    receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Preferred Exchange: " + exchangeWith);
+                                    String location = snapshot.child("placeOfExchange").getValue(String.class);
+                                    receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                     receiverArrAdapter.notifyDataSetChanged();
                                 } else {
                                     String itemType = snapshot.child("productType").getValue(String.class);
                                     if (itemType.equals(userPreference)) {
                                         String itemName = snapshot.child("productName").getValue(String.class);
                                         String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                        receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Preferred Exchange: " + exchangeWith);
+                                        String location = snapshot.child("placeOfExchange").getValue(String.class);
+                                        receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                         receiverArrAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -103,9 +106,10 @@ public class SearchedItemList {
                                 String pattern = "(?i).*" + query + ".*";
                                 String itemType = snapshot.child("productType").getValue(String.class);
                                 String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                if (itemType.matches(pattern) || exchangeWith.matches(pattern)) {
+                                String location = snapshot.child("placeOfExchange").exists() ? snapshot.child("placeOfExchange").getValue(String.class) : "";
+                                if (itemType.matches(pattern) || exchangeWith.matches(pattern) || location.matches(pattern)) {
                                     String itemName = snapshot.child("productName").getValue(String.class);
-                                    receiverItems.add("Item Name: " + itemName + ", Item Type: " + itemType + ", Preferred Exchange: " + exchangeWith);
+                                    receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                     receiverArrAdapter.notifyDataSetChanged();
                                 }
                             }

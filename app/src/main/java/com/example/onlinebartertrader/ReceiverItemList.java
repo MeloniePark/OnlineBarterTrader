@@ -119,14 +119,16 @@ public class ReceiverItemList {
                     providerItemsRef.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
-                            String itemType = snapshot.child("productType").getValue(String.class);
                             String itemName = snapshot.child("productName").getValue(String.class);
-                            String itemPlace = snapshot.child("placeOfExchange").getValue(String.class);
                             String itemAvailability = snapshot.child("currentStatus").getValue(String.class);
                             String itemID = snapshot.getKey();
+                            String itemType = snapshot.child("productType").getValue(String.class);
+                            String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
+                            String location = snapshot.child("placeOfExchange").getValue(String.class);
+
                             if (itemAvailability.equalsIgnoreCase("Available")){
-                                receiverItems.add("Item ID: " + itemID +", Item Name: " + itemName + ", Item Type: " + itemType + ", Provider: "+ providerEmail +
-                                        ", Place: " + itemPlace);
+                                receiverItems.add("Item ID: " + itemID +"\nItem Name: " + itemName + "\nItem Type: " + itemType + "\nProvider: "+ providerEmail +
+                                        "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
                                 receiverArrAdapter.notifyDataSetChanged();
                             }
 

@@ -41,6 +41,8 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
     ListView exchangeHistoryList;
     DatabaseReference exchangeHistoryRef;
+    DatabaseReference providerItemsRef;
+    DatabaseReference receiverItemsRef;
     private String userType;
     private String userEmailAddress;
     private Button backButton;
@@ -69,8 +71,8 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         //Set up the exchange history list view
         exchangeHistoryList = findViewById(R.id.exchange_history_list_view);
 
-        //Set the user type and id
-        setUserRoleAndId(userType,userEmailAddress);
+/*        //Set the user type and id
+        setUserRoleAndId(userType,userEmailAddress);*/
 
         //Get a reference to the exchange history database node based on the user type
         setExchangeHistoryRef(userType,userEmailAddress,database);
@@ -89,10 +91,10 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     }
 
 
-    public void setUserRoleAndId(String userType,String userEmailAddress) {
+/*    public void setUserRoleAndId(String userType,String userEmailAddress) {
         this.userType = userType;
         this.userEmailAddress = userEmailAddress;
-    }
+    }*/
 
     public boolean exchangeHistoryListIsNotNull() {
         if (exchangeHistoryList == null) {
@@ -162,7 +164,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                 }
             });
         } else {
-            DatabaseReference providerItemsRef = database.getReference("Users").child("Provider");
+            providerItemsRef = database.getReference("Users").child("Provider");
             providerItemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -214,17 +216,17 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
             receiverId = itemSnapshot.child("receiverID").getValue(String.class);
 
             if (receiverId != null && receiverId.equals(userEmailAddress)) {
-                DatabaseReference providerItemsRef = itemSnapshot.getRef().getParent();
+                receiverItemsRef = itemSnapshot.getRef().getParent();
 
-                providerItemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                receiverItemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot providerItemsSnapshot) {
-                        productName = providerItemsSnapshot.child("productName").getValue(String.class);
-                        transactionDate = providerItemsSnapshot.child("transactionDate").getValue(String.class);
-                        cost = providerItemsSnapshot.child("approxMarketValue").getValue(String.class);
-                        exchangeItem = providerItemsSnapshot.child("preferredExchange").getValue(String.class);
-                        location = providerItemsSnapshot.child("placeOfExchange").getValue(String.class);
-                        providerId = providerItemsSnapshot.child("providerID").getValue(String.class);
+                    public void onDataChange(@NonNull DataSnapshot receiverItemsSnapshot) {
+                        productName = receiverItemsSnapshot.child("productName").getValue(String.class);
+                        transactionDate = receiverItemsSnapshot.child("transactionDate").getValue(String.class);
+                        cost = receiverItemsSnapshot.child("approxMarketValue").getValue(String.class);
+                        exchangeItem = receiverItemsSnapshot.child("preferredExchange").getValue(String.class);
+                        location = receiverItemsSnapshot.child("placeOfExchange").getValue(String.class);
+                        providerId = receiverItemsSnapshot.child("providerID").getValue(String.class);
 
                         String itemDetails = "Product Name: " + productName +
                                 "\nTransaction Date: " + transactionDate +

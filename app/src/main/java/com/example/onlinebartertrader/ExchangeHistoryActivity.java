@@ -22,6 +22,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The data fetching order is as follows:
+ *
+ * The app first checks if the user is a Provider or Receiver based on the userType.
+ * If the user is a Provider, it fetches the data related to that provider under Users > Provider > providerID > items.
+ * It then loops through each item and checks if the currentStatus of the item is "Sold Out".
+ * If the currentStatus is "Sold Out", it fetches the item details such as productName, transactionDate, approxMarketValue, preferredExchange, placeOfExchange, providerID, and receiverID.
+ * It then adds these details to the exchangeHistoryStrings list and updates the adapter to display the exchange history in the exchangeHistoryList ListView.
+ * If the user is a Receiver, it loops through all the providers under Users > Provider and fetches the items under each provider.
+ * It then checks if the receiverID of the item matches the userEmailAddress of the current Receiver user.
+ * If there's a match, it fetches the item details such as productName, transactionDate, approxMarketValue, preferredExchange, placeOfExchange, and providerID.
+ * It then adds these details to the exchangeHistoryStrings list and updates the adapter to display the exchange history in the exchangeHistoryList ListView.
+ */
+
+
 public class ExchangeHistoryActivity extends AppCompatActivity {
 
     ListView exchangeHistoryList;

@@ -42,7 +42,7 @@ public class SoldItemActivity extends AppCompatActivity {
         rateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // TODO:Switch to the page for rating the receiver
+                // For Ahmed working on Receiver Rating: Use this part to Switch to the page for rating the receiver
             }
         });
 

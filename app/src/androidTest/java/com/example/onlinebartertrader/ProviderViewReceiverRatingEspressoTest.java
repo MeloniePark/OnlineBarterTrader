@@ -2,6 +2,8 @@ package com.example.onlinebartertrader;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 
@@ -52,12 +54,12 @@ public class ProviderViewReceiverRatingEspressoTest<IntentsTestRule> {
 
     //*** Iteration 3 User story 3**/
     @Test
-    public void providerCannotSeeReceiverRating() throws InterruptedException {
-        onView(withId(R.id.ReceiverEmailV)).check(doesNotExist());
-        onView(withId(R.id.ReceiverRatingAvgV)).check(doesNotExist());
-        onView(withId(R.id.CurrRatingInputV)).check(doesNotExist());
-        onView(withId(R.id.SubmitRatingV)).check(doesNotExist());
-        onView(withId(R.id.CancelRatingV)).check(doesNotExist());
+    public void receiverCannotSeeReceiverRating() throws InterruptedException {
+        onView(withId(R.id.ReceiverEmailV)).check(matches(isDisplayed()));
+        onView(withId(R.id.ReceiverRatingAvgV)).check(matches(isDisplayed()));
+        onView(withId(R.id.CurrRatingInputV)).check(matches(isDisplayed()));
+        onView(withId(R.id.SubmitRatingV)).check(matches(isDisplayed()));
+        onView(withId(R.id.CancelRatingV)).check(matches(isDisplayed()));
     }
 
 }

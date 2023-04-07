@@ -42,6 +42,10 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
         userEmailAddress = getIntent().getStringExtra("userEmailAddress");
         itemKey = getIntent().getStringExtra("itemKey");
 
+        if (userEmailAddress == null)
+            userEmailAddress = "test@dalca";
+        if (itemKey == null)
+            itemKey = "-1";
         databaseReference = database.getReference("Users").child("Provider").child(userEmailAddress).child("items").child(itemKey);
 
         email = findViewById(R.id.ReceiverEmailV);

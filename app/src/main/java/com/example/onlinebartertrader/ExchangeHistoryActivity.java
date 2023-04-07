@@ -305,12 +305,14 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         }
     }
 
-    /**
+/*   we do not have the return button for all pages, so I leave it here.
+//**
      * Launches and switch the UserStats activity and finishes the current activity.
-     */
+     *//*
         protected void switch2StatPage() {
         Intent intent = new Intent(this, UserStats.class);
         startActivity(intent);
         finish();
         }
+    */
 }

@@ -10,95 +10,94 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="104dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="104dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginBottom="9dp"
         android:text="Available Products"
+        app:layout_constraintBottom_toTopOf="@+id/tradedHistoryReceiver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <Button-->
-<!--        android:id="@+id/tradedHistoryReceiver"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="116dp"-->
-<!--        android:layout_marginEnd="116dp"-->
-<!--        android:text="Traded Products"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/availableProductsReceiver" />-->
+    <Button
+        android:id="@+id/tradedHistoryReceiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="116dp"
+        android:text="Traded Products"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/availableProductsReceiver" />
 
     <ListView
         android:id="@+id/receiverListReceiver"
-        android:layout_width="275dp"
-        android:layout_height="216dp"
+        android:layout_width="276dp"
+        android:layout_height="221dp"
         android:layout_marginStart="54dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/searchButtonReceiver" />
 
     <ListView
         android:id="@+id/receiverTraded"
         android:layout_width="275dp"
         android:layout_height="216dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="68dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="53dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiverListReceiver" />
+        app:layout_constraintTop_toBottomOf="@+id/receiverListReceiver"
+        app:layout_constraintVertical_bias="0.87" />
 
     <TextView
         android:id="@+id/locationStringReceiver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Loading..."
+        app:layout_constraintBottom_toTopOf="@+id/availableProductsReceiver"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.428" />
 
     <Button
         android:id="@+id/searchButtonReceiver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="158dp"
-        android:layout_marginEnd="159dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="158dp"
+        android:layout_marginBottom="12dp"
         android:text="Search"
+        app:layout_constraintBottom_toTopOf="@+id/receiverListReceiver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/availableProductsReceiver" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="47dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="47dp"
-        android:text="Please click item box to chat with the item provider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchButtonReceiver" />
+        app:layout_constraintTop_toBottomOf="@+id/tradedHistoryReceiver"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:layout_marginBottom="668dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/receiverListReceiver"
+        app:layout_constraintHorizontal_bias="0.822"
+        app:layout_constraintStart_toEndOf="@+id/availableProductsReceiver"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_dialog_dialer" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/stats" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

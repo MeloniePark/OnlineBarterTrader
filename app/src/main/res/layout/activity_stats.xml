@@ -5,94 +5,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/ratingView"
-        android:layout_width="320dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="176dp"
-        android:text="Rating"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/valuationView"
+            android:layout_width="326dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="100dp"
+            android:text="Valuation"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/exchangeHistoryBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valuationText"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/valuationView"
-        android:layout_width="326dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="37dp"
-        android:text="Valuation"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/exchangeHistoryBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.017"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingView"
-        app:layout_constraintVertical_bias="0.457" />
+        <Button
+            android:id="@+id/exchangeHistoryBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="112dp"
+            android:layout_marginEnd="112dp"
+            android:layout_marginBottom="188dp"
+            android:text="Exchange History"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/exchangeHistoryBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginEnd="112dp"
-        android:layout_marginBottom="188dp"
-        android:text="Exchange History"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <EditText
+            android:id="@+id/userRatingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="174dp"
+            android:ems="10"
+            android:textSize="20sp"
+            android:inputType="textPersonName"
+            android:text="USER RATING"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userStatsText" />
 
-    <EditText
-        android:id="@+id/valuationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="173dp"
-        android:layout_marginBottom="18dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="VALUATION"
-        app:layout_constraintBottom_toTopOf="@+id/valuationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingView"
-        app:layout_constraintVertical_bias="1.0" />
+        <EditText
+            android:id="@+id/userStatsText"
+            android:layout_width="129dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="152dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="152dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="USER STATS"
+            android:textSize="23sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/userRatingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="174dp"
-        android:layout_marginBottom="18dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="USER RATING"
-        app:layout_constraintBottom_toTopOf="@+id/ratingView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userStatsText" />
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="134dp"
+            android:stepSize="0.1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userRatingText" />
 
-    <EditText
-        android:id="@+id/userStatsText"
-        android:layout_width="108dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="152dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="USER STATS"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="67dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+        <EditText
+            android:id="@+id/valuationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="164dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="VALUATION"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.307"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rating" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

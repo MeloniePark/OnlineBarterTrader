@@ -10,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,6 +61,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     ListView receiverIdList;
     Button providerPostBtn;
     Button providerChatBtn;
+    ImageButton statsBtn;
     String userEmailAddress;
     ImageButton statBtn;
     //Logging
@@ -111,6 +110,9 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         providerPostBtn.setOnClickListener(this);
         providerChatBtn.setOnClickListener(this);
         statBtn.setOnClickListener(this);
+
+        statsBtn = findViewById(R.id.imageButton2);
+        statsBtn.setOnClickListener(this);
 
         //Firebase Connection
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
@@ -369,6 +371,12 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
      */
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.imageButton2){
+            Intent intent = new Intent(this, UserInfo.class);
+            intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
+            intent.putExtra("userLoggedIn", "Provider");
+            startActivity(intent);
+        }
         //where we move on to posting provider's goods page.
         //Functionality will be added in future iteration
         if (view.getId() == R.id.providerPostProvider) {
@@ -387,7 +395,6 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             intent.putExtra("userLoggedIn", "Provider");
             startActivity(intent);
         }
-
     }
 
     /**

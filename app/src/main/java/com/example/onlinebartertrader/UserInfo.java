@@ -40,7 +40,11 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
     //String literals
     private static final String STR_PROVIDER = "Provider";
 
-    // The onCreate() method is called when the activity is first created
+    /**
+     * The onCreate() method is called when the activity is first created
+     *
+     * @param savedInstanceState a Bundle containing the data most recently supplied in onSaveInstanceState.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,12 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
         // If the user is logged in as a Provider, add a value event listener to the Provider node in the database
         if(userLoggedIn.equals(STR_PROVIDER)){
             providerDBRef.addValueEventListener(new ValueEventListener() {
-                // This method is called when the data at the Provider node in the database changes
+                /**
+                 * This method is triggered when there is a change in the data of the Provider
+                 * node in the Firebase database.
+                 *
+                 * @param dataSnapshot a DataSnapshot containing the data of the Provider node
+                 */
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // Loop through each child node of the Provider node in the database
@@ -97,6 +106,18 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
         else {
             receiverDBRef.addValueEventListener(new ValueEventListener() {
+
+                /**
+                 * This method is called when the data in the database changes.
+                 * It loops through each provider snapshot in the data snapshot and for each provider,
+                 * it loops through each item in the items snapshot.
+                 * It checks if the item is sold out and belongs to the current user.
+                 * If yes, it gets the approximate market value and receiver's rating for the item
+                 * and adds them to the receiver's valuation and rating lists respectively.
+                 * Finally, it updates the valuation and rating display for the receiver.
+                 *
+                 * @param dataSnapshot the snapshot of the updated data in the database
+                 */
                 @SuppressLint("DefaultLocale")
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -138,6 +159,17 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    /**
+     * This method updates the valuation and rating views based on the given valuation list and rating list.
+     * It calculates the total valuation of all items in the valuation list and sets the valuation view to display the total valuation.
+     * It also calculates the mean rating of all items in the rating list and sets the rating bar and rating value text view to display the mean rating.
+     *
+     * @param valuationList the list of valuations of all items
+     * @param ratingList the list of ratings of all items
+     * @param valuationView the text view to display the total valuation
+     * @param ratingBar the rating bar to display the mean rating
+     * @param ratingValueTextView the text view to display the mean rating value
+     */
     private void updateValuationAndRating(List<Integer> valuationList, List<Float> ratingList, TextView valuationView, RatingBar ratingBar, TextView ratingValueTextView) {
         // Calculating the total valuation of all items in the valuation list
         int valuation = 0;
@@ -159,6 +191,11 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
         ratingBar.setIsIndicator(true);
     }
 
+    /**
+     * This method handles the click event of the exchangeHistoryBtn button.
+     * It opens the user info activity when the exchange history button is clicked.
+     * @param view the view that was clicked
+     */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.exchangeHistoryBtn){
@@ -170,11 +207,23 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    /**
+     * This method checks whether the given rating matches the rating from the database.
+     * @param ratingFromDB the rating stored in the database
+     * @param rating the rating to be compared with the rating from the database
+     * @return true if the given rating matches the rating from the database, otherwise false
+     */
     boolean checkGivenRating(String ratingFromDB, String rating) {
         // Checking if the given rating matches the rating from the database
         return ratingFromDB.equalsIgnoreCase(rating);
     }
 
+    /**
+     * This method checks whether the given value matches the value from the database.
+     * @param valuationFromDB the value stored in the database
+     * @param value the value to be compared with the value from the database
+     * @return true if the given value matches the value from the database, otherwise false
+     */
     boolean checkTotalAmount(String valuationFromDB, String value) {
         // Checking if the given value matches the value from the database
         return valuationFromDB.equalsIgnoreCase(value);

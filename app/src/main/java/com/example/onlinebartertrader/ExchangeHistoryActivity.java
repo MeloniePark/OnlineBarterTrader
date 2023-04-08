@@ -1,5 +1,6 @@
 package com.example.onlinebartertrader;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
  *
  * The data fetching order is as follows:
  *
@@ -36,8 +37,6 @@ import java.util.List;
  * If there's a match, it fetches the item details such as productName, transactionDate, approxMarketValue, preferredExchange, placeOfExchange, and providerID.
  * It then adds these details to the exchangeHistoryStrings list and updates the adapter to display the exchange history in the exchangeHistoryList ListView.
  */
-
-
 public class ExchangeHistoryActivity extends AppCompatActivity {
 
     ListView exchangeHistoryList;
@@ -59,7 +58,9 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
     /**
      * This method is called when the Exchange History Activity screen is created.
-     * It sets up the exchange history list view and gets a reference to the exchange history database node.
+     * It sets up the exchange history list view and gets a reference to the exchange
+     * history database node.
+     * @param savedInstanceState android OS to store and restore the state of an activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

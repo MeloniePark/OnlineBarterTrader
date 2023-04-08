@@ -25,6 +25,15 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".ProviderRating"
+            android:exported="false"
+            android:label="@string/title_activity_provider_rating"
+            android:theme="@style/Theme.OnlineBarterTrader.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity

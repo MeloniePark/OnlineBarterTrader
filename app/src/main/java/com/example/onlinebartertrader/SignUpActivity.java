@@ -102,7 +102,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * checkPasswordCase(String password):
      *          password should be the combination of uppercase and lowercase
-     * @param password
+     * @param password user's inputted password
      * @return boolean value True if password is combination of lower and uppercase letters, false otherwise.
      * Reference: learned from TDDDemo code by Usmi Mukherjee
      */
@@ -124,7 +124,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * checkPasswordSpecialChar(String password):
      *          Checks if password includes the special char expect for [a-zA-Z0-9]*
-     * @param password
+     * @param password user's password
      * @return boolean value True if the password does not contain special char, otherwise false.
      */
     public boolean checkPasswordSpecialChar(String password) {
@@ -220,7 +220,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      *      This method is called when the user clicks the login button
      *      In charge of getting all password, email values and display error message
      *          in case of condition violation.
-     * @param v
+     * @param v view
      */
     public void onClick(View v) {
         String password = getPassword();

@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Conecting to the designated firebase for Online Barter Trader Application.
-     * @param :  No parameter
      */
     private void connectToFirebase(){
         FirebaseDatabase firebaseDB;
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * writeToFirebase checks if writing to firebase is working
      *  Writes "Barter Trader!" to the set path (key "message")
-     * @param: no parameter
      */
     private void writeToFirebase(){
         firebaseDBRef.setValue("Barter Trader!");

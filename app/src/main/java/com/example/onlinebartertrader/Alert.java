@@ -97,76 +97,79 @@ public class Alert {
 
                 //database reference to where the provider's items are added
                 DatabaseReference providerItemsRef = database.getReference("Users/Provider/" + providerEmail + "/items");
-                providerItemsRef.addChildEventListener(new ChildEventListener() {
+                if (providerEmail!= null && !providerEmail.equalsIgnoreCase(userEmailAddress)){
+                    providerItemsRef.addChildEventListener(new ChildEventListener() {
 
-                    //This method runs when the items gets added by the provider:
-                    @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        String itemType = dataSnapshot.child("productType").getValue(String.class);
-                        String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
-                        String itemName = dataSnapshot.child("productName").getValue(String.class);
-                        String currentStatus = dataSnapshot.child("currentStatus").getValue(String.class);
-                        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                        //This method runs when the items gets added by the provider:
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            String itemType = dataSnapshot.child("productType").getValue(String.class);
+                            String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
+                            String itemName = dataSnapshot.child("productName").getValue(String.class);
+                            String currentStatus = dataSnapshot.child("currentStatus").getValue(String.class);
+                            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-                        //If item type, item available date, item name is fetched from the database:
-                        if (currentStatus != null && itemType != null && itemAvailDateString != null && itemName != null){
-                            Date itemAvailDate = new Date();
-                            //Sends the notification (+ logging) to the user about newly added item.
-                            try {
-                                logger.info("date is "+itemAvailDateString);
-                                itemAvailDate = format.parse(itemAvailDateString);
-                                if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
-                                    sendNotification(itemType, itemName);
+                            //If item type, item available date, item name is fetched from the database:
+                            if (currentStatus != null && itemType != null && itemAvailDateString != null && itemName != null){
+                                Date itemAvailDate = new Date();
+                                //Sends the notification (+ logging) to the user about newly added item.
+                                try {
+//                                logger.info("date is "+itemAvailDateString);
+                                    itemAvailDate = format.parse(itemAvailDateString);
+                                    if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
+                                        sendNotification(itemType, itemName);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (ParseException e) {
-                                e.printStackTrace();
                             }
                         }
-                    }
 
-                    //This method runs when the items gets modified by the provider:
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        String itemType = dataSnapshot.child("productType").getValue(String.class);
-                        String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
-                        String itemName = dataSnapshot.child("productName").getValue(String.class);
-                        String currentStatus = dataSnapshot.child("currentStatus").getValue(String.class);
-                        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                        //Sends the notification (+ logging) to the user about modified item.
-                        if (currentStatus != null && itemType != null && itemAvailDateString != null && itemName != null){
-                            Date itemAvailDate = new Date();
-                            try {
-                                logger.info("date is "+itemAvailDateString);
-                                itemAvailDate = format.parse(itemAvailDateString);
-                                if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
-                                    sendNotification(itemType, itemName);
+                        //This method runs when the items gets modified by the provider:
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            String itemType = dataSnapshot.child("productType").getValue(String.class);
+                            String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
+                            String itemName = dataSnapshot.child("productName").getValue(String.class);
+                            String currentStatus = dataSnapshot.child("currentStatus").getValue(String.class);
+                            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                            //Sends the notification (+ logging) to the user about modified item.
+                            if (currentStatus != null && itemType != null && itemAvailDateString != null && itemName != null){
+                                Date itemAvailDate = new Date();
+                                try {
+                                    logger.info("date is "+itemAvailDateString);
+                                    itemAvailDate = format.parse(itemAvailDateString);
+                                    if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
+                                        sendNotification(itemType, itemName);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (ParseException e) {
-                                e.printStackTrace();
                             }
                         }
-                    }
 
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                        //this method was left empty for possible future implementation requirements
-                        throw new UnsupportedOperationException("No support for this operation in iteration 2");
-                    }
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                            //this method was left empty for possible future implementation requirements
+                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                        }
 
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        //this method was left empty for possible future implementation requirements
-                        throw new UnsupportedOperationException("No support for this operation in iteration 2");
-                    }
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            //this method was left empty for possible future implementation requirements
+                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                        }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        //this method was left empty for possible future implementation requirements
-                        throw new UnsupportedOperationException("No support for this operation in iteration 2");
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            //this method was left empty for possible future implementation requirements
+                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                        }
 
-                });
-            }
+                    });
+                }
+                }
+
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

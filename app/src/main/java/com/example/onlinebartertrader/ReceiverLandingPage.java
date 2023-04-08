@@ -62,12 +62,13 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     ImageButton statBtn;
     String userEmailAddress;
 
+    private static final String STR_EMAIL_ADDR = "emailAddress";
+
     //arraylists for listviews
     ArrayList<String> receiverItems = new ArrayList<>();
 
     //Location
     private LocationManager locationManager;
-    private String receiver;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
 
     /**
@@ -84,14 +85,11 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver);
 
-        userEmailAddress = getIntent().getStringExtra("emailAddress");
+        userEmailAddress = getIntent().getStringExtra(STR_EMAIL_ADDR);
         //registering the button for the receiver's landing page
         //onclick listener listens set for each button click
         receiverAvailableBtn = findViewById(R.id.availableProductsReceiver);
         receiverAvailableBtn.setOnClickListener(this);
-
-//        receiverTradedBtn = findViewById(R.id.tradedHistoryReceiver);
-//        receiverTradedBtn.setOnClickListener(this);
 
         receiverSearchBtn = findViewById(R.id.searchButtonReceiver);
         receiverSearchBtn.setOnClickListener(this);
@@ -101,7 +99,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
         //init database
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
-        userEmailAddress = getIntent().getStringExtra("emailAddress");
+        userEmailAddress = getIntent().getStringExtra(STR_EMAIL_ADDR);
 
         if (userEmailAddress == null){
             userEmailAddress = "test@dalca";
@@ -115,13 +113,10 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-//        initLocation();
         // US6 new functionality: alert the receiver when there is a new item added
         // and is interested by the user
         Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
         itemAlert.startListening();
-//        Alert itemAlert = new Alert(userEmailAddress, ReceiverLandingPage.this);
-//        itemAlert.startListening();
         initLocation();
 
     }
@@ -138,68 +133,21 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         if (view.getId() == R.id.availableProductsReceiver){
             //register the views, buttons and other components for the receiver landing page.
             receiverLists = (ListView) findViewById(R.id.receiverListReceiver);
-//            System.out.println("receiverLists is clicked");
 
             ReceiverItemList myList = new ReceiverItemList(userEmailAddress, receiverLists, ReceiverLandingPage.this);
             myList.startListening();
         }
 
-//        //if traded items button is clicked -> show traded items history of receiver
-//        if (view.getId() == R.id.tradedHistoryReceiver){
-//
-//            //array Adapter for the listview to list all the items of the provider.
-//            final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
-//                    (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
-//
-//            database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
-//
-//            //register the views, buttons and other components for the receiver landing page.
-//            receiverTradeList = (ListView) findViewById(R.id.receiverTraded);
-//            receiverTradeList.setAdapter(receiverArrAdapter);
-//
-//            receiverDBRefHistory = database.getReference("templateUser").child("receiver").child("receivedItem");
-//
-//            //Firebase data addition, modification, deletion, reading performed through this section.
-//            receiverDBRefHistory.addChildEventListener(new ChildEventListener() {
-//                @Override
-//                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                    String keyRead = snapshot.getKey();
-//                    receiverItems.add(keyRead);
-//                    receiverArrAdapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                    receiverArrAdapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//                }
-//
-//                @Override
-//                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
-//        }
-
         //if search item button is clicked -> switch to search page
         if (view.getId() == R.id.searchButtonReceiver){
             Intent intent = new Intent(this, SearchActivity.class);
-            intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
+            intent.putExtra(STR_EMAIL_ADDR, userEmailAddress.toLowerCase());
             startActivity(intent);
         }
 
         if (view.getId() == R.id.imageButton){
             Intent intent = new Intent(this, UserStats.class);
-            intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
+            intent.putExtra(STR_EMAIL_ADDR, userEmailAddress.toLowerCase());
             intent.putExtra("userLoggedIn", "Receiver");
             startActivity(intent);
         }

@@ -14,7 +14,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+/**
+ This class represents the activity for rating a receiver.
+ It extends AppCompatActivity and implements View.OnClickListener interface.
+ It contains fields for FirebaseDatabase, DatabaseReference, receiver email, rating, user email address, and item key.
+ It also contains TextViews for displaying the email, current rating, and rating to be submitted, as well as buttons for submitting and canceling the rating.
+ */
 public class ReceiverRating extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database;
     DatabaseReference databaseReference;
@@ -30,7 +35,12 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
     Button submit;
     Button cancel;
 
-
+    /**
+     This method is called when the ReceiverRating activity is created.
+     It sets up the layout, retrieves information from the Intent extra, and initializes the Firebase Database.
+     It also sets up the UI elements such as text views and buttons, and assigns click listeners to the buttons.
+     @param savedInstanceState The saved instance state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +75,14 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
         cancel.setOnClickListener(this);
     }
 
-
+    /**
+     This method is called when a view has been clicked. It determines which button was clicked by
+     the user and performs the appropriate action. If the Submit button is clicked, it gets the value
+     entered by the user in the rating field, validates it, and saves it to the Firebase Realtime Database
+     under the provider's item node. If the Cancel button is clicked, the activity is finished and the
+     user is taken back to the previous screen.
+     @param view The view that was clicked
+     */
     @Override
     public void onClick(View view) {
         int id = view.getId();

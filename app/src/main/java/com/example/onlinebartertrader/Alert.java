@@ -48,10 +48,17 @@ public class Alert {
     //logger - logging is better exercise than system printing out.
     private static final Logger logger = Logger.getLogger(Alert.class.getName());
 
-
+    /**
+     * Creates a default new Alert instance.
+     */
     public Alert() {
     }
 
+    /**
+     * Creates a new Alert instance.
+     * @param userEmail The email address of the user to listen for data changes.
+     * @param myContext The context in which the Alert instance is being used.
+     */
     public Alert(String userEmail, Context myContext) {
         this.myContext = myContext;
         if (userEmail == null){
@@ -79,18 +86,23 @@ public class Alert {
             }
         });
 
-        // logging these info - better exercise than system printing them out.
-//        logger.info(userEmail);
-//        logger.info("itemInterested"+itemInterested);
     }
 
-    //The receiver side listens to the provider's item addition to notify receiver about item addition
-    //  that matches their preference.
+    /**
+     * Starts listening for data changes in the Firebase Realtime Database and logs any updates.
+     */
     public void startListening() {
 
+        //  The receiver side listens to the provider's item addition to notify receiver about item addition
+        //  that matches their preference.
         //listens to the data (item addition) in provider side (created reference to provider's DB)
         providerDBRef = database.getReference("Users/Provider");
         providerDBRef.addChildEventListener(new ChildEventListener() {
+            /**
+             * This method is called when a child node is added to the reference.
+             * @param dataSnapshot An immutable snapshot of the data at the specified database reference after the child has been added.
+             * @param s The key of the previous child node, or null if it is the first child node.
+             */
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String providerEmail = dataSnapshot.getKey();
@@ -170,25 +182,42 @@ public class Alert {
                 }
                 }
 
-
+            /**
+             * This method is called when a child node is changed at the specified database reference.
+             * @param dataSnapshot An immutable snapshot of the data at the specified database reference after the child has been updated.
+             * @param s The key of the previous child node, or null if it is the first child node.
+             */
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //this method was left empty for possible future implementation requirements
                 //throw new UnsupportedOperationException("No support for this operation in iteration 2");
             }
 
+            /**
+             * This method is called when a child node is removed from the reference.
+             * @param dataSnapshot An immutable snapshot of the data at the specified database reference after the child has been removed.
+             */
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 //this method was left empty for possible future implementation requirements
                 throw new UnsupportedOperationException("No support for this operation in iteration 2");
             }
 
+            /**
+             * This method is called when a child node location changes at the specified database reference.
+             * @param dataSnapshot An immutable snapshot of the data at the new specified database reference location.
+             * @param s The key of the previous child node, or null if it is the first child node.
+             */
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //this method was left empty for possible future implementation requirements
                 throw new UnsupportedOperationException("No support for this operation in iteration 2");
             }
 
+            /**
+             * This method will be triggered in the event that this listener either failed at the server, or is removed as a result of the security and Firebase rules.
+             * @param databaseError A description of the error that occurred
+             */
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 //this method was left empty for possible future implementation requirements
@@ -198,6 +227,12 @@ public class Alert {
         });
     }
 
+    /**
+     * This method checks if the item available date is valid (available date is not in the past).
+     *
+     * @param itemAvailDate The available date of an item.
+     * @return True if the item is available and the available date is not in the past, false otherwise.
+     */
     //This method checks if the item available date is valid (available date is not in the past)
     boolean isItemAvailable(Date itemAvailDate) {
         // adapted from A3
@@ -207,6 +242,12 @@ public class Alert {
         return currentTime.after(itemAvailDate);
     }
 
+    /**
+     * This method checks if the itemType matches the receiver's item type preference.
+     *
+     * @param itemType The type of an item.
+     * @return True if the item type matches the receiver's preference, false otherwise.
+     */
     //This method checks if the itemType matches the receiver's item type preference.
     boolean isUserInterested(String itemType) {
         if (itemInterested.toLowerCase(Locale.ROOT).equalsIgnoreCase("all")){
@@ -217,7 +258,12 @@ public class Alert {
         }
     }
 
-
+    /**
+     * This method is responsible for sending the notification.
+     *
+     * @param itemType The type of an item.
+     * @param itemName The name of an item.
+     */
     //    https://developer.android.com/develop/ui/views/notifications/build-notification
     // This method is responsible for sending the notification.
     void sendNotification(String itemType, String itemName) {
@@ -232,7 +278,6 @@ public class Alert {
                 });
         AlertDialog alert = builder.create();
         alert.show();
-
     }
 
 }

@@ -34,6 +34,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * The ReceiverLandingPage class is an activity that implements the View.OnClickListener and LocationListener interfaces.
+ * It is used as a landing page for the receiver,
+ * where they can view items posted by providers and select one to exchange with.
+ * The LocationListener interface is used to listen for updates to the user's location,
+ * which is used to calculate the distance between the user and the provider.
+ * The class also includes methods for initializing the activity, handling button clicks, and updating the user's location.
+ */
 public class ReceiverLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
 
@@ -62,6 +70,14 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
     private String receiver;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
 
+    /**
+     This activity represents the landing page of the receiver. It contains buttons to navigate to
+     available products and search items, as well as a button to view statistics of past transactions.
+     It also registers a listener for new items added to the database and sends an alert to the user
+     if a new item is added that matches their preferences.
+     Implements View.OnClickListener interface to listen to button clicks and LocationListener interface
+     to listen to location changes.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -110,6 +126,11 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
     }
 
+    /**
+     * The onClick method is called when a view is clicked. It handles the button clicks on the ReceiverLandingPage activity.
+     *
+     * @param view The view that was clicked.
+     */
     @Override
     public void onClick(View view) {
 
@@ -186,6 +207,11 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
     }
 
+    /**
+     Initializes the location manager and sets up location updates for the receiver.
+     If the GPS provider is not enabled, it prompts the user to enable it.
+     If location permission is not granted, it requests it.
+     */
     private void initLocation(){
 
         //Location
@@ -209,6 +235,13 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
 
     }
 
+    /**
+     This method is called when the location of the receiver is changed. It updates the receiver's location in the Firebase
+     database and displays the location in the UI by converting the latitude and longitude coordinates to a location string
+     using a geocoder. The location is then displayed in a text view.
+
+     @param location the updated location of the receiver
+     */
     @Override
     public void onLocationChanged(Location location) {
         receiverDBRefLoc = database.getReference("Users").child("Receiver").child(userEmailAddress);

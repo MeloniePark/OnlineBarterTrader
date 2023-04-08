@@ -129,9 +129,9 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                 STR_EXCHANGE_ITEM + exchangeItem +
                 STR_LOCATION + location;
         if (userRole.equals(STR_PROVIDER)) {
-            itemDetails += "\nReceiver ID/Username: " + userId;
+            itemDetails += "\nReceiver ID: " + userId;
         } else {
-            itemDetails += "\nProvider ID/Username: " + providerId;
+            itemDetails += "\nProvider ID: " + providerId;
         }
 
         //Check if the exchange history list view contains the string representation of the exchange history item

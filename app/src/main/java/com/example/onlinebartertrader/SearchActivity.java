@@ -21,7 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.*;
-
+/**
+ The SearchActivity class represents the activity that allows users to search for items based on specific criteria.
+ This class extends the AppCompatActivity class and implements the AdapterView.OnItemSelectedListener interface.
+ The OnItemSelectedListener is used to handle user interactions with the dropdown menus that are used to select the search criteria.
+ */
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
     DatabaseReference usersRef = database.getReference("Users/Provider/");
@@ -38,6 +42,13 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     protected ArrayAdapter<String> receiverArrAdapter;
     protected ArrayList<String> receiverItems = new ArrayList<>();
 
+    /**
+     Initializes the activity, retrieves data from the previous activity, initializes UI components,
+     sets up a listener for the search view and a spinner for filtering search results. It also creates
+     an instance of the SearchedItemList class and starts listening to the database for changes to
+     the search results based on user preferences and search queries.
+     @param savedInstanceState saved data from the previous activity
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +72,13 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
         // Attach a ValueEventListener to preferenceRef
         preferenceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            /**
+             This method is called when the data at a location in the database has changed.
+             It retrieves the user's preference from the database snapshot, updates the preferences array
+             by removing the preference from its previous position and moving it to the top, and sets up
+             the spinner with the updated preferences array.
+             @param snapshot The snapshot of the database at the location where the change occurred.
+             */
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -90,6 +108,12 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
         searchView.setVisibility(View.VISIBLE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            /**
+             This method is called when the user submits a query in the search bar.
+             It retrieves the searched text and starts listening to updates in the receiver list with the searched query.
+             @param searchedText the text that the user has searched for
+             @return true if the query has been submitted successfully, false otherwise
+             */
             @Override
             public boolean onQueryTextSubmit(String searchedText) {
                 query = searchedText;
@@ -106,6 +130,13 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
+    /**
+     Callback method to be invoked when an item in this view has been selected.
+     @param adapterView The AdapterView where the selection happened.
+     @param view The view within the AdapterView that was clicked.
+     @param i The position of the view in the adapter.
+     @param l The row id of the item that is selected.
+     */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         Spinner spinner = findViewById(R.id.spinnerSearch);

@@ -22,7 +22,12 @@ import java.util.Locale;
 import java.util.logging.*;
 
 
+/**
 
+ This class represents the list of available items for the receiver to view and choose from.
+ It retrieves the available items from the Firebase Realtime Database and displays them in a ListView.
+ It also allows the receiver to select an item and view its details.
+ */
 public class ReceiverItemList {
     protected FirebaseDatabase database;
     protected DatabaseReference receiverDBRef;
@@ -38,9 +43,18 @@ public class ReceiverItemList {
     //logger - logging is better exercise than system printing out.
     private static final Logger logger = Logger.getLogger(Alert.class.getName());
 
+    /**
+     * This is a default constructor for the ReceiverItemList class with no parameters.
+     */
     public ReceiverItemList() {
     }
 
+    /**
+     Constructor for ReceiverItemList class.
+     @param userEmail the email address of the receiver
+     @param receiverLists the ListView to display the receiver items
+     @param myContext the context of the activity
+     */
     public ReceiverItemList(String userEmail, ListView receiverLists, Context myContext) {
         this.receiverLists = receiverLists;
         this.userEmailAddress = userEmail.toLowerCase(Locale.ROOT);
@@ -48,6 +62,14 @@ public class ReceiverItemList {
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
     }
 
+    /**
+     * This method starts listening for changes to the items available from all providers in the database.
+     * It retrieves the item details, including its name, availability status, ID, product type, preferred exchange,
+     * and location. It then adds the item to the receiver's item list if it is available for exchange.
+     * The receiver can click on an item in the list to view its details and exchange it with the provider.
+     * If any changes are made to the database, such as the addition of a new item or a change in availability status,
+     * the item list is automatically updated to reflect the changes.
+     */
     public void startListening() {
 
         //array Adapter for the listview to list all the items of the provider.
@@ -305,6 +327,12 @@ public class ReceiverItemList {
 
     }
 
+    /**
+     * Checks whether the given receiver email and provider email are the same.
+     * @param receiverEmail email of the receiver
+     * @param providerEmail email of the provider
+     * @return true if the emails are the same, false otherwise
+     */
     boolean checkItemIsPostedByTheReceiver(String receiverEmail, String providerEmail) {
         return receiverEmail.equalsIgnoreCase(providerEmail);
     }

@@ -37,7 +37,7 @@ import java.util.Calendar;
 import java.util.logging.*;
 
 
-/*
+/**
  ** ProviderPostItemActivity class
  ** User Story 2
  * ProviderPostItemActivity.java is linked to the activity_provider_post_item.xml.
@@ -68,6 +68,10 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
     Button providerPostBtn;     //Post button on product post page
     String userEmailAddress;
 
+    /**
+     This class represents the activity for posting an item by the provider.
+     It provides functionality for the provider to submit a post with the details of an item they are offering for exchange.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,11 +108,22 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         spinnerForProductType.setAdapter(adapter);
     }
 
+    /**
+     Checks if the product type field of the form is empty.
+     @param productType the product type entered by the user
+     @return true if the product type field is empty, false otherwise
+     */
     //This method checks if the product type field of the form is empty.
     public boolean isProductTypeEmpty(String productType){
         return productType.isEmpty();
     }
 
+    /**
+     Checks if the given product type is valid or not. Valid product types are furniture, clothes,
+     computer accessories, mobile phones, and baby toys.
+     @param productType The product type to check for validity.
+     @return {@code true} if the product type is valid, {@code false} otherwise.
+     */
     //This method checks if the product type value is valid.
     //5 types are given: furniture, clothes, computer accessories, mobile phones and baby toys
     public boolean isProductTypeValid(String productType){
@@ -124,49 +139,95 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
                 productType.equalsIgnoreCase(type5);
     }
 
+    /**
+     * Checks if the description field of the form is empty.
+     *
+     * @param description the description entered by the user
+     * @return true if the description field is empty, false otherwise
+     */
     //This method checks if the description field of the form is empty.
     public boolean isDescriptionEmpty(String description){
         return (description.isEmpty());
     }
 
+    /**
+     Checks if the product name field of the form is empty.
+     @param productName the product name entered by the user
+     @return true if the product name field is empty, false otherwise
+     */
     //This method checks if the product name field of the form is empty.
     public boolean isProductNameEmpty(String productName){
         return (productName.isEmpty());
     }
 
+    /**
+     This method checks if the date field of the form is empty.
+     @param date the date inputted by the user in the form
+     @return true if the date is empty, false otherwise
+     */
     //This method checks if the date field of the form is empty.
     public boolean isDateEmpty(String date){
         return (date.isEmpty());
     }
 
+    /**
+     Checks if the inputted date is valid. The date should be in the format "yyyy-mm-dd" and later than the current date.
+     @param date The inputted date
+     @return true if the date is valid and later than the current date, false otherwise
+     */
     //This method checks if the inputted date is valid - date should be later than current date.
     public boolean isDateValid(String date){
         Pattern pattern = Pattern.compile("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$");
         return (pattern.matcher(date).matches());
     }
 
+    /**
+     * This method checks if the place of exchange field of the form is empty.
+     * @param exchangePlace the place of exchange entered by the user
+     * @return true if the place of exchange is empty, false otherwise
+     */
     //This method checks if the place of exchange field of the form is empty.
     public boolean isPlaceOfExchangeEmpty(String exchangePlace){
         return (exchangePlace.isEmpty());
     }
 
+    /**
+     Checks if the approximate market value field of the form is empty.
+     @param marketValue The value to be checked.
+     @return True if the field is empty, false otherwise.
+     */
     //This method checks if the approximate market value field of the form is empty.
     public boolean isApproxMarketValueEmpty(String marketValue){
         return (marketValue.isEmpty());
     }
 
+    /**
+     This method checks if the approximate market value's format is valid.
+     @param marketValue the value to be checked
+     @return true if the market value is in the valid integer format, false otherwise
+     */
     //This method checks if the approximate market value's format is valid. - should be integer.
     public boolean isApproxMarketValueValid(String marketValue){
         Pattern pattern = Pattern.compile("[1-9][0-9]*");
         return (pattern.matcher(marketValue).matches());
     }
 
+    /**
+     This method checks if the preferred exchange in return field of the form is empty.
+     @param preferredExchange The preferred exchange in return entered by the user.
+     @return Returns true if the preferred exchange in return field is empty, otherwise returns false.
+     */
     //This method checks if preferred exchange in return field of the form is empty.
     public boolean isPreferredExchangeInReturnEmpty(String preferredExchange){
         return (preferredExchange.isEmpty());
     }
 
-
+    /**
+     * This method starts the ProviderLandingPage activity with the email address
+     * entered by the user as an extra.
+     *
+     * @return void. This method does not return anything.
+     */
     // This method starts the ProviderLandingPage activity with the email address entered by the user as an extra
     protected void switch2ProviderLandingPage() {
         Intent intent = new Intent(this, ProviderLandingPage.class);
@@ -174,6 +235,11 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         startActivity(intent);
     }
 
+    /**
+     This method sets the error message that will be displayed to the user
+     when an error occurs during login
+     @param message the error message to be displayed
+     */
     // This method sets the error message that will be displayed to the user
     // when an error occurs during login
     protected void setStatusMessage(String message) {
@@ -181,6 +247,11 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         statusLabel.setText(message.trim());
     }
 
+    /**
+     This method generates a new unique product ID and increments the ID reference
+     in the database for the next product.
+     @return the newly generated unique product ID
+     */
     // This method gets the unique product id digit from the database & increment that digit
     //  for next product to have unique id (digit)
     public int createNewIDThenIncrementRefID(){
@@ -198,51 +269,86 @@ public class ProviderPostItemActivity extends AppCompatActivity implements View.
         return newItemID;
     }
 
-
+    /**
+     * This method gets the value of the productType selected by the user from a Spinner view.
+     *
+     * @return The productType selected by the user as a String value.
+     */
     // This method gets the value of the productType entered by the user
     protected String getProductType() {
         Spinner productType = findViewById(R.id.productTypeMenuProviderPostItem);
         return (productType.getSelectedItem().toString());
     }
 
+    /**
+     Gets the value of the product name entered by the user.
+     @return A string representing the product name entered by the user
+     */
     //This method gets the value of the product name entered by the user.
     protected String getProductName() {
         EditText description = findViewById(R.id.productNameProviderPostItem);
         return description.getText().toString().trim();
     }
 
+    /**
+     This method retrieves the value of the description entered by the user in the product post form.
+     @return The string value of the description entered by the user,
+     trimmed of leading and trailing white space
+     */
     // This method gets the value of the description entered by the user
     protected String getDescription() {
         EditText description = findViewById(R.id.descriptionProviderPostItem);
         return description.getText().toString().trim();
     }
 
+    /**
+     This method gets the value of the availableDate entered by the user.
+     @return a String containing the available date entered by the user
+     */
     // This method gets the value of the availableDate entered by the user
     protected String getAvailableDate() {
         EditText availableDate = findViewById(R.id.dateOfAvailabilityProviderPostItem);
         return availableDate.getText().toString().trim();
     }
 
+    /**
+     Gets the value of the place of exchange entered by the user.
+     @return A string representing the place of exchange entered by the user.
+     */
     // This method gets the value of the placeOfExchange entered by the user
     protected String getPlaceOfExchange() {
         EditText placeOfExchange = findViewById(R.id.placeOfExchangeProviderPostItem);
         return placeOfExchange.getText().toString().trim();
     }
 
+    /**
+     This method gets the value of the approximate market value entered by the user.
+     @return A String representing the approximate market value entered by the user, with leading and trailing white space removed.
+     */
     // This method gets the value of the approxMarketValue entered by the user
     protected String getApproxMarketValue() {
         EditText approxMarketValue = findViewById(R.id.approximateMarketValueProviderPostItem);
         return approxMarketValue.getText().toString().trim();
     }
 
+    /**
+     This method gets the value of the preferredExchangeInReturn entered by the user
+     @return a String representing the preferred exchange in return entered by the user
+     */
     // This method gets the value of the preferredExchangeInReturn entered by the user
     protected String getPreferredExchangeInReturn() {
         EditText preferredExchangeInReturn = findViewById(R.id.preferredExchangesInReturnProviderPostItem);
         return preferredExchangeInReturn.getText().toString().trim();
     }
 
-
-    @Override
+/**
+ This method is called when the "Submit" button is clicked in the provider's post item form.
+ It retrieves the values of all the fields in the form,
+ validates them, and then adds the new item to the Firebase Realtime Database if all the values are valid.
+ If any of the values are invalid or any required fields are empty,
+ it displays an error message to the user and does not add the item to the database.
+*/
+ @Override
     public void onClick(View view) {
         String errorMessage;
         productType = getProductType();

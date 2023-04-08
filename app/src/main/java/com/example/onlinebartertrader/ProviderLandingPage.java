@@ -44,6 +44,12 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ ProviderLandingPage is the landing page for the provider user after logging in.
+ This class is responsible for displaying the list of items posted by the provider,
+ and allows the provider to post new items, view the chat page and see their statistics.
+ The class extends the AppCompatActivity and implements View.OnClickListener and LocationListener.
+ */
 public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
     //firebase
@@ -75,7 +81,12 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     //Location
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
 
-
+    /**
+     Called when the activity is starting. This method sets up the UI components and
+     initializes the Firebase database and its references. It also listens for changes in
+     the database and updates the list view accordingly.
+     @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -119,6 +130,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
         //Firebase data addition, modification, deletion, reading performed through this section.
         providerDBRef.addChildEventListener(new ChildEventListener() {
+            /**
+             Firebase data addition, modification, deletion, reading performed through this section.
+             @param snapshot The DataSnapshot of the new child node added to the "items" reference
+             @param previousChildName The name of the previous child node, or null if there was no previous child node
+             */
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 try {
@@ -230,6 +246,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
         receiverIdDBRef = database.getReference("Users").child(STR_PROVIDER).child(userEmailAddress).child(STR_ITEMS);
         receiverIdDBRef.addChildEventListener(new ChildEventListener() {
+            /**
+             This method is called when a child is added to the Firebase database under the "Provider" category.
+             @param snapshot DataSnapshot object that contains data of the added child.
+             @param previousChildName String object that represents the name of the previous child.
+             */
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String receiverEmail = snapshot.child(STR_RECEIVER_ID).getValue(String.class);
@@ -246,6 +267,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                 receiverIdArrAdapter.notifyDataSetChanged();
             }
 
+            /**
+             This method is called when a child is changed in the Firebase database under the "Provider" category.
+             @param snapshot DataSnapshot object that contains data of the added child.
+             @param previousChildName String object that represents the name of the previous child.
+             */
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String itemKey = snapshot.getKey();
@@ -297,7 +323,16 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         });
 
         receiverIdList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
+            /**
+             Handles the item click events on the ListView of the Receiver IDs associated with each item the Provider has posted.
+             Retrieves the receiver's email address, item key, and rating from the clicked item's string representation,
+             and launches the ReceiverRating activity with these details as extras in the Intent.
+             If the receiverRating string is null, it sets the default rating to 0.
+             @param parent The AdapterView where the click happened.
+             @param view The view within the AdapterView that was clicked.
+             @param position The position of the view in the adapter.
+             @param id The row id of the item that was clicked.
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String receiverString = parent.getItemAtPosition(position).toString();
@@ -334,6 +369,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         initLocation();
     }
 
+    /**
+     Handles clicks on the provider landing page buttons.
+     @param view The button view that was clicked.
+     */
     @Override
     public void onClick(View view) {
         //where we move on to posting provider's goods page.
@@ -357,7 +396,11 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
     }
 
-
+    /**
+     Initializes the location manager and sets up location updates for the provider.
+     If the GPS provider is not enabled, it prompts the user to enable it.
+     If location permission is not granted, it requests it.
+     */
     private void initLocation(){
         String provider;
         LocationManager locationManager;
@@ -381,6 +424,13 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         locationManager.requestLocationUpdates(provider,0,0,this);
     }
 
+    /**
+     This method is called when the location of the provider is changed. It updates the provider's location in the Firebase
+     database and displays the location in the UI by converting the latitude and longitude coordinates to a location string
+     using a geocoder. The location is then displayed in a text view.
+
+     @param location the updated location of the receiver
+     */
     @Override
     public void onLocationChanged(Location location) {
 

@@ -20,12 +20,13 @@ import com.google.firebase.database.ValueEventListener;
  It contains fields for FirebaseDatabase, DatabaseReference, receiver email, rating, user email address, and item key.
  It also contains TextViews for displaying the email, current rating, and rating to be submitted, as well as buttons for submitting and canceling the rating.
  */
+
 public class ReceiverRating extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
     String receiverEmail;
-    String receiverRating;
+    String receiverRatingStr;
     String userEmailAddress;
     String itemKey;
 
@@ -49,7 +50,7 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
 
         receiverEmail = getIntent().getStringExtra("receiverEmail");
-        receiverRating = getIntent().getStringExtra("receiverRating");
+        receiverRatingStr = getIntent().getStringExtra("receiverRating");
         userEmailAddress = getIntent().getStringExtra("userEmailAddress");
         itemKey = getIntent().getStringExtra("itemKey");
 
@@ -66,7 +67,7 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
         cancel = findViewById(R.id.CancelRatingV);
 
         String receiverEmailString = "Receiver Email: " + receiverEmail;
-        String receiverRatingString = "Receiver Rating: " + receiverRating;
+        String receiverRatingString = "Receiver Rating: " + receiverRatingStr;
 
         email.setText(receiverEmailString);
         rating.setText(receiverRatingString);
@@ -101,9 +102,9 @@ public class ReceiverRating extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, "Please enter a valid rating", Toast.LENGTH_SHORT).show();
                 return;
             }
-            receiverRating = Double.toString(currRatingValue);
+            receiverRatingStr = Double.toString(currRatingValue);
 
-            databaseReference.child("receiverRating").setValue(receiverRating);
+            databaseReference.child("receiverRating").setValue(receiverRatingStr);
 
             finish();
         } else if (id == R.id.CancelRatingV) {

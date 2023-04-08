@@ -67,6 +67,12 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     //Logging
     Logger logger = Logger.getLogger(ProviderLandingPage.class.getName());
 
+    //String Constants
+    private static final String STR_RECEIVER_RATING = "receiverRating";
+    private static final String STR_EMAIL_ADDR = "emailAddress";
+    private static final String STR_RECEIVER_ID = "receiverID";
+    private static final String STR_ITEMS = "items";
+    private static final String STR_PROVIDER = "Provider";
 
     //arraylists for listview
     ArrayList<String> providerItems = new ArrayList<>();
@@ -117,12 +123,12 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         //Firebase Connection
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
         //get user email
-        userEmailAddress = getIntent().getStringExtra("emailAddress");
+        userEmailAddress = getIntent().getStringExtra(STR_EMAIL_ADDR);
         //creating reference variable inside the databased called "User"
         if (userEmailAddress == null){
             userEmailAddress = "test@dalca";
         }
-        providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
+        providerDBRef = database.getReference("Users").child(STR_PROVIDER).child(userEmailAddress).child(STR_ITEMS);
 
         //Firebase data addition, modification, deletion, reading performed through this section.
         providerDBRef.addChildEventListener(new ChildEventListener() {
@@ -158,8 +164,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                         itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                for (DataSnapshot providerSnapshot : dataSnapshot.getChildren()) {
-                                    DataSnapshot itemsSnapshot = dataSnapshot.child("items");
+                                    DataSnapshot itemsSnapshot = dataSnapshot.child(STR_ITEMS);
                                     for (DataSnapshot itemSnapshot : itemsSnapshot.getChildren()) {
                                         String currentItemID = itemSnapshot.getKey();
                                         assert currentItemID != null;
@@ -176,8 +181,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                                             String description = itemSnapshot.child("description").getValue(String.class);
                                             String transactionDate = itemSnapshot.child("transactionDate").getValue(String.class);
 
-                                            String receiverID = itemSnapshot.child("receiverID").getValue(String.class);
-                                            String receiverRating = itemSnapshot.child("receiverRating").getValue(String.class);
+                                            String receiverID = itemSnapshot.child(STR_RECEIVER_ID).getValue(String.class);
+                                            String receiverRating = itemSnapshot.child(STR_RECEIVER_RATING).getValue(String.class);
 
                                             if (receiverRating == null){
                                                 receiverRating = "0";
@@ -194,19 +199,20 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                                                 myIntent.putExtra("preferredExchange", preferredExchange);
                                                 myIntent.putExtra("productReceived", productReceived);
                                                 myIntent.putExtra("transactionDate", transactionDate);
-                                                myIntent.putExtra("receiverID", receiverID);
+                                                myIntent.putExtra(STR_RECEIVER_ID, receiverID);
                                                 myIntent.putExtra("providerEmail", userEmailAddress);
 
-                                                myIntent.putExtra("receiverRating",receiverRating);
+                                                myIntent.putExtra(STR_RECEIVER_RATING,receiverRating);
                                                 view.getContext().startActivity(myIntent);
                                             }
                                         }
                                     }
-//                                }
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // Unused in this iteration, but left for future implementation.
+                            }
                         });
                     }
                 });
@@ -240,7 +246,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             }
         });
 
-        receiverIdDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
+        receiverIdDBRef = database.getReference("Users").child(STR_PROVIDER).child(userEmailAddress).child(STR_ITEMS);
         receiverIdDBRef.addChildEventListener(new ChildEventListener() {
             /**
              This method is called when a child is added to the Firebase database under the "Provider" category.
@@ -249,8 +255,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
              */
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String receiverEmail = snapshot.child("receiverID").getValue(String.class);
-                String receiverRating = snapshot.child("receiverRating").getValue(String.class);
+                String receiverEmail = snapshot.child(STR_RECEIVER_ID).getValue(String.class);
+                String receiverRating = snapshot.child(STR_RECEIVER_RATING).getValue(String.class);
                 String itemKey = snapshot.getKey();
                 if (receiverRating == null){
                     receiverRating = "0";
@@ -288,8 +294,8 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
 
                 if (position != -1) {
                     // Update the item in the list
-                    String receiverEmail = snapshot.child("receiverID").getValue(String.class);
-                    String receiverRating = snapshot.child("receiverRating").getValue(String.class);
+                    String receiverEmail = snapshot.child(STR_RECEIVER_ID).getValue(String.class);
+                    String receiverRating = snapshot.child(STR_RECEIVER_RATING).getValue(String.class);
 
                     String updatedReceiverString = "Receiver ID: "+receiverEmail + "\nItem Key: "+itemKey+"\nReceiver Rating: "+receiverRating;
 
@@ -349,7 +355,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                     receiverRating = "0";
                 }
                 intent.putExtra("receiverEmail",email);
-                intent.putExtra("receiverRating",receiverRating);
+                intent.putExtra(STR_RECEIVER_RATING,receiverRating);
                 intent.putExtra("userEmailAddress",userEmailAddress.toLowerCase());
                 intent.putExtra("itemKey",itemKey);
 
@@ -381,7 +387,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
         //Functionality will be added in future iteration
         if (view.getId() == R.id.providerPostProvider) {
             Intent intent = new Intent(this, ProviderPostItemActivity.class);
-            intent.putExtra("emailAddress", userEmailAddress);
+            intent.putExtra(STR_EMAIL_ADDR, userEmailAddress);
             startActivity(intent);
         }
         else if (view.getId() == R.id.chatProvider) {
@@ -435,7 +441,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     @Override
     public void onLocationChanged(Location location) {
 
-        providerDBRefLoc = database.getReference("Users").child("Provider").child(userEmailAddress);
+        providerDBRefLoc = database.getReference("Users").child(STR_PROVIDER).child(userEmailAddress);
         double lat = location.getLatitude();
         double lng = location.getLongitude();
 

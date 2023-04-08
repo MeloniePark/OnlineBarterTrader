@@ -102,7 +102,6 @@ public class SoldItemActivity extends AppCompatActivity{
         receiverEnteredPrice = intent.getStringExtra("receiverEnteredPrice");
         productReceived = intent.getStringExtra("productReceived");
         transactionDate = intent.getStringExtra("transactionDate");
-
         receiverRating  = intent.getStringExtra("receiverRating");;
     }
 

@@ -55,7 +55,8 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
         // Get the references to the Provider and Receiver nodes in the database
         providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
         receiverDBRef = database.getReference("Users").child("Provider");
-
+        if (userLoggedIn == null)
+            userLoggedIn = "Provider";
         // If the user is logged in as a Provider, add a value event listener to the Provider node in the database
         if(userLoggedIn.equals("Provider")){
             providerDBRef.addValueEventListener(new ValueEventListener() {
@@ -171,8 +172,8 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
         return ratingFromDB.equalsIgnoreCase(rating);
     }
 
-    boolean checkTotalAmount(String valuationFromDB, String TotalValue) {
+    boolean checkTotalAmount(String valuationFromDB, String value) {
         // Checking if the given value matches the value from the database
-        return valuationFromDB.equalsIgnoreCase(TotalValue);
+        return valuationFromDB.equalsIgnoreCase(value);
     }
 }

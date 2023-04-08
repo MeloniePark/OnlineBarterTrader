@@ -75,7 +75,8 @@ public class SearchedItemList extends Activity {
         //array Adapter for the listview to list all the items of the provider.
         ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
                 (myContext, android.R.layout.simple_list_item_1, receiverItems);
-
+        if (receiverLists == null)
+            receiverLists = findViewById(R.id.searchViewSearch);
         receiverLists.setAdapter(receiverArrAdapter);
 
         providerDBRef = database.getReference("Users/Provider");
@@ -120,7 +121,7 @@ public class SearchedItemList extends Activity {
                                     receiverArrAdapter.notifyDataSetChanged();
                                 } else {
                                     String itemType = snapshot.child("productType").getValue(String.class);
-                                    if (itemType.equals(userPreference)) {
+                                    if (itemType != null && itemType.equals(userPreference)) {
                                         String itemName = snapshot.child("productName").getValue(String.class);
                                         String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
                                         String location = snapshot.child("placeOfExchange").getValue(String.class);

@@ -18,7 +18,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+/**
+ UserInfo is an Activity class that displays the user's historical information about trades.
+ this is shared between provider and receiver
+ */
 public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
     //firebase
@@ -36,6 +39,12 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
     Button exchangeHistory;
 
+    /**
+     Activity to display user's statistics, including total valuation of items sold and average rating.
+     It retrieves data from Firebase Realtime Database based on the user's email address and user type
+     (Provider or Receiver).
+     @param savedInstanceState object containing the activity's previously saved state, if any
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +160,13 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    /**
+     * Implementation of the onClick method, which is called when a view (e.g. a button) is clicked.
+     * If the view with ID R.id.exchangeHistoryBtn is clicked, it creates an intent to start the ExchangeHistoryActivity class
+     * and passes the email address and user type information as extras to the intent, and starts the activity.
+     *
+     * @param view The view that was clicked.
+     */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.exchangeHistoryBtn){
@@ -161,10 +177,22 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    /**
+     Check if the given rating from the database matches the given rating.
+     @param ratingFromDB The rating retrieved from the database.
+     @param rating The rating to be checked.
+     @return true if the given rating from the database matches the given rating, false otherwise.
+     */
     boolean checkGivenRating(String ratingFromDB, String rating) {
         return ratingFromDB.equalsIgnoreCase(rating);
     }
 
+    /**
+     This method checks if the total valuation amount matches the valuation amount retrieved from the database.
+     @param valuationFromDB The valuation amount retrieved from the database.
+     @param TotalValue The total valuation amount to check against the valuation amount retrieved from the database.
+     @return True if the total valuation amount matches the valuation amount retrieved from the database, false otherwise.
+     */
     boolean checkTotalAmount(String valuationFromDB, String TotalValue) {
         return valuationFromDB.equalsIgnoreCase(TotalValue);
     }

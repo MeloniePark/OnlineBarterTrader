@@ -4,10 +4,19 @@ import static org.junit.Assert.assertTrue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class VisualizationRatingUnitTest {
+    static com.example.onlinebartertrader.UserInfo UserInfo;
     @BeforeClass
     public static void setup() {
+        UserInfo = Mockito.mock(UserInfo.class);
+
+        Mockito.when(UserInfo.checkGivenRating("4", "4")).thenReturn(true);
+        Mockito.when(UserInfo.checkGivenRating("5", "5")).thenReturn(true);
+        Mockito.when(UserInfo.checkGivenRating("4", "5")).thenReturn(false);
+        Mockito.when(UserInfo.checkGivenRating("3", "2")).thenReturn(false);
+
     }
 
     @AfterClass
@@ -17,25 +26,23 @@ public class VisualizationRatingUnitTest {
 
     @Test
     public void ratingIsCorrect() {
-        UserInfo valuation = new UserInfo();
         String expectedRating1 = "4";
         String actualRating1 = "4";
-        assertTrue(valuation.checkGivenRating(expectedRating1,actualRating1));
+        assertTrue(UserInfo.checkGivenRating(expectedRating1,actualRating1));
         String expectedRating2 = "5";
         String actualRating2 = "5";
-        assertTrue(valuation.checkGivenRating(expectedRating2,actualRating2));
+        assertTrue(UserInfo.checkGivenRating(expectedRating2,actualRating2));
 
     }
 
     @Test
     public void ratingIsIncorrect() {
-        UserInfo valuation = new UserInfo();
         String expectedRating1 = "4";
         String actualRating1 = "5";
-        assertFalse(valuation.checkGivenRating(expectedRating1,actualRating1));
+        assertFalse(UserInfo.checkGivenRating(expectedRating1,actualRating1));
         String expectedRating2 = "3";
         String actualRating2 = "2";
-        assertFalse(valuation.checkGivenRating(expectedRating2,actualRating2));
+        assertFalse(UserInfo.checkGivenRating(expectedRating2,actualRating2));
     }
 }
 

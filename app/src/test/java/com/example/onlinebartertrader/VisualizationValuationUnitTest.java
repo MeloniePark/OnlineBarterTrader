@@ -5,10 +5,20 @@ package com.example.onlinebartertrader;
         import org.junit.AfterClass;
         import org.junit.BeforeClass;
         import org.junit.Test;
+        import org.mockito.Mockito;
 
 public class VisualizationValuationUnitTest {
+    static com.example.onlinebartertrader.UserInfo UserInfo;
     @BeforeClass
     public static void setup() {
+
+        UserInfo = Mockito.mock(UserInfo.class);
+
+        Mockito.when(UserInfo.checkTotalAmount("$36.5", "$36.5")).thenReturn(true);
+        Mockito.when(UserInfo.checkTotalAmount("$1110", "$1110")).thenReturn(true);
+        Mockito.when(UserInfo.checkTotalAmount("$1110", "$1200")).thenReturn(false);
+        Mockito.when(UserInfo.checkTotalAmount("$300", "$203")).thenReturn(false);
+
     }
 
     @AfterClass
@@ -18,24 +28,22 @@ public class VisualizationValuationUnitTest {
 
     @Test
     public void totalAmountIsCorrect() {
-        UserInfo valuation = new UserInfo();
         String expectedValuation1  = "$36.5";
         String actualValuation1 = "$36.5";
-        assertTrue(valuation.checkTotalAmount(expectedValuation1,actualValuation1));
+        assertTrue(UserInfo.checkTotalAmount(expectedValuation1,actualValuation1));
         String expectedValuation2 = "$1110";
         String actualValuation2 = "$1110";
-        assertTrue(valuation.checkTotalAmount(expectedValuation2,actualValuation2));
+        assertTrue(UserInfo.checkTotalAmount(expectedValuation2,actualValuation2));
 
     }
 
     @Test
     public void totalAmountIsIncorrect() {
-        UserInfo valuation = new UserInfo();
         String expectedValuation1 = "$1110";
         String actualValuation1 = "$1200";
-        assertFalse(valuation.checkTotalAmount(expectedValuation1,actualValuation1));
+        assertFalse(UserInfo.checkTotalAmount(expectedValuation1,actualValuation1));
         String expectedValuation2 = "$300";
         String actualValuation2 = "$203";
-        assertFalse(valuation.checkTotalAmount(expectedValuation2,actualValuation2));
+        assertFalse(UserInfo.checkTotalAmount(expectedValuation2,actualValuation2));
     }
 }

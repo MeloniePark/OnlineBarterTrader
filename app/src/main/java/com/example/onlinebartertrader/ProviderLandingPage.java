@@ -281,14 +281,19 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
                 int position = -1;
                 for (int i = 0; i < receiverId.size(); i++) {
                     String receiverString = receiverId.get(i);
-                    Pattern pattern = Pattern.compile("Email: (.+)\nItem Key: ([-\\d.]+)\nReceiver Rating: ([-\\d.]+)", Pattern.DOTALL);
-                    Matcher matcher = pattern.matcher(receiverString);
-                    if (matcher.find()) {
-                        String key = matcher.group(2);
-                        if (itemKey.equals(key)) {
-                            position = i;
-                            break;
-                        }
+
+                    String[] parts = receiverString.split("\\n");
+                    String email = parts[0].substring(7);
+                    String key = parts[1].substring(10);
+                    String receiverRating = parts[2].substring(17);
+//                    Pattern pattern = Pattern.compile("Email: (.+)\nItem Key: ([-\\d.]+)\nReceiver Rating: ([-\\d.]+)", Pattern.DOTALL);
+//                    Matcher matcher = pattern.matcher(receiverString);
+//                    if (matcher.find()) {
+//                        String key = matcher.group(2);
+                    if (itemKey.equals(key)) {
+                        position = i;
+                        break;
+//                        }
                     }
                 }
 
@@ -338,16 +343,10 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String receiverString = parent.getItemAtPosition(position).toString();
-                String email = "";
-                String itemKey = "";
-                String receiverRating = "";
-                Pattern pattern = Pattern.compile("Email: (.+)\nItem Key: ([-\\d.]+)\nReceiver Rating: ([-\\d.]+)", Pattern.DOTALL);
-                Matcher matcher = pattern.matcher(receiverString);
-                if (matcher.find()) {
-                    email = matcher.group(1);
-                    itemKey = matcher.group(2);
-                    receiverRating = matcher.group(3);
-                }
+                String[] parts = receiverString.split("\\n");
+                String email = parts[0].substring(7);
+                String itemKey = parts[1].substring(10);
+                String receiverRating = parts[2].substring(17);
 
                 Intent intent = new Intent(ProviderLandingPage.this, ReceiverRating.class);
 

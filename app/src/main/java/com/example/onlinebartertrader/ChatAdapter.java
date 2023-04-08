@@ -24,7 +24,7 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
      * {@link FirebaseRecyclerOptions} for configuration options.
      *
-     * @param options
+     * @param options firebase recycler option
      */
     public ChatAdapter(@NonNull FirebaseRecyclerOptions<Chat> options) {
         super(options);
@@ -34,8 +34,8 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
      * onCreateViewHolder(@NonNull ViewGroup parent, int viewType):
      *      On creation of the page, the item chat in the view gets inflated.
      *
-     * @param parent
-     * @param viewType
+     * @param parent view group's parent
+     * @param viewType type of view
      * @return  returns new ChatViewHolder(view)
      */
     @NonNull
@@ -52,9 +52,9 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
      *      hides when there's any users, then hides the current user's layout and displays layout
      *      for any users.
      *
-     * @param holder
-     * @param position
-     * @param chat
+     * @param holder view holder
+     * @param position position of view
+     * @param chat -
      */
     @Override
     protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull Chat chat) {
@@ -94,7 +94,7 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
         /**
          * ChatViewHolder(@NonNull View itemView)
          *      Gets the itemViews' layout components.
-         * @param itemView
+         * @param itemView view containing list of items.
          */
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -21,10 +21,16 @@ public class ItemActivity extends AppCompatActivity {
     String providerEmail;
     String receiverEmail;
 
+    // View components
     TextView itemInformationView;
     Button transaction;
     Button chatWithProvider;
 
+    /**
+     * This method initializes the view components.
+     *
+     * @param savedInstanceState save and restore the state of activity.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -39,6 +45,11 @@ public class ItemActivity extends AppCompatActivity {
 
         //On Chat Button Click, switch to chat.
         chatWithProvider.setOnClickListener(new View.OnClickListener(){
+
+            /**
+             * Switch to ChatActivity and sends extra info with intent
+             * @param v view
+             */
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(v.getContext(), ChatActivity.class);
@@ -52,6 +63,10 @@ public class ItemActivity extends AppCompatActivity {
 
         //On Buy now Button Click, switch to buy now.. - this will be implemented in US2
         transaction.setOnClickListener(new View.OnClickListener(){
+            /**
+             * Switch to the transaction, and sends extra info with intent
+             * @param v view
+             */
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(v.getContext(), TransactionActivity.class);
@@ -65,12 +80,18 @@ public class ItemActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method initializes the view components.
+     */
     public void getLayoutComponents(){
         itemInformationView = (TextView)findViewById(R.id.productInformation);
         transaction = (Button)findViewById(R.id.buyNowButton);
         chatWithProvider = (Button)findViewById(R.id.chatWithProviderButton);
     }
 
+    /**
+     * This method gets the item's information from the intent sent from ReceiverItemList class.
+     */
     public void getIntentItemInfo(){
         Intent intent = getIntent();
         // Get item info from the intent sent from ReceiverItemList class
@@ -83,6 +104,9 @@ public class ItemActivity extends AppCompatActivity {
         receiverEmail = intent.getStringExtra("receiverEmail");
     }
 
+    /**
+     * This method sets the item's information to the itemInformationView.
+     */
     public void setItemInformation(){
         //Put the item information to the itemInformationView
         String itemInfoString = "Item: " + itemName + "\nItem Type: " + itemType+ "\n\nDescription: "

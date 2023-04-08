@@ -1,15 +1,11 @@
 package com.example.onlinebartertrader;
 
 import android.content.Context;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
 import static org.junit.Assert.assertEquals;
-
-
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -44,6 +40,16 @@ public class RatingsEspressoTest {
     @Test
     public void checkIfRatingBoxIsVisible() {
         onView(withId(R.id.userRatingText)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkIfUserStatsTextIsVisible() {
+        onView(withId(R.id.userStatsText)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkIfRatingBarIsVisible() {
+        onView(withId(R.id.ratingBar)).check(matches(isDisplayed()));
     }
 
     @Test

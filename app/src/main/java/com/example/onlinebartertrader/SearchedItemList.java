@@ -39,6 +39,15 @@ public class SearchedItemList extends Activity {
     String preference = "All";
     String userPreference;
 
+    static final String STR_PRODUCTNAME = "productName";
+    static final String STR_PRODUCT_TYPE ="productType";
+    static final String STR_ITEM_NAME = "Item Name: ";
+    static final String STR_PREFERRED_EXCHANGE = "preferredExchange";
+    static final String STR_PLACE_OF_EXCHANGE = "placeOfExchange";
+    static final String STR_ITEM_TYPE = "\nItem Type: ";
+    static final String STR_NLINE_PREFERRED = "\nPreferred Exchange: ";
+    static final String STR_LOCATION =  "\nLocation: ";
+
     /**
      Default constructor for the SearchedItemList class.
      */
@@ -59,7 +68,7 @@ public class SearchedItemList extends Activity {
         this.query = query;
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
 
-        receiverArrAdapter = new ArrayAdapter<String>
+        receiverArrAdapter = new ArrayAdapter<>
                 (myContext, android.R.layout.simple_list_item_1, receiverItems);
         receiverLists.setAdapter(receiverArrAdapter);
     }
@@ -73,7 +82,7 @@ public class SearchedItemList extends Activity {
     public void startListening() {
 
         //array Adapter for the listview to list all the items of the provider.
-        ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
+        receiverArrAdapter = new ArrayAdapter<>
                 (myContext, android.R.layout.simple_list_item_1, receiverItems);
         if (receiverLists == null)
             receiverLists = findViewById(R.id.searchViewSearch);
@@ -113,31 +122,31 @@ public class SearchedItemList extends Activity {
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
                             if(query.equals("null")) {
                                 if (userPreference.equals("All")) {
-                                    String itemName = snapshot.child("productName").getValue(String.class);
-                                    String itemType = snapshot.child("productType").getValue(String.class);
-                                    String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                    String location = snapshot.child("placeOfExchange").getValue(String.class);
-                                    receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
+                                    String itemName = snapshot.child(STR_PRODUCTNAME).getValue(String.class);
+                                    String itemType = snapshot.child(STR_PRODUCT_TYPE).getValue(String.class);
+                                    String exchangeWith = snapshot.child(STR_PREFERRED_EXCHANGE).getValue(String.class);
+                                    String location = snapshot.child(STR_PLACE_OF_EXCHANGE).getValue(String.class);
+                                    receiverItems.add(STR_ITEM_NAME + itemName + STR_ITEM_TYPE + itemType + STR_NLINE_PREFERRED + exchangeWith + STR_LOCATION + location);
                                     receiverArrAdapter.notifyDataSetChanged();
                                 } else {
-                                    String itemType = snapshot.child("productType").getValue(String.class);
+                                    String itemType = snapshot.child(STR_PRODUCT_TYPE).getValue(String.class);
                                     if (itemType != null && itemType.equals(userPreference)) {
-                                        String itemName = snapshot.child("productName").getValue(String.class);
-                                        String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                        String location = snapshot.child("placeOfExchange").getValue(String.class);
-                                        receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
+                                        String itemName = snapshot.child(STR_PRODUCTNAME).getValue(String.class);
+                                        String exchangeWith = snapshot.child(STR_PREFERRED_EXCHANGE).getValue(String.class);
+                                        String location = snapshot.child(STR_PLACE_OF_EXCHANGE).getValue(String.class);
+                                        receiverItems.add(STR_ITEM_NAME + itemName + STR_ITEM_TYPE + itemType + STR_NLINE_PREFERRED + exchangeWith + STR_LOCATION + location);
                                         receiverArrAdapter.notifyDataSetChanged();
                                     }
                                 }
                             }
                             else {
                                 String pattern = "(?i).*" + query + ".*";
-                                String itemType = snapshot.child("productType").getValue(String.class);
-                                String exchangeWith = snapshot.child("preferredExchange").getValue(String.class);
-                                String location = snapshot.child("placeOfExchange").exists() ? snapshot.child("placeOfExchange").getValue(String.class) : "";
+                                String itemType = snapshot.child(STR_PRODUCT_TYPE).getValue(String.class);
+                                String exchangeWith = snapshot.child(STR_PREFERRED_EXCHANGE).getValue(String.class);
+                                String location = snapshot.child(STR_PLACE_OF_EXCHANGE).exists() ? snapshot.child(STR_PLACE_OF_EXCHANGE).getValue(String.class) : "";
                                 if ( (itemType !=null && itemType.matches(pattern)) || (exchangeWith !=null && exchangeWith.matches(pattern)) || (location !=null &&location.matches(pattern))) {
-                                    String itemName = snapshot.child("productName").getValue(String.class);
-                                    receiverItems.add("Item Name: " + itemName + "\nItem Type: " + itemType + "\nPreferred Exchange: " + exchangeWith + "\nLocation: " + location);
+                                    String itemName = snapshot.child(STR_PRODUCTNAME).getValue(String.class);
+                                    receiverItems.add(STR_ITEM_NAME + itemName + STR_ITEM_TYPE + itemType + STR_NLINE_PREFERRED + exchangeWith + STR_LOCATION + location);
                                     receiverArrAdapter.notifyDataSetChanged();
                                 }
                             }

@@ -147,7 +147,6 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         receiverItemList = (ListView) findViewById(R.id.receiverListSearch);
         SearchedItemList receiverList = new SearchedItemList(emailAddress, receiverItemList, this, query);
         receiverList.startListening();
-        System.out.println("Selected value: " + selectedValue);
     }
 
     @Override

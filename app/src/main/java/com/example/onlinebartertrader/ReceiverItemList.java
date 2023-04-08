@@ -89,8 +89,7 @@ public class ReceiverItemList {
                                     DataSnapshot itemsSnapshot = providerSnapshot.child("items");
                                     for (DataSnapshot itemSnapshot : itemsSnapshot.getChildren()) {
                                         String currentItemID = itemSnapshot.getKey();
-                                        System.out.println(currentItemID+", "+itemID);
-                                        System.out.println(Integer.parseInt(currentItemID)==Integer.parseInt(itemID));
+
                                         if (currentItemID != null && currentItemID.equalsIgnoreCase(itemID)) {
                                             // The item was found in the database. can also get other item if nessesary
                                             String itemType = itemSnapshot.child("productType").getValue(String.class);
@@ -203,8 +202,8 @@ public class ReceiverItemList {
                                     DataSnapshot itemsSnapshot = providerSnapshot.child("items");
                                     for (DataSnapshot itemSnapshot : itemsSnapshot.getChildren()) {
                                         String currentItemID = itemSnapshot.getKey();
-                                        System.out.println(currentItemID+", "+itemID);
-                                        System.out.println(Integer.parseInt(currentItemID)==Integer.parseInt(itemID));
+//                                        System.out.println(currentItemID+", "+itemID);
+//                                        System.out.println(Integer.parseInt(currentItemID)==Integer.parseInt(itemID));
                                         if (currentItemID != null && currentItemID.equalsIgnoreCase(itemID)) {
                                             // The item was found in the database. can also get other item if nessesary
                                             String itemType = itemSnapshot.child("productType").getValue(String.class);

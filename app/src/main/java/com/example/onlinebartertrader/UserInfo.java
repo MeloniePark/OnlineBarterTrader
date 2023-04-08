@@ -42,9 +42,12 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
         userLoggedIn = getIntent().getStringExtra("userLoggedIn");
         userEmailAddress = getIntent().getStringExtra("emailAddress");
 
+        if (userEmailAddress == null)
+            userEmailAddress = "test@dalca";
         providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
         receiverDBRef = database.getReference("Users").child("Provider");
-
+        if (userLoggedIn == null)
+            userLoggedIn = "Provider";
         if(userLoggedIn.equals("Provider")){
             providerDBRef.addValueEventListener(new ValueEventListener() {
                 @Override

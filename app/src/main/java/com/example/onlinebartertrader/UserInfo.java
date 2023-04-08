@@ -37,6 +37,9 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
     ArrayList<Float> ratingListProvider = new ArrayList<>();
     ArrayList<Float> ratingListReceiver = new ArrayList<>();
 
+    //String literals
+    private static final String STR_PROVIDER = "Provider";
+
     // The onCreate() method is called when the activity is first created
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +56,12 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
             userEmailAddress = "test@dalca";
 
         // Get the references to the Provider and Receiver nodes in the database
-        providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
-        receiverDBRef = database.getReference("Users").child("Provider");
+        providerDBRef = database.getReference("Users").child(STR_PROVIDER).child(userEmailAddress).child("items");
+        receiverDBRef = database.getReference("Users").child(STR_PROVIDER);
         if (userLoggedIn == null)
-            userLoggedIn = "Provider";
+            userLoggedIn = STR_PROVIDER;
         // If the user is logged in as a Provider, add a value event listener to the Provider node in the database
-        if(userLoggedIn.equals("Provider")){
+        if(userLoggedIn.equals(STR_PROVIDER)){
             providerDBRef.addValueEventListener(new ValueEventListener() {
                 // This method is called when the data at the Provider node in the database changes
                 @Override
@@ -87,7 +90,7 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    //Not used in this iteration, but kept for future implementation
                 }
             });
         }
@@ -128,7 +131,7 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    //Not used in this iteration, but kept for future implementation
                 }
             });
         }

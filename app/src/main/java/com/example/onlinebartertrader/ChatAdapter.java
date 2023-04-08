@@ -31,33 +31,45 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
     }
 
     /**
+     * onCreateViewHolder(@NonNull ViewGroup parent, int viewType):
+     *      On creation of the page, the item chat in the view gets inflated.
      *
      * @param parent
      * @param viewType
-     * @return
+     * @return  returns new ChatViewHolder(view)
      */
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        inflates the item chat
+        //inflates the item chat
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_layout, parent, false);
         return new ChatViewHolder(view);
     }
 
+    /**
+     * onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull Chat chat) :
+     *      The user session is held and displays the current user's layout and
+     *      hides when there's any users, then hides the current user's layout and displays layout
+     *      for any users.
+     *
+     * @param holder
+     * @param position
+     * @param chat
+     */
     @Override
     protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull Chat chat) {
-//        if the user is logged into the app, the session username is equal to the chat message username,
+        //if the user is logged into the app, the session username is equal to the chat message username,
 
         if (UserSession.getInstance().getUser() != null ) {
             if (UserSession.getInstance().getUser().equals(chat.getUsername())) {
 
-//            hiding the any user layout and displaying current user layout
+            //hiding the any user layout and displaying current user layout
                 holder.anyUserLL.setVisibility(View.GONE);
                 holder.currentUserLL.setVisibility(View.VISIBLE);
                 holder.currentUserNameTV.setText(chat.getUsername());
                 holder.currentUserMessageTV.setText(chat.getChatMessage());
             } else {
-//            hiding the current user layout and displaying the any user layout
+            //hiding the current user layout and displaying the any user layout
                 holder.currentUserLL.setVisibility(View.GONE);
                 holder.anyUserLL.setVisibility(View.VISIBLE);
                 holder.anyUserNameTV.setText(chat.getUsername());
@@ -65,7 +77,11 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
             }
         }
     }
-    //contains all the ids of all of the layouts and ui elements from the recycler view
+
+    /**
+     * ChatViewHolder Class
+     *      Containing all the ids of all the layouts and UI elements form the recycler view
+     */
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
         private final LinearLayout anyUserLL;
         private final TextView anyUserNameTV;
@@ -75,6 +91,11 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
         private final TextView currentUserNameTV;
         private final TextView currentUserMessageTV;
 
+        /**
+         * ChatViewHolder(@NonNull View itemView)
+         *      Gets the itemViews' layout components.
+         * @param itemView
+         */
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             anyUserLL = itemView.findViewById(R.id.anyUserLayout);

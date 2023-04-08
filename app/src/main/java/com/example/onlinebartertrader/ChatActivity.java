@@ -59,7 +59,7 @@ public class ChatActivity extends AppCompatActivity{
      *      In charge of calling other methods to get layout components, intents data and other
      *      functionalities.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState store and restore the state of an activity
      */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -120,8 +120,8 @@ public class ChatActivity extends AppCompatActivity{
      * checkProvider(String provider, String user) :
      *      Checks if the user is provider.
      *
-     * @param provider
-     * @param user
+     * @param provider provider's id
+     * @param user current user's id
      * @return  returns boolean True if user is provider, if not False.
      */
     public boolean checkProvider(String provider, String user){
@@ -132,8 +132,8 @@ public class ChatActivity extends AppCompatActivity{
      * checkReceiver(String receiver, String user) :
      *      Checks if the user is receiver.
      *
-     * @param receiver
-     * @param user
+     * @param receiver receiver id
+     * @param user  current user id
      * @return  boolean True if user is receiver, if not False.
      */
     public boolean checkReceiver(String receiver, String user){
@@ -144,7 +144,7 @@ public class ChatActivity extends AppCompatActivity{
      * isMessageEmpty(String message) :
      *      Checks if the message inputted is empty or not.
      *
-     * @param message
+     * @param message chat message
      * @return  boolean true if the messgae is empty, false if not.
      */
     public boolean isMessageEmpty(String message){

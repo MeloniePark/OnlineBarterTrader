@@ -24,7 +24,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-
+/**
+ * TransactionActivity.java
+ *
+ * Description:
+ * This class is responsible for handling transactions between the provider and the receiver.
+ * It uses the Firebase Realtime Database to update the item's current status, transaction date,
+ * and other relevant details once the transaction is confirmed.
+ *
+ */
 public class TransactionActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Declaring class-level variables to be used in different methods
@@ -44,7 +52,14 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
     String providerEmail;
     String receiverEmail;
 
-
+    /**
+     * Called when the activity is starting.
+     * Initializes the activity with the layout and gets the intent information.
+     * Initializes the Firebase database with the item reference using
+     * the provider email and item ID passed from the intent.
+     *
+     * @param savedInstanceState the saved instance state bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +74,10 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         confirmButtun.setOnClickListener(this);
     }
 
+    /**
+     * This method retrieves the information passed in from the intent that started this activity.
+     * It gets the item ID, provider email, and receiver email.
+     */
     public void getIntentInfo(){
         Intent intent = getIntent();
         itemID = intent.getStringExtra("itemID");
@@ -66,34 +85,55 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         receiverEmail = intent.getStringExtra("receiverEmail");
     }
 
-    // This method gets the value of the password entered by the user
+    /**
+     * This method retrieves the value of the item in exchange entered by the user.
+     * @return The item in exchange entered by the user as a string.
+     */
     protected String getExchangeItemEntered() {
         EditText exchangeItem = findViewById(R.id.receiverProductInExchange);
         return exchangeItem.getText().toString().trim();
     }
 
-    // This method gets the value of the email entered by the user
+    /**
+     * This method retrieves the estimated cost entered by the user.
+     * @return The estimated cost entered by the user as a string.
+     */
     protected String getValueEntered() {
         EditText estValue = findViewById(R.id.receiverTransactionEstCost);
         return estValue.getText().toString().trim();
     }
 
-    // This method checks if the item in exchange entered by the user is empty
+    /**
+     * This method checks if the item in exchange entered by the user is empty.
+     * @param emailAddress The item in exchange entered by the user.
+     * @return True if the item in exchange entered by the user is empty, false otherwise.
+     */
     protected boolean isEmptyExchangeItem(String emailAddress) {
         return emailAddress.isEmpty();
     }
 
-    // This method checks if the value entered by the user is empty
+    /**
+     * This method checks if the estimated cost entered by the user is empty.
+     * @param password The estimated cost entered by the user.
+     * @return True if the estimated cost entered by the user is empty, false otherwise.
+     */
     protected boolean isEmptyValue(String password) {
         return password.isEmpty();
     }
 
-    // This method checks if the value address entered by the user is valid using a regular expression
+    /**
+     * This method checks if the value address entered by the user is valid using a regular expression.
+     * @param emailAddress the email address entered by the user
+     * @return true if the email address is valid, false otherwise
+     */
     protected boolean isValidValue(String emailAddress) {
         Pattern pattern = Pattern.compile("[1-9]\\d*");
         return (pattern.matcher(emailAddress).matches());
     }
 
+    /**
+     * This method changes the function to connect and switch to the rating page for the receiver.
+     */
     // For Ahmed's US!! Change this to switch2RatingPage
     // Change this function to connect and switch to the rating page for receiver!
     // Functionality completed by: Qiaodan
@@ -105,7 +145,9 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         startActivity(intent);
     }
 
-    // This method change the values for the given item
+    /**
+     * This method change the values for the given item
+     */
     protected void confirmTransaction() {
 
         Calendar currentCalendar = Calendar.getInstance();
@@ -122,13 +164,20 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
 //        transactionDate, receiverID, productReceived, and receiverEnteredPrice
     }
 
-    // This method sets the error message that will be displayed to the user
-    // when an error occurs during confirming
+    /**
+     * This method sets the error message that will be displayed to the user
+     * when an error occurs during confirming.
+     * @param message the error message to be displayed to the user
+     */
     protected void setStatusMessage(String message) {
         TextView statusLabel = findViewById(R.id.transactionReceiverErrorMessage);
         statusLabel.setText(message.trim());
     }
 
+    /**
+     * This method is called when the user clicks the Confirm button.
+     * @param view the view that was clicked
+     */
     @Override
     public void onClick(View view) {
         // Getting the item in exchange and estimated cost entered by the user

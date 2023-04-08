@@ -140,7 +140,7 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
     protected void switch2RatingPage() {
         Intent intent = new Intent(this, ProviderRating.class);
         intent.putExtra("receiverEmail", receiverEmail);
-        intent.putExtra("providerEmail", receiverEmail);
+        intent.putExtra("providerEmail", providerEmail);
         intent.putExtra("itemID", itemID);
         startActivity(intent);
     }

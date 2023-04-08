@@ -43,11 +43,8 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     DatabaseReference exchangeHistoryRef;
     DatabaseReference providerItemsRef;
     DatabaseReference receiverItemsRef;
-    private String userType;
     private String userEmailAddress;
-    private Button backButton;
     private String errorMessage;
-    private String itemStatus;
     private String productName;
     private String transactionDate;
     private String cost;
@@ -55,6 +52,16 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
     private String location;
     private String providerId;
     private String receiverId;
+
+    private static final String STR_PRODUCT_NAME = "Product Name: ";
+    private static final String STR_TRANSACTION_DATE = "\nTransaction Date: ";
+    private static final String STR_LOCATION = "\nLocation: ";
+    private static final String STR_PROVIDER = "Provider";
+    private static final String STR_EXCHANGE_ITEM = "\nExchange Item: ";
+    private static final String STR_COST = "\nCost: ";
+
+    private static final String STR_EXCHANGE_HISTORY_ACT = "ExchangeHistoryActivity";
+    private static final String STR_DATASNAPSHOT_NULL = "Data snapshot is null";
 
     /**
      * This method is called when the Exchange History Activity screen is created.
@@ -70,7 +77,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
 
         // Retrieve the user type and the user Email Address from the intent extra
-        userType = getIntent().getStringExtra("userType");
+        String userType = getIntent().getStringExtra("userType");
         userEmailAddress = getIntent().getStringExtra("emailAddress");
 
         //Set up the exchange history list view
@@ -78,19 +85,6 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
 
         //Get a reference to the exchange history database node based on the user type
         setExchangeHistoryRef(userType,userEmailAddress,database);
-
-// We do not have to use return button, but I leave it here for other page.
-//        //Get a reference to the back button
-//        backButton = findViewById(R.id.backToStat);
-//
-//        //Set a click listener for the back button
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Call the switch2StatPage() method to return to the User status page
-//                switch2StatPage();
-//            }
-//        });
     }
 
     /**
@@ -129,12 +123,12 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
      * Checks if a specific exchange history item is displayed in the exchange history list view.*/
     public boolean isExchangeHistoryDisplayed(String userRole, String userId, String productName, String dateOfPurchase, String cost, String exchangeItem, String location, String providerId) {
         //Construct a string representing the exchange history item with the parameters
-        String itemDetails = "Product Name: " + productName +
-                "\nTransaction Date: " + dateOfPurchase +
-                "\nCost: " + cost +
-                "\nExchange Item: " + exchangeItem +
-                "\nLocation: " + location;
-        if (userRole.equals("Provider")) {
+        String itemDetails = STR_PRODUCT_NAME + productName +
+                STR_TRANSACTION_DATE + dateOfPurchase +
+                STR_COST + cost +
+                STR_EXCHANGE_ITEM + exchangeItem +
+                STR_LOCATION + location;
+        if (userRole.equals(STR_PROVIDER)) {
             itemDetails += "\nReceiver ID/Username: " + userId;
         } else {
             itemDetails += "\nProvider ID/Username: " + providerId;
@@ -170,26 +164,26 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
      */
     public void setExchangeHistoryRef(String userType, String userEmailAddress, FirebaseDatabase database) {
         //Check if the user is a Provider or Receiver and fetch the respective data
-        if (userType != null && userEmailAddress != null && userType.equals("Provider")) {
-            exchangeHistoryRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
+        if (userType != null && userEmailAddress != null && userType.equals(STR_PROVIDER)) {
+            exchangeHistoryRef = database.getReference("Users").child(STR_PROVIDER).child(userEmailAddress).child("items");
             exchangeHistoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
                         fetchProviderData(dataSnapshot);
                     } else {
-                        Log.e("ExchangeHistoryActivity", "Data snapshot is null");
+                        Log.e(STR_EXCHANGE_HISTORY_ACT, STR_DATASNAPSHOT_NULL);
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     //Handle the database error
-                    Log.e("ExchangeHistoryActivity", "Database error occurred", databaseError.toException());
+                    Log.e(STR_EXCHANGE_HISTORY_ACT, "Database error occurred", databaseError.toException());
                 }
             });
         } else if (userType != null && userEmailAddress != null && userType.equals("Receiver")){
-            providerItemsRef = database.getReference("Users").child("Provider");
+            providerItemsRef = database.getReference("Users").child(STR_PROVIDER);
             providerItemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -200,14 +194,14 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                             fetchReceiverData(itemsSnapshot, providerId);
                         }
                     } else {
-                        Log.e("ExchangeHistoryActivity", "Data snapshot is null");
+                        Log.e(STR_EXCHANGE_HISTORY_ACT, STR_DATASNAPSHOT_NULL);
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     //Handle the database error
-                    Log.e("ExchangeHistoryActivity", "Database error occurred", databaseError.toException());
+                    Log.e(STR_EXCHANGE_HISTORY_ACT, "Database error occurred", databaseError.toException());
                 }
             });
         }
@@ -222,7 +216,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         List<String> exchangeHistoryStrings = new ArrayList<>();
 
         for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-            itemStatus = itemSnapshot.child("currentStatus").getValue(String.class);
+            String itemStatus = itemSnapshot.child("currentStatus").getValue(String.class);
 
             if (itemStatus != null && itemStatus.equals("Sold Out")) {
                 productName = itemSnapshot.child("productName").getValue(String.class);
@@ -232,11 +226,11 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                 location = itemSnapshot.child("placeOfExchange").getValue(String.class);
                 receiverId = itemSnapshot.child("receiverID").getValue(String.class);
 
-                String itemDetails = "Product Name: " + productName +
-                        "\nTransaction Date: " + transactionDate +
-                        "\nCost: " + cost +
-                        "\nExchange Item: " + exchangeItem +
-                        "\nLocation: " + location +
+                String itemDetails = STR_PRODUCT_NAME + productName +
+                        STR_TRANSACTION_DATE + transactionDate +
+                        STR_COST + cost +
+                        STR_EXCHANGE_ITEM + exchangeItem +
+                        STR_LOCATION + location +
                         "\nReceiver ID: " + receiverId;
 
                 exchangeHistoryStrings.add(itemDetails);
@@ -268,19 +262,18 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
                             cost = receiverItemsSnapshot.child("approxMarketValue").getValue(String.class);
                             exchangeItem = receiverItemsSnapshot.child("preferredExchange").getValue(String.class);
                             location = receiverItemsSnapshot.child("placeOfExchange").getValue(String.class);
-//                            providerId = receiverItemsSnapshot.child("providerID").getValue(String.class);
 
-                            String itemDetails = "Product Name: " + productName +
-                                    "\nTransaction Date: " + transactionDate +
-                                    "\nCost: " + cost +
-                                    "\nExchange Item: " + exchangeItem +
-                                    "\nLocation: " + location +
+                            String itemDetails = STR_PRODUCT_NAME + productName +
+                                    STR_TRANSACTION_DATE + transactionDate +
+                                    STR_COST + cost +
+                                    STR_EXCHANGE_ITEM + exchangeItem +
+                                    STR_LOCATION + location +
                                     "\nProvider ID: " + thisProviderId;
 
                             exchangeHistoryStrings.add(itemDetails);
                             updateAdapterWithData(exchangeHistoryStrings);
                         } else {
-                            Log.e("ExchangeHistoryActivity", "Data snapshot is null");
+                            Log.e(STR_EXCHANGE_HISTORY_ACT, STR_DATASNAPSHOT_NULL);
                         }
                     }
 
@@ -304,18 +297,7 @@ public class ExchangeHistoryActivity extends AppCompatActivity {
         if (exchangeHistoryList != null) {
             exchangeHistoryList.setAdapter(adapter);
         } else {
-            Log.e("ExchangeHistoryActivity", "exchangeHistoryList is null");
+            Log.e(STR_EXCHANGE_HISTORY_ACT, "exchangeHistoryList is null");
         }
     }
-
-/*   we do not have to use the return button, but I leave it here for other pages.
-
-     //Launches and switch the UserStats activity and finishes the current activity.
-
-        protected void switch2StatPage() {
-        Intent intent = new Intent(this, UserStats.class);
-        startActivity(intent);
-        finish();
-        }
-    */
 }

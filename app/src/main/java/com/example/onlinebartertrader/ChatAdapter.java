@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * ChatAdapter.java
  *
- * Description:
+ * Description: ChatAdapter class is one of the supporting class for the chat functionality for the
+ *      receiver and provider
  */
 public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatViewHolder> {
 
@@ -29,6 +30,12 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ChatAdapter.ChatV
         super(options);
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

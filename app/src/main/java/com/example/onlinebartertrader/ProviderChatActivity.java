@@ -30,6 +30,7 @@ public class ProviderChatActivity extends AppCompatActivity {
     protected FirebaseDatabase database;
     DatabaseReference chatDBRef;
     String providerEmail;
+    protected static final String NOSUPPORT_2 = "No support for this operation in iteration 2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,6 @@ public class ProviderChatActivity extends AppCompatActivity {
 
     public void setListeners() {
 
-//        userLists = parentLayout.findViewById(R.id.usernameSelectProviderChat);
         //array Adapter for the listview to list all the items of the provider.
         ArrayAdapter<String> userChatArrAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_list_item_1, chatUsers);
@@ -69,26 +69,20 @@ public class ProviderChatActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
                         String clickedChat = (String) adapterView.getItemAtPosition(index);
-                        System.out.println(clickedChat);
                         DatabaseReference chatsRef = database.getReference("chat");
                         chatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
                                     String currentChatID = chatSnapshot.getKey();
-                                    System.out.println(currentChatID);
                                     assert currentChatID != null;
                                     if (currentChatID.equalsIgnoreCase(clickedChat+"_"+providerEmail)) {
                                         String[] thisParts = receiverProvider.split("_");
                                         String thisReceiver = thisParts[0].split("@")[0] + "@" + thisParts[0].split("@")[1];
-                                        String thisProvider = thisParts[1].split("@")[0] + "@" + thisParts[1].split("@")[1];
-                                        System.out.println(thisReceiver);
-                                        System.out.println(thisProvider);
                                         Intent intent = new Intent(view.getContext(), ChatActivity.class);
                                         intent.putExtra("providerEmail", providerEmail);
                                         intent.putExtra("receiverEmail", thisReceiver);
                                         intent.putExtra("userType", "2"); //1 means chat opened from receiver side
-                                        System.out.println();
                                         intent.putExtra("CHAT_COLLECTION", currentChatID);
                                         startActivity(intent);
                                     }
@@ -96,7 +90,9 @@ public class ProviderChatActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // This may be used for future implementation
+                            }
                         });
                     }
                 });
@@ -106,7 +102,6 @@ public class ProviderChatActivity extends AppCompatActivity {
                     receiverProviderRef.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
-//                            System.out.println(currentReceiver);
                             if (!chatUsers.contains(currentReceiver)) {
                                 chatUsers.add(currentReceiver);
                             }
@@ -123,21 +118,21 @@ public class ProviderChatActivity extends AppCompatActivity {
                         @Override
                         public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                            throw new UnsupportedOperationException(NOSUPPORT_2);
 
                         }
 
                         @Override
                         public void onChildMoved(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                            throw new UnsupportedOperationException(NOSUPPORT_2);
 
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError snapshot) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                            throw new UnsupportedOperationException(NOSUPPORT_2);
 
                         }
 
@@ -161,26 +156,20 @@ public class ProviderChatActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
                         String clickedChat = (String) adapterView.getItemAtPosition(index);
-                        System.out.println(clickedChat);
                         DatabaseReference chatsRef = database.getReference("chat");
                         chatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
                                     String currentChatID = chatSnapshot.getKey();
-                                    System.out.println(currentChatID);
                                     assert currentChatID != null;
                                     if (currentChatID.equalsIgnoreCase(clickedChat+"_"+providerEmail)) {
                                         String[] thisParts = receiverProvider.split("_");
                                         String thisReceiver = thisParts[0].split("@")[0] + "@" + thisParts[0].split("@")[1];
-                                        String thisProvider = thisParts[1].split("@")[0] + "@" + thisParts[1].split("@")[1];
-                                        System.out.println(thisReceiver);
-                                        System.out.println(thisProvider);
                                         Intent intent = new Intent(view.getContext(), ChatActivity.class);
                                         intent.putExtra("providerEmail", providerEmail);
                                         intent.putExtra("receiverEmail", thisReceiver);
                                         intent.putExtra("userType", "2"); //1 means chat opened from receiver side
-                                        System.out.println();
                                         intent.putExtra("CHAT_COLLECTION", currentChatID);
                                         startActivity(intent);
                                     }
@@ -188,7 +177,9 @@ public class ProviderChatActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // This is kept for future implementation.
+                            }
                         });
                     }
                 });
@@ -198,7 +189,6 @@ public class ProviderChatActivity extends AppCompatActivity {
                     receiverProviderRef.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
-//                            System.out.println(currentReceiver);
                             if (!chatUsers.contains(currentReceiver)) {
                                 chatUsers.add(currentReceiver);
                             }
@@ -215,21 +205,21 @@ public class ProviderChatActivity extends AppCompatActivity {
                         @Override
                         public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                            throw new UnsupportedOperationException(NOSUPPORT_2);
 
                         }
 
                         @Override
                         public void onChildMoved(@NonNull DataSnapshot snapshot, @com.google.firebase.database.annotations.Nullable String s) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                            throw new UnsupportedOperationException(NOSUPPORT_2);
 
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError snapshot) {
                             //this method was left empty for possible future implementation requirements
-                            throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                            throw new UnsupportedOperationException(NOSUPPORT_2);
 
                         }
 
@@ -240,19 +230,19 @@ public class ProviderChatActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 //this method was left empty for possible future implementation requirements
-                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                throw new UnsupportedOperationException(NOSUPPORT_2);
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @com.google.firebase.database.annotations.Nullable String s) {
                 //this method was left empty for possible future implementation requirements
-                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                throw new UnsupportedOperationException(NOSUPPORT_2);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 //this method was left empty for possible future implementation requirements
-                throw new UnsupportedOperationException("No support for this operation in iteration 2");
+                throw new UnsupportedOperationException(NOSUPPORT_2);
             }
 
         });

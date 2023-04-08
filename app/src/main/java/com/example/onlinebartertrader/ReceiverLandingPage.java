@@ -177,7 +177,7 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
         }
 
         if (view.getId() == R.id.imageButton){
-            Intent intent = new Intent(this, UserStats.class);
+            Intent intent = new Intent(this, UserInfo.class);
             intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
             intent.putExtra("userLoggedIn", "Receiver");
             startActivity(intent);

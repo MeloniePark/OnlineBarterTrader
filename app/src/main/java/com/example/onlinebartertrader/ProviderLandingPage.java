@@ -10,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,13 +29,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.logging.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProviderLandingPage extends AppCompatActivity implements View.OnClickListener, LocationListener {
@@ -146,7 +143,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.imageButton2){
-            Intent intent = new Intent(this, UserStats.class);
+            Intent intent = new Intent(this, UserInfo.class);
             intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
             intent.putExtra("userLoggedIn", "Provider");
             startActivity(intent);

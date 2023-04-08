@@ -1,18 +1,13 @@
 package com.example.onlinebartertrader;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
@@ -34,7 +29,7 @@ import org.junit.runner.RunWith;
 public class ValuationEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<UserStats> myRule = new ActivityScenarioRule<>(UserStats.class);
+    public ActivityScenarioRule<UserInfo> myRule = new ActivityScenarioRule<>(UserInfo.class);
 
     @BeforeClass
     public static void setup() {

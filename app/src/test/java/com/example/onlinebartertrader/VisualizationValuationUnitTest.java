@@ -18,7 +18,7 @@ public class VisualizationValuationUnitTest {
 
     @Test
     public void totalAmountIsCorrect() {
-        UserStats valuation = new UserStats();
+        UserInfo valuation = new UserInfo();
         String expectedValuation1  = "$36.5";
         String actualValuation1 = "$36.5";
         assertTrue(valuation.checkTotalAmount(expectedValuation1,actualValuation1));
@@ -30,7 +30,7 @@ public class VisualizationValuationUnitTest {
 
     @Test
     public void totalAmountIsIncorrect() {
-        UserStats valuation = new UserStats();
+        UserInfo valuation = new UserInfo();
         String expectedValuation1 = "$1110";
         String actualValuation1 = "$1200";
         assertFalse(valuation.checkTotalAmount(expectedValuation1,actualValuation1));

@@ -2,16 +2,12 @@ package com.example.onlinebartertrader;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.location.LocationListener;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,9 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class UserStats extends AppCompatActivity implements View.OnClickListener{
+public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
     //firebase
     FirebaseDatabase database;
@@ -50,9 +45,6 @@ public class UserStats extends AppCompatActivity implements View.OnClickListener
         providerDBRef = database.getReference("Users").child("Provider").child(userEmailAddress).child("items");
         receiverDBRef = database.getReference("Users").child("Provider");
 
-        valuationListProvider = new ArrayList<>();
-        valuationListReceiver = new ArrayList<>();
-
         if(userLoggedIn.equals("Provider")){
             providerDBRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -63,6 +55,12 @@ public class UserStats extends AppCompatActivity implements View.OnClickListener
                             String approxMarketValue = itemSnapshot.child("approxMarketValue").getValue(String.class);
                             int value = Integer.parseInt(approxMarketValue);
                             valuationListProvider.add(value);
+
+                            String providerRating = itemSnapshot.child("providerRating").getValue(String.class);
+                            if (providerRating != null){
+                                float rating = Float.parseFloat(providerRating);
+                                ratingListProvider.add(rating);
+                            }
                         }
                     }
                     int valuation = 0;
@@ -72,11 +70,16 @@ public class UserStats extends AppCompatActivity implements View.OnClickListener
                     TextView valuationView = findViewById(R.id.valuationView);
                     valuationView.setText(String.valueOf(valuation));
 
+                    int sum =0;
+                    for (int i = 0; i < ratingListProvider.size(); i++) {
+                        sum += ratingListProvider.get(i);
+                    }
+                    float mean = (float)sum / ratingListProvider.size();
                     RatingBar ratingBar = findViewById(R.id.ratingBar);
                     TextView ratingValueTextView = findViewById(R.id.rating);
 
-                    ratingBar.setRating(3.7f);
-                    ratingValueTextView.setText(String.format("%.1f", ratingBar.getRating()));
+                    ratingBar.setRating(mean);
+                    ratingValueTextView.setText(String.format("%.1f", mean));
                     ratingBar.setIsIndicator(true);
                 }
 
@@ -142,7 +145,7 @@ public class UserStats extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.exchangeHistoryBtn){
-            Intent intent = new Intent(this, UserStats.class);
+            Intent intent = new Intent(this, UserInfo.class);
             intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
             intent.putExtra("userLoggedIn", userLoggedIn);
             startActivity(intent);

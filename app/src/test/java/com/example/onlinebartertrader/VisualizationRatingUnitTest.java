@@ -17,7 +17,7 @@ public class VisualizationRatingUnitTest {
 
     @Test
     public void ratingIsCorrect() {
-        UserStats valuation = new UserStats();
+        UserInfo valuation = new UserInfo();
         String expectedRating1 = "4";
         String actualRating1 = "4";
         assertTrue(valuation.checkGivenRating(expectedRating1,actualRating1));
@@ -29,7 +29,7 @@ public class VisualizationRatingUnitTest {
 
     @Test
     public void ratingIsIncorrect() {
-        UserStats valuation = new UserStats();
+        UserInfo valuation = new UserInfo();
         String expectedRating1 = "4";
         String actualRating1 = "5";
         assertFalse(valuation.checkGivenRating(expectedRating1,actualRating1));

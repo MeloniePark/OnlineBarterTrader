@@ -390,7 +390,7 @@ public class ProviderLandingPage extends AppCompatActivity implements View.OnCli
             startActivity(intent);
         }
         else if (view.getId() == R.id.imageButton2){
-            Intent intent = new Intent(this, UserStats.class);
+            Intent intent = new Intent(this, UserInfo.class);
             intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
             intent.putExtra("userLoggedIn", "Provider");
             startActivity(intent);

@@ -144,52 +144,6 @@ public class ReceiverLandingPage extends AppCompatActivity implements View.OnCli
             myList.startListening();
         }
 
-        //if traded items button is clicked -> show traded items history of receiver
-        if (view.getId() == R.id.tradedHistoryReceiver){
-
-            //array Adapter for the listview to list all the items of the provider.
-            final ArrayAdapter<String> receiverArrAdapter = new ArrayAdapter<String>
-                    (ReceiverLandingPage.this, android.R.layout.simple_list_item_1, receiverItems);
-
-            database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
-
-            //register the views, buttons and other components for the receiver landing page.
-            receiverTradeList = (ListView) findViewById(R.id.receiverTraded);
-            receiverTradeList.setAdapter(receiverArrAdapter);
-
-            receiverDBRefHistory = database.getReference("templateUser").child("receiver").child("receivedItem");
-
-            //Firebase data addition, modification, deletion, reading performed through this section.
-            receiverDBRefHistory.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    String keyRead = snapshot.getKey();
-                    receiverItems.add(keyRead);
-                    receiverArrAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    receiverArrAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-
         //if search item button is clicked -> switch to search page
         if (view.getId() == R.id.searchButtonReceiver){
             Intent intent = new Intent(this, SearchActivity.class);

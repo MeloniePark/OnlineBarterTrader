@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -33,6 +34,8 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
     ArrayList<Float> ratingListProvider = new ArrayList<>();
     ArrayList<Float> ratingListReceiver = new ArrayList<>();
 
+    Button exchangeHistory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,9 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
 
         userLoggedIn = getIntent().getStringExtra("userLoggedIn");
         userEmailAddress = getIntent().getStringExtra("emailAddress");
+
+        exchangeHistory = findViewById(R.id.exchangeHistoryBtn);
+        exchangeHistory.setOnClickListener(this);
 
         if (userEmailAddress == null)
             userEmailAddress = "test@dalca";
@@ -103,7 +109,7 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
                         for (DataSnapshot itemSnapshot : itemsSnapshot.getChildren()) {
                             String currentStatus = itemSnapshot.child("currentStatus").getValue(String.class);
                             String receiverID = itemSnapshot.child("receiverID").getValue(String.class);
-                            if (currentStatus != null && receiverID != null && currentStatus.equals("Sold Out") && receiverID.equals(userEmailAddress)) {
+                            if (currentStatus != null && receiverID != null && currentStatus.equals("Sold Out") && receiverID.equalsIgnoreCase(userEmailAddress)) {
                                 String approxMarketValue = itemSnapshot.child("receiverEnteredPrice").getValue(String.class);
                                 int value = Integer.parseInt(approxMarketValue);
                                 valuationListReceiver.add(value);
@@ -148,9 +154,9 @@ public class UserInfo extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.exchangeHistoryBtn){
-            Intent intent = new Intent(this, UserInfo.class);
+            Intent intent = new Intent(this, ExchangeHistoryActivity.class);
             intent.putExtra("emailAddress", userEmailAddress.toLowerCase());
-            intent.putExtra("userLoggedIn", userLoggedIn);
+            intent.putExtra("userType", userLoggedIn);
             startActivity(intent);
         }
     }

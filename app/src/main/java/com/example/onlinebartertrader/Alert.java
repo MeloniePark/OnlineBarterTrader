@@ -38,11 +38,13 @@ public class Alert {
     //firebase linking & references variables initialization
     protected FirebaseDatabase database;
     protected DatabaseReference receiverDBRef;
+    protected DatabaseReference receiverLocationDBRef;
     DatabaseReference providerDBRef;
 
     //variables initialization
     protected String userEmailAddress;
     protected String itemInterested = "nullType";
+    protected String locationValue = "Somewhere";
     protected Context myContext;
 
     //logger - logging is better exercise than system printing out.
@@ -68,18 +70,30 @@ public class Alert {
 
         //Links the database & get reference to the path we want to listen to data change or read value from
         database = FirebaseDatabase.getInstance("https://onlinebartertrader-52c04-default-rtdb.firebaseio.com/");
+        String locationRef = "Users/Receiver/" + userEmailAddress;
+        receiverLocationDBRef = database.getReference(locationRef);
+        receiverLocationDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // read this receiver's location
+                locationValue = (String) dataSnapshot.child("location").getValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
         String itemRef = "Users/Receiver/" + userEmailAddress + "/preference/";
         receiverDBRef = database.getReference(itemRef);
 
         receiverDBRef.addValueEventListener(new ValueEventListener() {
-            //on data change, gets the
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 itemInterested = dataSnapshot.getValue(String.class);
                 logger.info("itemInterested"+itemInterested);
             }
 
-            //log the database error code when fail to read from database
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 logger.info("Failed to read value. " + databaseError.getCode());
@@ -120,6 +134,7 @@ public class Alert {
                             String itemName = dataSnapshot.child("productName").getValue(String.class);
                             String currentStatus = dataSnapshot.child("currentStatus").getValue(String.class);
                             DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                            String itemLocation = dataSnapshot.child("placeOfExchange").getValue(String.class);
 
                             //If item type, item available date, item name is fetched from the database:
                             if (currentStatus != null && itemType != null && itemAvailDateString != null && itemName != null){
@@ -130,6 +145,9 @@ public class Alert {
                                     itemAvailDate = format.parse(itemAvailDateString);
                                     if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
                                         sendNotification(itemType, itemName);
+                                    }
+                                    else if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && locationValue.equalsIgnoreCase(itemLocation)) {
+                                        sendNotificationByLocation(itemLocation, itemName);
                                     }
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -144,6 +162,7 @@ public class Alert {
                             String itemAvailDateString = dataSnapshot.child("dateOfAvailability").getValue(String.class);
                             String itemName = dataSnapshot.child("productName").getValue(String.class);
                             String currentStatus = dataSnapshot.child("currentStatus").getValue(String.class);
+                            String itemLocation = dataSnapshot.child("placeOfExchange").getValue(String.class);
                             DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                             //Sends the notification (+ logging) to the user about modified item.
                             if (currentStatus != null && itemType != null && itemAvailDateString != null && itemName != null){
@@ -153,6 +172,9 @@ public class Alert {
                                     itemAvailDate = format.parse(itemAvailDateString);
                                     if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && isUserInterested(itemType)) {
                                         sendNotification(itemType, itemName);
+                                    }
+                                    else if (currentStatus.equalsIgnoreCase("Available") && isItemAvailable(itemAvailDate) && locationValue.equalsIgnoreCase(itemLocation)) {
+                                        sendNotificationByLocation(itemLocation, itemName);
                                     }
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -270,6 +292,19 @@ public class Alert {
         AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
         builder.setMessage("A new item that you are interested is added or modified!\nItem Type: "
                         +itemType+"\nItem Name: "+itemName)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+    void sendNotificationByLocation(String itemLocation, String itemName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
+        builder.setMessage("A new item that nearby you is added or modified!\nItem Location: "
+                        +itemLocation+"\nItem Name: "+itemName)
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
